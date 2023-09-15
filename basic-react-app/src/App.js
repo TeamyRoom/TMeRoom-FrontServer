@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import io from 'socket.io-client';
+import * as mediasoupClient from "mediasoup-client";
 
 function App() {
 
@@ -7,6 +8,7 @@ function App() {
   const [message, setMessage] = useState('');
   const [myPeerConnection, setMyPeerConnection] = useState();
   const [myStream, setMyStream] = useState();
+  const [device, setDevice] = useState(new mediasoupClient.Device());
   const videoRef = useRef(null);
 
   useEffect(() => {
@@ -28,6 +30,9 @@ function App() {
 
       socket.on("answer", answer => {
         myPeerConnection.setRemoteDescription(answer);
+        
+        socket.emit("device", device);
+        console.log("디바이스 : ", device);
         console.log("received answer!");
       });
 
