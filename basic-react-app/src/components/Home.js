@@ -14,6 +14,7 @@ function Home() {
 
     return (
         <div className='home'>
+            <link rel="stylesheet" href="https://unpkg.com/mvp.css" />
             <button onClick={goTeacher}>선생 입장</button>
             <button onClick={goStudent}>학생 입장</button>
         </div>

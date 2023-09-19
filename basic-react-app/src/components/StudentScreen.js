@@ -2,14 +2,22 @@ import React, { useState, useEffect, useRef } from 'react';
 import io from 'socket.io-client';
 
 let socket = null;
+let myPeerConnection = null;
 let joined = 0;
 
 function StudentScreen() {
 
-  const [myPeerConnection, setMyPeerConnection] = useState();
   const videoRef = useRef(null);
 
-  useEffect(() => {
+
+
+  const joinRoom = async () => {
+    console.log("조인 룸");
+    await makeConnection();
+    initSocket();
+  }
+
+  function initSocket() {
     if (myPeerConnection && socket === null) {
       console.log("소켓 생성");
       socket = io('http://localhost:3005');
@@ -37,8 +45,8 @@ function StudentScreen() {
 
       socket.on("reconnect", async () => {
         console.log("reconnection!");
-        myPeerConnection.close();
-        setMyPeerConnection(myPeerConnection);
+        await myPeerConnection.close();
+        myPeerConnection = null;
         joined = 0;
         await makeConnection();
         socket.emit("offerstudent");
@@ -46,16 +54,11 @@ function StudentScreen() {
 
       socket.emit("join_roomstudent");
     }
-  }, [myPeerConnection])
-
-  const joinRoom = () => {
-    console.log("조인 룸");
-    makeConnection();
   }
 
   async function makeConnection() {
     try {
-      const peerConnection = new RTCPeerConnection({
+       myPeerConnection = new RTCPeerConnection({
         iceServers: [
           {
             urls: [
@@ -68,10 +71,8 @@ function StudentScreen() {
           }
         ]
       });
-      peerConnection.addEventListener("icecandidate", handleIce);
-      peerConnection.addEventListener("track", handleAddTrack);
-
-      setMyPeerConnection(peerConnection);
+      myPeerConnection.addEventListener("icecandidate", handleIce);
+      myPeerConnection.addEventListener("track", handleAddTrack);
 
     } catch (e) { console.log(e); }
 
