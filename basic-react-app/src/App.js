@@ -1,16 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react';
-import io from 'socket.io-client';
-import * as mediasoupClient from "mediasoup-client";
 import TeacherScreen from './components/TeacherScreen';
+import {BrowserRouter,Route,Routes} from 'react-router-dom';
 
 function App() {
 
-  //-----view----------view----------view----------view----------view----------view----------view-----
-
   return (
-    <div>
-      <TeacherScreen/>
-    </div>
+    <div className="App"> 
+    <BrowserRouter> 
+       <Routes>  
+
+        <Route path="/" element={<StudentList/>} >  </Route>
+        <Route path="/detail" element={<StudentDetail/>}>  </Route> 
+
+       </Routes>
+    </BrowserRouter> 
+	</div>
   );
 }
 
