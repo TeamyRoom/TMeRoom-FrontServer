@@ -3,6 +3,9 @@ import io from 'socket.io-client';
 import * as mediasoupClient from "mediasoup-client";
 import os from 'os-browserify';
 
+const HLS_SERVER_URL = process.env.REACT_APP_HLS_SERVER_URL;
+const SFU_SERVER_URL = process.env.REACT_APP_SFU_SERVER_URL
+
 const mediasoupConfig = Object.freeze({
   numWorkers: Object.keys(os.cpus()).length,
   worker: {
@@ -130,7 +133,7 @@ function TeacherScreen() {
 
   useEffect(() => {
     if (myPeerConnection) {
-      socket = io('http://localhost:3005');
+      socket = io(SFU_SERVER_URL);
 
       socket.on("welcome", async () => {
         const offer = await myPeerConnection.createOffer();
@@ -224,7 +227,7 @@ function TeacherScreen() {
   useEffect(() => {
     if (myStream) {
       if (wsocket !== null) wsocket.close();
-      wsocket = new WebSocket(`wss://localhost:3000`);
+      wsocket = new WebSocket(HLS_SERVER_URL);
       console.log("웹 소켓 연결 : ", wsocket);
       wsocket.addEventListener('open', handleSocketOpen);
       wsocket.addEventListener('message', handleSocketMessage);

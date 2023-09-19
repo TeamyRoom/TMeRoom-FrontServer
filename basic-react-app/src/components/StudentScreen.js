@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import io from 'socket.io-client';
 
+const SFU_SERVER_URL = process.env.REACT_APP_SFU_SERVER_URL;
+
 let socket = null;
 let myPeerConnection = null;
 let joined = 0;
@@ -20,7 +22,7 @@ function StudentScreen() {
   function initSocket() {
     if (myPeerConnection && socket === null) {
       console.log("소켓 생성");
-      socket = io('http://localhost:3005');
+      socket = io(SFU_SERVER_URL);
 
       socket.on("welcome", () => {
         console.log("i got welcome");
