@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import TeacherScreen from './components/TeacherScreen';
 import {BrowserRouter,Route,Routes} from 'react-router-dom';
+import Home from './components/Home';
+import Teacher from './components/Teacher';
+import Student from './components/Student';
 
 function App() {
 
@@ -9,8 +12,9 @@ function App() {
     <BrowserRouter> 
        <Routes>  
 
-        <Route path="/" element={<StudentList/>} >  </Route>
-        <Route path="/detail" element={<StudentDetail/>}>  </Route> 
+        <Route path="/" element={<Home/>} >  </Route>
+        <Route path="/teacher" element={<Teacher/>}>  </Route> 
+        <Route path="/student" element={<Student/>}>  </Route>
 
        </Routes>
     </BrowserRouter> 

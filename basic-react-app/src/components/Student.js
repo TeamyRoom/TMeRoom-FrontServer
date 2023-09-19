@@ -1,13 +1,13 @@
 import StudentScreen from "./StudentScreen";
 
-function Teacher() {
+function Student() {
 
     return (
-        <div class='studenet'>
+        <div className='studenet'>
             <h2>학생 페이지</h2>
             <StudentScreen/>
         </div>
     )
 }
 
-export default Teacher;
+export default Student;

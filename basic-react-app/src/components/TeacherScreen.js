@@ -107,27 +107,30 @@ class Peer {
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
 
 let peer;
+let socket = null;
 let wsocket = null;
 let queue = new SocketQueue();
 
 function TeacherScreen() {
 
-  const [socket, setSocket] = useState(null);
   const [message, setMessage] = useState('');
-  const [myPeerConnection, setMyPeerConnection] = useState();
-  const [myStream, setMyStream] = useState();
+  const [myPeerConnection, setMyPeerConnection] = useState(null);
+  const [myStream, setMyStream] = useState(null);
   const videoRef = useRef(null);
 
 
   useEffect(() => {
+    console.log("1번이 문제");
     getMedia();
   }, [])
 
   useEffect(() => {
-    // 서버에 연결
+    if (myStream) init();
+  }, [myStream])
 
+  useEffect(() => {
     if (myPeerConnection) {
-      const socket = io('http://localhost:3005');
+      socket = io('http://localhost:3005');
 
       socket.on("welcome", async () => {
         const offer = await myPeerConnection.createOffer();
@@ -145,27 +148,22 @@ function TeacherScreen() {
         myPeerConnection.addIceCandidate(ice);
         console.log("i got ice", ice);
       });
-      setSocket(socket);
     }
-
   }, [myPeerConnection]);
-
-  useEffect(() => {
-    if (myStream) {
-      makeConnection();
-    }
-  }, [myStream]);
 
   //------functions----------functions----------functions----------functions----------functions----------functions----
 
-  const joinRoom = () => {
-    if (socket) {
-      socket.emit('join_room', message);
-      setMessage(''); // 메시지 보낸 후 입력 필드 비우기
-    }
-  };
+  async function joinRoom() {
+    console.log("소켓에밋조인룸");
+    if (socket) socket.emit('join_room', message);
+  }
 
-  const makeConnection = () => {
+  const init = async () => {
+    await makeConnection();
+    console.log("메이크 커넥션");
+  }
+
+  const makeConnection = async () => {
 
     const myPeerConnection = new RTCPeerConnection({
       iceServers: [
@@ -182,8 +180,8 @@ function TeacherScreen() {
     });
     myPeerConnection.addEventListener("icecandidate", handleIce);
 
-    myPeerConnection.onconnectionstatechange =  (e) => {
-      if(myPeerConnection.connectionState === 'connected') {
+    myPeerConnection.onconnectionstatechange = (e) => {
+      if (myPeerConnection.connectionState === 'connected') {
         startRecord();
       }
     };
@@ -225,7 +223,7 @@ function TeacherScreen() {
 
   useEffect(() => {
     if (myStream) {
-      if(wsocket !== null) wsocket.close();
+      if (wsocket !== null) wsocket.close();
       wsocket = new WebSocket(`wss://localhost:3000`);
       console.log("웹 소켓 연결 : ", wsocket);
       wsocket.addEventListener('open', handleSocketOpen);
@@ -310,7 +308,6 @@ function TeacherScreen() {
       await device.load({ routerRtpCapabilities });
 
       peer = new Peer(sessionId, device);
-      console.log("이전 피어 : ", peer);
 
       createTransport();
     } catch (error) {
@@ -321,7 +318,6 @@ function TeacherScreen() {
 
   const createTransport = () => {
     console.log('createTransport()');
-    console.log("피어 : ", peer);
     if (!peer || !peer.device.loaded) {
       throw new Error('Peer or device is not initialized');
     }
@@ -473,28 +469,14 @@ function TeacherScreen() {
 
   return (
     <div>
-      <title>Noom</title>
       <link rel="stylesheet" href="https://unpkg.com/mvp.css" />
-
-
-      <header>
-        <h1>Noom for teacher</h1>
-      </header>
       <main>
-        <div id="welcome">
-          <input
-            type="text"
-            placeholder="메시지 입력"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-          />
-          <button onClick={joinRoom}>방에 입장하기</button>
-        </div>
         <div id="call">
           <div id="myStream">
             <video ref={videoRef} id="myFace" autoPlay playsInline width="400" heigth="400"></video>
           </div>
         </div>
+        <button onClick={joinRoom}>시작</button>
       </main>
 
     </div>
