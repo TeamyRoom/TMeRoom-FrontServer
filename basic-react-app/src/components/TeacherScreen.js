@@ -297,6 +297,9 @@ function TeacherScreen() {
       case 'produce':
         handleProduceRequest(jsonMessage);
         break;
+      case 'hls-file-name':
+        handleHlsVideo(jsonMessage);
+        break;
       default: console.log('handleJsonMessage() unknown action %s', action);
     }
   };
@@ -466,6 +469,30 @@ function TeacherScreen() {
       sessionId: peer.sessionId,
     }));
   }
+
+  const handleHlsVideo = async (jsonMessage) => {
+    try {
+
+    const videoJsOptions = {
+    autoplay: true,
+    controls: true,
+    responsive: true,
+    fluid: true,
+    sources: [{
+    src:`https://hls-str-bucket.s3.ap-northeast-2.amazonaws.com/${jsonMessage.id}.m3u8`,
+    type:"application/x-mpegURL"
+    }]};
+    
+    socket.emit("hls-video-option", videoJsOptions);
+
+    
+    console.log("파일 경로는", videoJsOptions);
+    } catch (error) {
+    console.error('handleHlsVideo() failed to create transport [error:%o]', error);
+    wsocket.close();
+    }
+    
+    };
 
 
   //-----view----------view----------view----------view----------view----------view----------view-----

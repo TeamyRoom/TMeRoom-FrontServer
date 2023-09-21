@@ -1,17 +1,35 @@
 import React, { useState, useEffect, useRef } from 'react';
 import io from 'socket.io-client';
+import VideoJS from './VideoJS';
 
 const SFU_SERVER_URL = process.env.REACT_APP_SFU_SERVER_URL;
 
 let socket = null;
 let myPeerConnection = null;
 let joined = 0;
+let videoJsOptions = null;
 
 function StudentScreen() {
 
   const videoRef = useRef(null);
+  const playerRef = React.useRef(null);
+  const [showVideo, setShowVideo] = useState(false);
 
-
+  const handlePlayerReady = (player) => {
+    playerRef.current = player;
+    
+    
+    // You can handle player events here, for example:
+    // player.on('waiting', () => {
+    // videojs.log('player is waiting');
+    // });
+    
+    
+    // player.on('dispose', () => {
+    // videojs.log('player will dispose');
+    // });
+    };
+    
 
   const joinRoom = async () => {
     console.log("조인 룸");
@@ -55,6 +73,11 @@ function StudentScreen() {
       });
 
       socket.emit("join_roomstudent");
+
+      socket.on("hls-video-option", async (hlsOption) => {
+        videoJsOptions = hlsOption;
+        console.log("비디오옵션은", hlsOption);
+      })
     }
   }
 
@@ -78,7 +101,7 @@ function StudentScreen() {
 
     } catch (e) { console.log(e); }
 
-  }
+  }    
 
   function handleIce(data) {
     socket.emit("ice", data.candidate, 1);
@@ -92,6 +115,11 @@ function StudentScreen() {
     }
   }
 
+  const handleReplayClick = () => {
+    // '다시보기' 버튼 클릭 시 VideoJS를 보이게 함
+    setShowVideo(true);
+  };  
+
 
   //-----view----------view----------view----------view----------view----------view----------view-----
 
@@ -103,8 +131,12 @@ function StudentScreen() {
           <div id="myStream">
             <video ref={videoRef} id="peerFace" autoPlay playsInline width="400" heigth="400"></video>
           </div>
+          <div>
+            {showVideo && <VideoJS options={videoJsOptions} onReady={handlePlayerReady} />}
+          </div>
         </div>
         <button onClick={joinRoom}>시작</button>
+        <button onClick={handleReplayClick}>다시보기</button>
       </main>
 
     </div>
