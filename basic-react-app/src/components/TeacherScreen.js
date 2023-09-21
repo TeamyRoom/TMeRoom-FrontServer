@@ -58,7 +58,6 @@ function TeacherScreen() {
 
 
   useEffect(() => {
-    console.log("1번이 문제");
     getMedia();
   }, [])
 
@@ -119,7 +118,7 @@ function TeacherScreen() {
     myPeerConnection.addEventListener("icecandidate", handleIce);
 
     myPeerConnection.onconnectionstatechange = (e) => {
-      if (myPeerConnection.connectionState === 'connected') {
+      if (myPeerConnection.connectionState === 'connected' && wsocket.readyState === 1) {
         startRecord();
       }
     };
