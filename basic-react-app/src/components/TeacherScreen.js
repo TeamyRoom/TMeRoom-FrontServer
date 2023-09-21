@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import io from 'socket.io-client';
 import * as mediasoupClient from "mediasoup-client";
-import os from 'os-browserify';
 
 const HLS_SERVER_URL = process.env.REACT_APP_HLS_SERVER_URL;
 const SFU_SERVER_URL = process.env.REACT_APP_SFU_SERVER_URL
