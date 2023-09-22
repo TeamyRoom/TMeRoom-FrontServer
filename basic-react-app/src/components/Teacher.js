@@ -10,7 +10,7 @@ function Teacher() {
         <div className='teacher'>
             <h2>선생 전체 뷰</h2>
             <h3>강의 코드 : {code} / 닉네임 : {nickname}</h3>
-            <TeacherScreen/>
+            <TeacherScreen code={code}/>
             <Chatting code={code} nickname={nickname}/>
         </div>
     )

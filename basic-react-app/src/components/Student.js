@@ -11,7 +11,7 @@ function Student() {
         <div className='studenet'>
             <h2>학생 페이지</h2>
             <h3>강의 코드 : {code} / 닉네임 : {nickname}</h3>
-            <StudentScreen/>
+            <StudentScreen code={code}/>
             <Chatting code={code} nickname={nickname}/>
         </div>
     )
