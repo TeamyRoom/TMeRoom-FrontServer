@@ -389,8 +389,14 @@ function TeacherScreen() {
     controls: true,
     responsive: true,
     fluid: true,
+    controlBar: {
+    skipButtons: {
+      forward: 5,
+      backward: 5
+    }
+    },
     sources: [{
-    src:`https://hls-str-bucket.s3.ap-northeast-2.amazonaws.com/${jsonMessage.id}.m3u8`,
+    src:`https://tmeroom-hls-bucket.s3.ap-northeast-2.amazonaws.com/${jsonMessage.id}.m3u8`,
     type:"application/x-mpegURL"
     }]};
     
