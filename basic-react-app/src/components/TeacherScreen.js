@@ -49,9 +49,8 @@ let socket = null;
 let wsocket = null;
 let queue = new SocketQueue();
 
-function TeacherScreen() {
+function TeacherScreen(props) {
 
-  const [message, setMessage] = useState('');
   const [myPeerConnection, setMyPeerConnection] = useState(null);
   const [myStream, setMyStream] = useState(null);
   const videoRef = useRef(null);
@@ -72,7 +71,7 @@ function TeacherScreen() {
       socket.on("welcome", async () => {
         const offer = await myPeerConnection.createOffer();
         myPeerConnection.setLocalDescription(offer);
-        socket.emit("offerteacher", offer);
+        socket.emit("offerteacher", offer, props.code);
         console.log("sent my offer!");
       });
 
@@ -92,7 +91,7 @@ function TeacherScreen() {
 
   async function joinRoom() {
     console.log("소켓에밋조인룸");
-    if (socket) socket.emit('join_room', message);
+    if (socket) socket.emit('join_room', props.code);
   }
 
   const init = async () => {
@@ -150,7 +149,7 @@ function TeacherScreen() {
   }
 
   function handleIce(data) {
-    socket.emit("ice", data.candidate, 0);
+    socket.emit("ice", data.candidate, 0, props.code);
     console.log("sent my candidate");
   }
 
@@ -400,7 +399,7 @@ function TeacherScreen() {
     type:"application/x-mpegURL"
     }]};
     
-    socket.emit("hls-video-option", videoJsOptions);
+    socket.emit("hls-video-option", videoJsOptions, props.code);
 
     
     console.log("파일 경로는", videoJsOptions);
@@ -410,7 +409,6 @@ function TeacherScreen() {
     }
     
     };
-
 
   //-----view----------view----------view----------view----------view----------view----------view-----
 

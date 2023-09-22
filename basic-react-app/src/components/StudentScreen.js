@@ -9,7 +9,7 @@ let myPeerConnection = null;
 let joined = 0;
 let videoJsOptions = null;
 
-function StudentScreen() {
+function StudentScreen(props) {
 
   const videoRef = useRef(null);
   const playerRef = React.useRef(null);
@@ -46,7 +46,7 @@ function StudentScreen() {
         console.log("i got welcome");
         if (joined === 0) {
           joined = 1;
-          socket.emit("offerstudent");
+          socket.emit("offerstudent", props.code);
         }
       });
 
@@ -72,7 +72,7 @@ function StudentScreen() {
         socket.emit("offerstudent");
       });
 
-      socket.emit("join_roomstudent");
+      socket.emit("join_roomstudent", props.code);
 
       socket.on("hls-video-option", async (hlsOption) => {
         videoJsOptions = hlsOption;
