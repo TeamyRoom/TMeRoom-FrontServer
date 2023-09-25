@@ -377,6 +377,7 @@ function TeacherScreen(props) {
     wsocket.send(JSON.stringify({
       action: 'start-record',
       sessionId: peer.sessionId,
+      roomName: props.code
     }));
   }
 
