@@ -67,7 +67,7 @@ function StudentScreen(props) {
         console.log("reconnection!");
         await myPeerConnection.close();
         myPeerConnection = null;
-        joined = 0;
+        joined = 1;
         await makeConnection();
         socket.emit("offerstudent", props.code);
       });
