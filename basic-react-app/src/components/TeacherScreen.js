@@ -401,7 +401,7 @@ function TeacherScreen(props) {
     }
     },
     sources: [{
-    src:`https://tmeroom-hls-bucket.s3.ap-northeast-2.amazonaws.com/${jsonMessage.id}.m3u8`,
+    src:`https://tmeroom-hls-bucket.s3.ap-northeast-2.amazonaws.com/${props.code}/${jsonMessage.id}.m3u8`,
     type:"application/x-mpegURL"
     }],
     liveTracker: {
