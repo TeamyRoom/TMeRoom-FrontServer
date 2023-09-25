@@ -84,6 +84,10 @@ function TeacherScreen(props) {
         myPeerConnection.addIceCandidate(ice);
         console.log("i got ice", ice);
       });
+
+      socket.on("denied", () => {
+        alert("이미 강의가 진행 중입니다. 학생 페이지로 입장해주세요.");
+      })
     }
 
     return() => {
