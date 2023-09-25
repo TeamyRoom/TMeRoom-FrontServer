@@ -57,7 +57,7 @@ function TeacherScreen(props) {
 
 
   useEffect(() => {
-    getMedia();
+    getMedia();    
   }, [])
 
   useEffect(() => {
@@ -84,6 +84,10 @@ function TeacherScreen(props) {
         myPeerConnection.addIceCandidate(ice);
         console.log("i got ice", ice);
       });
+    }
+
+    return() => {
+      if(myPeerConnection) myPeerConnection.close();
     }
   }, [myPeerConnection]);
 

@@ -69,7 +69,7 @@ function StudentScreen(props) {
         myPeerConnection = null;
         joined = 0;
         await makeConnection();
-        socket.emit("offerstudent");
+        socket.emit("offerstudent", props.code);
       });
 
       socket.emit("join_roomstudent", props.code);
@@ -117,7 +117,8 @@ function StudentScreen(props) {
 
   const handleReplayClick = () => {
     // '다시보기' 버튼 클릭 시 VideoJS를 보이게 함
-    setShowVideo(true);
+    if(videoJsOptions !== null) setShowVideo(true);
+    
   };  
 
 
