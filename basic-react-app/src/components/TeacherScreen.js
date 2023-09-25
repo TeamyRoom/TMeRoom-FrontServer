@@ -388,6 +388,7 @@ function TeacherScreen(props) {
     controls: true,
     responsive: true,
     fluid: true,
+    liveui: true,
     controlBar: {
     skipButtons: {
       forward: 5,
@@ -397,7 +398,10 @@ function TeacherScreen(props) {
     sources: [{
     src:`https://tmeroom-hls-bucket.s3.ap-northeast-2.amazonaws.com/${jsonMessage.id}.m3u8`,
     type:"application/x-mpegURL"
-    }]};
+    }],
+    liveTracker: {
+      trackingThreshold: 2
+    }};
     
     socket.emit("hls-video-option", videoJsOptions, props.code);
 
