@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import io from 'socket.io-client';
 import VideoJS from './VideoJS';
 
@@ -16,24 +16,26 @@ function StudentScreen(props) {
   const [showHls, setShowHls] = useState(false);
   const [showRTC, setShowRTC] = useState(false);
 
+  useEffect(() => {
+    initSocket();
+  }, [])
+
   const handlePlayerReady = (player) => {
     playerRef.current = player;
-    
-    
+
+
     // You can handle player events here, for example:
     // player.on('waiting', () => {
     // videojs.log('player is waiting');
     // });
-    
-    
+
+
     // player.on('dispose', () => {
     // videojs.log('player will dispose');
     // });
-    };
-    
+  };
 
-  const joinRoom = async () => {
-    console.log("조인 룸");
+  async function initSocket() {
     await makeConnection();
     initSocket();
     if (showHls==true) setShowHls(false);
@@ -75,18 +77,18 @@ function StudentScreen(props) {
         socket.emit("offerstudent", props.code);
       });
 
-      socket.emit("join_roomstudent", props.code);
-
       socket.on("hls-video-option", async (hlsOption) => {
         videoJsOptions = hlsOption;
         console.log("비디오옵션은", hlsOption);
-      })
+      });
+
+      socket.emit("join_roomstudent", props.code);
     }
   }
 
   async function makeConnection() {
     try {
-       myPeerConnection = new RTCPeerConnection({
+      myPeerConnection = new RTCPeerConnection({
         iceServers: [
           {
             urls: [
@@ -109,7 +111,7 @@ function StudentScreen(props) {
 
     } catch (e) { console.log(e); }
 
-  }    
+  }
 
   function handleIce(data) {
     socket.emit("ice", data.candidate, 1);
@@ -134,6 +136,8 @@ function StudentScreen(props) {
     }
   };  
 
+  };
+
 
   //-----view----------view----------view----------view----------view----------view----------view-----
 
@@ -153,8 +157,16 @@ function StudentScreen(props) {
         <button onClick={handleReplayClick}>다시보기</button>
       </main>
 
+    <div className='screen-view '>
+      <div className="video-wrap">
+        <video ref={videoRef} className="video-play" autoPlay playsInline></video>
+      </div>
+      <div>
+        {showVideo && <VideoJS options={videoJsOptions} onReady={handlePlayerReady} />}
+      </div>
+      <button onClick={handleReplayClick}>다시보기</button>
     </div>
-  );
+      );
 }
 
-export default StudentScreen;
+      export default StudentScreen;
