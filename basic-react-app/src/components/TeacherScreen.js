@@ -457,7 +457,6 @@ function TeacherScreen(props) {
       </div>
       <button onClick={joinRoom} style={{ display: buttonVisible ? 'block' : 'none' }}>시작</button>
       <button onClick={handleCameraClick} style={{ display: buttonVisible ? 'none' : 'block' }}>{cameraText}</button>
-
     </div>
   );
 }

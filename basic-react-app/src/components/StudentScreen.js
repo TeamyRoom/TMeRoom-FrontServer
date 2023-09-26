@@ -17,7 +17,8 @@ function StudentScreen(props) {
   const [showRTC, setShowRTC] = useState(false);
 
   useEffect(() => {
-    initSocket();
+    console.log("useEffect");
+    init();
   }, [])
 
   const handlePlayerReady = (player) => {
@@ -35,10 +36,11 @@ function StudentScreen(props) {
     // });
   };
 
-  async function initSocket() {
+  async function init() {
+    console.log("init Socket");
     await makeConnection();
     initSocket();
-    if (showHls==true) setShowHls(false);
+    if (showHls == true) setShowHls(false);
     setShowRTC(true);
   }
 
@@ -100,7 +102,7 @@ function StudentScreen(props) {
             ]
           },
           {
-            urls: "turn:13.209.13.37:3478", 
+            urls: "turn:13.209.13.37:3478",
             username: "your-username", // TURN 서버 사용자명
             credential: "your-password" // TURN 서버 비밀번호
           }
@@ -127,46 +129,28 @@ function StudentScreen(props) {
 
   const handleReplayClick = () => {
     // '다시보기' 버튼 클릭 시 VideoJS를 보이게 함
-    if(videoJsOptions == null) { 
+    if (videoJsOptions == null) {
       alert("강의가 시작되지 않았거나 방금 시작했어");
     }
     else {
       setShowHls(true);
-      if (showRTC==true) setShowRTC(false);
+      if (showRTC == true) setShowRTC(false);
     }
-  };  
-
   };
-
 
   //-----view----------view----------view----------view----------view----------view----------view-----
 
   return (
-    <div>
-      <link rel="stylesheet" href="https://unpkg.com/mvp.css" />
-      <main>
-        <div id="call">
-          <div id="myStream" style={{display: showRTC ? 'block' : 'none'}}>
-            <video ref={videoRef} id="peerFace" autoPlay playsInline width="400" heigth="400"/>
-          </div>
-          <div>
-            {showHls && <VideoJS options={videoJsOptions} onReady={handlePlayerReady} />}
-          </div>
-        </div>
-        <button onClick={joinRoom}>시작</button>
-        <button onClick={handleReplayClick}>다시보기</button>
-      </main>
-
     <div className='screen-view '>
-      <div className="video-wrap">
+      <div className="video-wrap" style={{ display: showRTC ? 'block' : 'none' }}>
         <video ref={videoRef} className="video-play" autoPlay playsInline></video>
       </div>
       <div>
-        {showVideo && <VideoJS options={videoJsOptions} onReady={handlePlayerReady} />}
+        {showHls && <VideoJS options={videoJsOptions} onReady={handlePlayerReady} />}
       </div>
       <button onClick={handleReplayClick}>다시보기</button>
     </div>
-      );
+  );
 }
 
-      export default StudentScreen;
+export default StudentScreen;
