@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import io from 'socket.io-client';
 import * as mediasoupClient from "mediasoup-client";
 
@@ -54,10 +54,13 @@ function TeacherScreen(props) {
   const [myPeerConnection, setMyPeerConnection] = useState(null);
   const [myStream, setMyStream] = useState(null);
   const videoRef = useRef(null);
+  const [buttonVisible, setButtonVisible] = useState(true);
+  const [cameraText, setCameraText] = useState("카메라 끄기");
+  const [cameraOn, setCameraOn] = useState(true);
 
 
   useEffect(() => {
-    getMedia();    
+    getMedia();
   }, [])
 
   useEffect(() => {
@@ -90,16 +93,18 @@ function TeacherScreen(props) {
       })
     }
 
-    return() => {
-      if(myPeerConnection) myPeerConnection.close();
+    return () => {
+      if (myPeerConnection) myPeerConnection.close();
     }
   }, [myPeerConnection]);
 
   //------functions----------functions----------functions----------functions----------functions----------functions----
 
   async function joinRoom() {
-    console.log("소켓에밋조인룸");
-    if (socket) socket.emit('join_room', props.code);
+    if (socket) {
+      socket.emit('join_room', props.code);
+      setButtonVisible(false);
+    }
   }
 
   const init = async () => {
@@ -150,7 +155,12 @@ function TeacherScreen(props) {
       video: { deviceId: { exact: deviceId } },
     };
     try {
-      const myStream = await navigator.mediaDevices.getUserMedia(deviceId ? cameraConstrains : initialConstrains);
+      // const myStream = await navigator.mediaDevices.getUserMedia(deviceId ? cameraConstrains : initialConstrains);
+      const myStream = await navigator.mediaDevices
+      .getDisplayMedia({
+        video: { cursor: 'always' },
+        audio: { echoCancellation: true, noiseSuppression: true },
+      });
       console.log("마이스트림 : ", myStream);
       setMyStream(myStream);
       if (videoRef.current) {
@@ -167,8 +177,6 @@ function TeacherScreen(props) {
   }
 
   //----record-------record-------record-------record-------record-------record-------record-------record---
-
-
 
   useEffect(() => {
     if (myStream) {
@@ -384,6 +392,17 @@ function TeacherScreen(props) {
     }
   };
 
+  const handleCameraClick = () => {
+    myStream.getVideoTracks().forEach((track) => (track.enabled = !track.enabled));
+    if (cameraOn) {
+      setCameraOn(false);
+      setCameraText("카메라 켜기");
+    } else {
+      setCameraOn(true);
+      setCameraText("카메라 끄기");
+    }
+  }
+
 
   const startRecord = () => {
     console.log("스타트레코드 ws : ", wsocket);
@@ -397,51 +416,47 @@ function TeacherScreen(props) {
   const handleHlsVideo = async (jsonMessage) => {
     try {
 
-    const videoJsOptions = {
-    autoplay: true,
-    controls: true,
-    responsive: true,
-    fluid: true,
-    liveui: true,
-    controlBar: {
-    skipButtons: {
-      forward: 5,
-      backward: 5
-    }
-    },
-    sources: [{
-    src:`https://tmeroom-hls-bucket.s3.ap-northeast-2.amazonaws.com/${props.code}/${jsonMessage.id}.m3u8`,
-    type:"application/x-mpegURL"
-    }],
-    liveTracker: {
-      trackingThreshold: 2
-    }};
-    
-    socket.emit("hls-video-option", videoJsOptions, props.code);
+      const videoJsOptions = {
+        autoplay: true,
+        controls: true,
+        responsive: true,
+        fluid: true,
+        liveui: true,
+        controlBar: {
+          skipButtons: {
+            forward: 5,
+            backward: 5
+          }
+        },
+        sources: [{
+          src: `https://tmeroom-hls-bucket.s3.ap-northeast-2.amazonaws.com/${props.code}/${jsonMessage.id}.m3u8`,
+          type: "application/x-mpegURL"
+        }],
+        liveTracker: {
+          trackingThreshold: 2
+        }
+      };
 
-    
-    console.log("파일 경로는", videoJsOptions);
+      socket.emit("hls-video-option", videoJsOptions, props.code);
+
+
+      console.log("파일 경로는", videoJsOptions);
     } catch (error) {
-    console.error('handleHlsVideo() failed to create transport [error:%o]', error);
-    wsocket.close();
+      console.error('handleHlsVideo() failed to create transport [error:%o]', error);
+      wsocket.close();
     }
-    
-    };
+
+  };
 
   //-----view----------view----------view----------view----------view----------view----------view-----
 
   return (
-    <div>
-      <link rel="stylesheet" href="https://unpkg.com/mvp.css" />
-      <main>
-        <div id="call">
-          <div id="myStream">
-            <video ref={videoRef} id="myFace" autoPlay playsInline width="400" heigth="400"></video>
-          </div>
-        </div>
-        <button onClick={joinRoom}>시작</button>
-      </main>
-
+    <div className='screen-view '>
+      <div className="video-wrap">
+        <video ref={videoRef} className="video-play" autoPlay playsInline></video>
+      </div>
+      <button onClick={joinRoom} style={{ display: buttonVisible ? 'block' : 'none' }}>시작</button>
+      <button onClick={handleCameraClick} style={{ display: buttonVisible ? 'none' : 'block' }}>{cameraText}</button>
     </div>
   );
 }

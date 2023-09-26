@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import io from 'socket.io-client';
 import VideoJS from './VideoJS';
 
@@ -16,27 +16,31 @@ function StudentScreen(props) {
   const [showHls, setShowHls] = useState(false);
   const [showRTC, setShowRTC] = useState(false);
 
+  useEffect(() => {
+    console.log("useEffect");
+    init();
+  }, [])
+
   const handlePlayerReady = (player) => {
     playerRef.current = player;
-    
-    
+
+
     // You can handle player events here, for example:
     // player.on('waiting', () => {
     // videojs.log('player is waiting');
     // });
-    
-    
+
+
     // player.on('dispose', () => {
     // videojs.log('player will dispose');
     // });
-    };
-    
+  };
 
-  const joinRoom = async () => {
-    console.log("조인 룸");
+  async function init() {
+    console.log("init Socket");
     await makeConnection();
     initSocket();
-    if (showHls==true) setShowHls(false);
+    if (showHls == true) setShowHls(false);
     setShowRTC(true);
   }
 
@@ -75,18 +79,18 @@ function StudentScreen(props) {
         socket.emit("offerstudent", props.code);
       });
 
-      socket.emit("join_roomstudent", props.code);
-
       socket.on("hls-video-option", async (hlsOption) => {
         videoJsOptions = hlsOption;
         console.log("비디오옵션은", hlsOption);
-      })
+      });
+
+      socket.emit("join_roomstudent", props.code);
     }
   }
 
   async function makeConnection() {
     try {
-       myPeerConnection = new RTCPeerConnection({
+      myPeerConnection = new RTCPeerConnection({
         iceServers: [
           {
             urls: [
@@ -98,7 +102,7 @@ function StudentScreen(props) {
             ]
           },
           {
-            urls: "turn:13.209.13.37:3478", 
+            urls: "turn:13.209.13.37:3478",
             username: "your-username", // TURN 서버 사용자명
             credential: "your-password" // TURN 서버 비밀번호
           }
@@ -109,7 +113,7 @@ function StudentScreen(props) {
 
     } catch (e) { console.log(e); }
 
-  }    
+  }
 
   function handleIce(data) {
     socket.emit("ice", data.candidate, 1);
@@ -125,34 +129,26 @@ function StudentScreen(props) {
 
   const handleReplayClick = () => {
     // '다시보기' 버튼 클릭 시 VideoJS를 보이게 함
-    if(videoJsOptions == null) { 
+    if (videoJsOptions == null) {
       alert("강의가 시작되지 않았거나 방금 시작했어");
     }
     else {
       setShowHls(true);
-      if (showRTC==true) setShowRTC(false);
+      if (showRTC == true) setShowRTC(false);
     }
-  };  
-
+  };
 
   //-----view----------view----------view----------view----------view----------view----------view-----
 
   return (
-    <div>
-      <link rel="stylesheet" href="https://unpkg.com/mvp.css" />
-      <main>
-        <div id="call">
-          <div id="myStream" style={{display: showRTC ? 'block' : 'none'}}>
-            <video ref={videoRef} id="peerFace" autoPlay playsInline width="400" heigth="400"/>
-          </div>
-          <div>
-            {showHls && <VideoJS options={videoJsOptions} onReady={handlePlayerReady} />}
-          </div>
-        </div>
-        <button onClick={joinRoom}>시작</button>
-        <button onClick={handleReplayClick}>다시보기</button>
-      </main>
-
+    <div className='screen-view '>
+      <div className="video-wrap" style={{ display: showRTC ? 'block' : 'none' }}>
+        <video ref={videoRef} className="video-play" autoPlay playsInline></video>
+      </div>
+      <div>
+        {showHls && <VideoJS options={videoJsOptions} onReady={handlePlayerReady} />}
+      </div>
+      <button onClick={handleReplayClick}>다시보기</button>
     </div>
   );
 }
