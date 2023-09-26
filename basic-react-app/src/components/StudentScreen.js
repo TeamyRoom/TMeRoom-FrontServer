@@ -13,7 +13,8 @@ function StudentScreen(props) {
 
   const videoRef = useRef(null);
   const playerRef = React.useRef(null);
-  const [showVideo, setShowVideo] = useState(false);
+  const [showHls, setShowHls] = useState(false);
+  const [showRTC, setShowRTC] = useState(false);
 
   const handlePlayerReady = (player) => {
     playerRef.current = player;
@@ -35,6 +36,8 @@ function StudentScreen(props) {
     console.log("조인 룸");
     await makeConnection();
     initSocket();
+    if (showHls==true) setShowHls(false);
+    setShowRTC(true);
   }
 
   function initSocket() {
@@ -122,8 +125,13 @@ function StudentScreen(props) {
 
   const handleReplayClick = () => {
     // '다시보기' 버튼 클릭 시 VideoJS를 보이게 함
-    if(videoJsOptions !== null) setShowVideo(true);
-    
+    if(videoJsOptions == null) { 
+      alert("강의가 시작되지 않았거나 방금 시작했어");
+    }
+    else {
+      setShowHls(true);
+      if (showRTC==true) setShowRTC(false);
+    }
   };  
 
 
@@ -134,11 +142,11 @@ function StudentScreen(props) {
       <link rel="stylesheet" href="https://unpkg.com/mvp.css" />
       <main>
         <div id="call">
-          <div id="myStream">
-            <video ref={videoRef} id="peerFace" autoPlay playsInline width="400" heigth="400"></video>
+          <div id="myStream" style={{display: showRTC ? 'block' : 'none'}}>
+            <video ref={videoRef} id="peerFace" autoPlay playsInline width="400" heigth="400"/>
           </div>
           <div>
-            {showVideo && <VideoJS options={videoJsOptions} onReady={handlePlayerReady} />}
+            {showHls && <VideoJS options={videoJsOptions} onReady={handlePlayerReady} />}
           </div>
         </div>
         <button onClick={joinRoom}>시작</button>
