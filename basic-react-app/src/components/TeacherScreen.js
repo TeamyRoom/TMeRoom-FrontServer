@@ -60,6 +60,9 @@ function TeacherScreen(props) {
 
   useEffect(() => {
     getMedia();
+    return(
+      () => {if(socket) socket.disconnect()}
+    )
   }, [])
 
   useEffect(() => {
