@@ -56,8 +56,7 @@ function TeacherScreen(props) {
   const videoRef = useRef(null);
   const [buttonVisible, setButtonVisible] = useState(true);
   const [cameraText, setCameraText] = useState("카메라 끄기");
-  const [cameraOn, setCameraOn] = useState(true);
-
+  const [cameraOn, setCameraOn] = useState(true);  
 
   useEffect(() => {
     getMedia();
@@ -90,6 +89,7 @@ function TeacherScreen(props) {
 
       socket.on("denied", () => {
         alert("이미 강의가 진행 중입니다. 학생 페이지로 입장해주세요.");
+        window.history.back();
       })
     }
 
