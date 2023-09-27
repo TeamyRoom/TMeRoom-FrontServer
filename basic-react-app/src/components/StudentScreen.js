@@ -19,6 +19,9 @@ function StudentScreen(props) {
   useEffect(() => {
     console.log("useEffect");
     init();
+    return (
+      () => {if(socket) socket.disconnect();}
+    )
   }, [])
 
   const handlePlayerReady = (player) => {
