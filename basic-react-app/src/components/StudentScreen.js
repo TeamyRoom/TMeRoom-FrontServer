@@ -136,10 +136,15 @@ function StudentScreen(props) {
       alert("강의가 시작되지 않았거나 방금 시작했어");
     }
     else {
+      if (showRTC) setShowRTC(false);
       setShowHls(true);
-      if (showRTC == true) setShowRTC(false);
     }
   };
+
+  const handleRTCclick = () => {
+    if (showHls) setShowHls(false);
+    setShowRTC(true);
+  }
 
   //-----view----------view----------view----------view----------view----------view----------view-----
 
@@ -151,7 +156,7 @@ function StudentScreen(props) {
       <div>
         {showHls && <VideoJS options={videoJsOptions} onReady={handlePlayerReady} />}
       </div>
-      <button onClick={handleReplayClick}>다시보기</button>
+      <button onClick={handleReplayClick}>다시보기</button><button onClick={handleRTCclick}>Live</button>
     </div>
   );
 }
