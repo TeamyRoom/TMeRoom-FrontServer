@@ -1,8 +1,24 @@
 import "../css/Main.css";
 import { gsap } from '../../node_modules/gsap/index.js';
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Main() {
+
+    const navigate = useNavigate();
+    const codeRef = useRef("");
+    const nickname = "임시닉네임";
+
+    const goTeacher = () => {
+        if (codeRef === "") alert('강의 코드를 입력해주세요.');
+        else navigate(`teacher/${codeRef.current.value}/${nickname}`);
+    }
+
+    const goStudent = () => {
+        if (codeRef === "") alert('강의 코드를 입력해주세요.');
+        else navigate(`student/${codeRef.current.value}/${nickname}`);
+    }
+
 
     var wrapper;
     var formBoxs;
@@ -30,7 +46,7 @@ function Main() {
     }, []);
 
     function init() {
-        console.log("init");
+
         const initEl = '.form-box.login';
         gsap.set('.form-box', { 'xPercent': 0 });
         gsap.set(initEl, { 'xPercent': -100 });
@@ -106,11 +122,9 @@ function Main() {
     }
 
     function popupHgt(el = '.form-box.on') {
-        const hgt = document.querySelector(el).clientHeight;
-        gsap.to(wrapper, { 'height': hgt, duration: 0.2 });
+        // const hgt = document.querySelector(el).clientHeight;
+        // gsap.to(wrapper, { 'height': hgt, duration: 0.2 });
     }
-
-
 
     return (
         <>
@@ -126,6 +140,16 @@ function Main() {
                     <button className="btnLogin-popup">로그인</button>
                 </nav>
             </header>
+
+            <div className="join-box">
+
+                <h1>강의명</h1>
+                <form>
+                    <input className="join-box-input" type="text" name="" placeholder="강의명을 적어주세요." ref={codeRef}/>
+                        <a className="join-box-button" onClick={goTeacher}>선생입장</a>
+                        <a className="join-box-button" onClick={goStudent}>학생입장</a>
+                </form>
+            </div>
 
             <div className="wrapper active-popup">
                 <span className="icon-close">
