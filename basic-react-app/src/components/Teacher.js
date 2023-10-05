@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import TeacherScreen from "./TeacherScreen"
 import Chatting from "./Chatting";
 import "../css/Lecture.css"
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Question from "./Question";
 import File from "./File";
 
@@ -12,6 +12,7 @@ function Teacher() {
     const [isChattingVisible, setChattingVisible] = useState(false);
     const [isQuestionVisible, setQuestionVisible] = useState(false);
     const [isFileVisible, setFileVisible] = useState(false);
+    const screenRef = useRef({});
 
     const allFalse = () => {
         setChattingVisible(false);
@@ -40,11 +41,15 @@ function Teacher() {
         setFileVisible(!isFileVisible);
     }
 
+    const toggleCamera = () => {
+        screenRef.current.handleCamera();
+    }
+
     return (
 
         <div className="lecture_area">
             <div className="lecture_body">
-                <TeacherScreen code={code} />
+                <TeacherScreen code={code} ref={screenRef}/>
                 <div className="right-component" style={{ display: isChattingVisible ? 'inline-table' : 'none' }}>
                     <Chatting code={code} nickname={nickname} />
                 </div>
@@ -69,7 +74,7 @@ function Teacher() {
                             <img className="ico" src="/images/icon.png" />
                         </a>
                         <a className="ico_btn" href="#">
-                            <img className="ico" src="/images/video.png" />
+                            <img className="ico" src="/images/video.png" onClick={toggleCamera}/>
                         </a>
                         <a className="ico_btn" href="#">
                             <img className="ico" src="/images/sub.png" />

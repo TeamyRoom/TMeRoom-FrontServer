@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
+import React, { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
 import io from 'socket.io-client';
 import * as mediasoupClient from "mediasoup-client";
 
@@ -49,7 +49,7 @@ let socket = null;
 let wsocket = null;
 let queue = new SocketQueue();
 
-function TeacherScreen(props) {
+const TeacherScreen = forwardRef((props, ref) => {
 
   const [myPeerConnection, setMyPeerConnection] = useState(null);
   const [myStream, setMyStream] = useState(null);
@@ -101,12 +101,27 @@ function TeacherScreen(props) {
     }
   }, [myPeerConnection]);
 
+  useImperativeHandle(ref, () => ({
+    handleCamera,
+  }));
+
   //------functions----------functions----------functions----------functions----------functions----------functions----
 
   async function joinRoom() {
     if (socket) {
       socket.emit('join_room', props.code);
       setButtonVisible(false);
+    }
+  }
+
+  const handleCamera = () => {
+    myStream.getVideoTracks().forEach((track) => (track.enabled = !track.enabled));
+    if (cameraOn) {
+      setCameraOn(false);
+      setCameraText("카메라 켜기");
+    } else {
+      setCameraOn(true);
+      setCameraText("카메라 끄기");
     }
   }
 
@@ -395,18 +410,6 @@ function TeacherScreen(props) {
     }
   };
 
-  const handleCameraClick = () => {
-    myStream.getVideoTracks().forEach((track) => (track.enabled = !track.enabled));
-    if (cameraOn) {
-      setCameraOn(false);
-      setCameraText("카메라 켜기");
-    } else {
-      setCameraOn(true);
-      setCameraText("카메라 끄기");
-    }
-  }
-
-
   const startRecord = () => {
     console.log("스타트레코드 ws : ", wsocket);
     wsocket.send(JSON.stringify({
@@ -472,6 +475,6 @@ function TeacherScreen(props) {
       </div>
     </div>
   );
-}
+});
 
 export default TeacherScreen;
