@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import TeacherScreen from "./TeacherScreen"
 import Chatting from "./Chatting";
-import "../css/Screen.css"
+import "../css/Lecture.css"
 import { useState } from "react";
 import Question from "./Question";
 import File from "./File";
@@ -41,10 +41,11 @@ function Teacher() {
     }
 
     return (
-        <div>
-            <div className='screen'>
+
+        <div className="lecture_area">
+            <div className="lecture_body">
                 <TeacherScreen code={code} />
-                <div className="right-component" style={{ display: isChattingVisible ? 'block' : 'none' }}>
+                <div className="right-component" style={{ display: isChattingVisible ? 'inline-table' : 'none' }}>
                     <Chatting code={code} nickname={nickname} />
                 </div>
                 {isQuestionVisible &&
@@ -58,17 +59,61 @@ function Teacher() {
                     </div>
                 }
             </div>
-            <button onClick={toggleChatting}>
-                {isChattingVisible ? '채팅OFF' : '채팅ON'}
-            </button>
-            <button onClick={toggleQuestion}>
-                {isQuestionVisible ? '질문게시판' : '질문게시판'}
-            </button>
-            <button onClick={toggleFile}>
-                {isQuestionVisible ? '자료공유' : '자료공유'}
-            </button>
+            <div className="lecture_footer">
+                <div className="lecture_name">
+                    <span className="txt">카카오클라우드스쿨 3기 개발자반</span>
+                </div>
+                <div className="ico_area">
+                    <div className="ico_list bdr_raius">
+                        <a className="ico_btn" href="#">
+                            <img className="ico" src="/images/icon.png" />
+                        </a>
+                        <a className="ico_btn" href="#">
+                            <img className="ico" src="/images/video.png" />
+                        </a>
+                        <a className="ico_btn" href="#">
+                            <img className="ico" src="/images/sub.png" />
+                        </a>
+                        <a className="ico_btn" href="#">
+                            <img className="ico" src="/images/imoji.png" />
+                        </a>
+                        <a className="ico_btn" href="#">
+                            <img className="ico" src="/images/screenshare.png" />
+                        </a>
+                        <a className="ico_btn" href="#">
+                            <img className="ico" src="/images/hands-up.png" />
+                        </a>
+                        <a className="ico_btn" href="#">
+                            <img className="ico" src="/images/3dot.png" />
+                        </a>
+                        <a className="ico_btn" href="#">
+                            <img className="ico" src="/images/call.png" />
+                        </a>
+                    </div>
+                </div>
+                <div className="etc_area">
+                    <div className="etc_list bdr_raius">
+
+                        <a className="etc_btn" href="#">
+                            <img className="ico" src="/images/upload.png" />
+                        </a>
+                        <a className="etc_btn" href="#">
+                            <img className="ico" src="/images/information.png" onClick={toggleQuestion} />
+                        </a>
+                        <a className="etc_btn" href="#">
+                            <img className="ico" src="/images/friends.png" onClick={toggleQuestion} />
+                        </a>
+                        <a className="etc_btn" href="#">
+                            <img className="ico" src="/images/chat.png" onClick={toggleChatting} />
+                        </a>
+                        <a className="etc_btn" href="#">
+                            <img className="ico" src="/images/lock.png" />
+                        </a>
+
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }
-
 export default Teacher;

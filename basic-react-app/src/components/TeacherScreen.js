@@ -56,12 +56,12 @@ function TeacherScreen(props) {
   const videoRef = useRef(null);
   const [buttonVisible, setButtonVisible] = useState(true);
   const [cameraText, setCameraText] = useState("카메라 끄기");
-  const [cameraOn, setCameraOn] = useState(true);  
+  const [cameraOn, setCameraOn] = useState(true);
 
   useEffect(() => {
     getMedia();
-    return(
-      () => {if(socket) socket.disconnect()}
+    return (
+      () => { if (socket) socket.disconnect() }
     )
   }, [])
 
@@ -129,7 +129,7 @@ function TeacherScreen(props) {
           ]
         },
         {
-          urls: "turn:13.209.13.37:3478", 
+          urls: "turn:13.209.13.37:3478",
           username: "your-username", // TURN 서버 사용자명
           credential: "your-password" // TURN 서버 비밀번호
         }
@@ -160,10 +160,10 @@ function TeacherScreen(props) {
     try {
       // const myStream = await navigator.mediaDevices.getUserMedia(deviceId ? cameraConstrains : initialConstrains);
       const myStream = await navigator.mediaDevices
-      .getDisplayMedia({
-        video: { cursor: 'always' },
-        audio: { echoCancellation: true, noiseSuppression: true },
-      });
+        .getDisplayMedia({
+          video: { cursor: 'always' },
+          audio: { echoCancellation: true, noiseSuppression: true },
+        });
       console.log("마이스트림 : ", myStream);
       setMyStream(myStream);
       if (videoRef.current) {
@@ -455,11 +455,21 @@ function TeacherScreen(props) {
 
   return (
     <div className='screen-view '>
-      <div className="video-wrap">
+      <div className="video-wrap" style={{ position: 'relative' }}>
         <video ref={videoRef} className="video-play" autoPlay playsInline></video>
+        {buttonVisible && (
+          <button style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            backgroundColor: 'rgba(0, 0, 0, 0.5)', // 반투명 검정색 배경
+            zIndex: 1, // 이 레이어가 버튼 및 비디오 위에 오도록 함
+            // pointerEvents: 'none', // 이벤트를 통과하도록 설정
+          }} onClick={joinRoom}>강의 시작</button>
+        )}
       </div>
-      <button onClick={joinRoom} style={{ display: buttonVisible ? 'block' : 'none' }}>시작</button>
-      <button onClick={handleCameraClick} style={{ display: buttonVisible ? 'none' : 'block' }}>{cameraText}</button>
     </div>
   );
 }

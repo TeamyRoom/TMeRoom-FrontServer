@@ -52,23 +52,53 @@ function Chatting(props) {
     }
 
     return (
-        <div>
-            <div>
-                <h2>Chat Room</h2>
-                <div className="chat">
-                    {messages.map((message, index) => (
-                        <div key={index}>{message}</div>
-                    ))}
-                </div>
-            </div>
-            <div>
+        // <div>
+        //     <div>
+        //         <h2>Chat Room</h2>
+        //         <div className="chat">
+        //             {messages.map((message, index) => (
+        //                 <div key={index}>{message}</div>
+        //             ))}
+        //         </div>
+        //     </div>
+        //     <div>
+        //         <input
+        //             type="text"
+        //             value={message}
+        //             onChange={(e) => setMessage(e.target.value)}
+        //             onKeyDown={handleKeyDown}
+        //         />
+        //         <button onClick={sendMessage}>전송</button>
+        //     </div>
+        // </div>
+        <div className="chat_area">
+            <main className="msger_chat">
+
+                {messages.map((message, index) => (
+                    <div className="msg right_msg">
+                        <div className="msg_bubble">
+                            <div className="msg_info">
+                                <div className="msg_info_name">학생</div>
+                                <div className="msg_info_time">12:46</div>
+                            </div>
+                            <div className="msg_text">
+                                {message}
+                            </div>
+                        </div>
+                    </div>
+                ))}
+
+
+            </main>
+            <div className="msger_inputarea">
                 <input
                     type="text"
+                    className="msger_input"
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     onKeyDown={handleKeyDown}
                 />
-                <button onClick={sendMessage}>전송</button>
+                <button className="msger_send_btn" onClick={sendMessage}>전송</button>
             </div>
         </div>
     )
