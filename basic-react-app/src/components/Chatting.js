@@ -33,16 +33,38 @@ function Chatting(props) {
         socket.on("new_message", addMessage);
     }
 
-    function addMessage(newMessage) {
+    function addMessage(nickname, msg, time) {
+        const newMessage = {
+            nickname,
+            msg,
+            time,
+            type: "msg right_msg",
+        }
         setMessages((prevMessages) => [...prevMessages, newMessage]);
     }
 
     function sendMessage() {
         if (message) {
             socket.emit("new_message", message, props.code);
-            addMessage(`나 : ${message}`);
+            const curretnTime = getCurrentTime();
+
+            const newMessage = {
+                nickname: "나",
+                msg: message,
+                time: curretnTime,
+                type: "msg left_msg",
+            }
+            setMessages((prevMessages) => [...prevMessages, newMessage]);
+
             setMessage('');
         }
+    }
+
+    function getCurrentTime() {
+        const now = new Date();
+        const hours = now.getHours().toString().padStart(2, '0');
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        return `${hours}:${minutes}`;
     }
 
     function handleKeyDown(event) {
@@ -52,23 +74,34 @@ function Chatting(props) {
     }
 
     return (
-        <div>
-            <div>
-                <h2>Chat Room</h2>
-                <div className="chat">
-                    {messages.map((message, index) => (
-                        <div key={index}>{message}</div>
-                    ))}
-                </div>
+        <div className="chat_area">
+            <div className="msger_chat">
+
+                {messages.map((message, index) => (
+                    <div className={message.type}>
+                        <div className="msg_bubble">
+                            <div className="msg_info">
+                                <div className="msg_info_name">{message.nickname}</div>
+                                <div className="msg_info_time">{message.time}</div>
+                            </div>
+                            <div className="msg_text">
+                                {message.msg}
+                            </div>
+                        </div>
+                    </div>
+                ))}
+
+
             </div>
-            <div>
+            <div className="msger_inputarea">
                 <input
                     type="text"
+                    className="msger_input"
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     onKeyDown={handleKeyDown}
                 />
-                <button onClick={sendMessage}>전송</button>
+                <button className="msger_send_btn" onClick={sendMessage}>전송</button>
             </div>
         </div>
     )

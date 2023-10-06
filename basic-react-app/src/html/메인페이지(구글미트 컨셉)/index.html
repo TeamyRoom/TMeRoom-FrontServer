@@ -451,99 +451,100 @@ header {
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js" integrity="sha512-cOH8ndwGgPo+K7pTvMrqYbmI8u8k6Sho3js0gOqVWTmQMlLIi6TbqGWRTpf1ga8ci9H3iPsvDLr4X7xwhC/+DQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
-    const wrapperModal = document.querySelector('.wrapper-modal');
-    const wrapper = document.querySelector('.wrapper');
-    const formBoxs = document.querySelectorAll('.form-box');
-    const loginLink = document.querySelector('.login-link');
-    const registerLink = document.querySelector('.register-link');
-    const btnPopup = document.querySelector('.btnLogin-popup');
-    const iconClose = document.querySelector('.icon-close');
-    const forgotPwLink = document.querySelector('.remember-forgot a');
-    const forgotIdLink = document.querySelector('.login-idforgot a');
-    const loginIdLink = document.querySelector('.find-id .login-register .login-link'); // 아이디찾기 영역에 있는 로그인버튼
-    const loginPwLink = document.querySelector('.find-pw .login-register .login-link'); // 비번찾기 영역에 있는 로그인버튼
-    const idFindBtn = document.querySelector('.id-find-btn');
+//     const wrapperModal = document.querySelector('.wrapper-modal');
+//     const wrapper = document.querySelector('.wrapper');
+//     const formBoxs = document.querySelectorAll('.form-box');
+//     const loginLink = document.querySelector('.login-link');
+//     const registerLink = document.querySelector('.register-link');
+//     const btnPopup = document.querySelector('.btnLogin-popup');
+//     const iconClose = document.querySelector('.icon-close');
+//     const forgotPwLink = document.querySelector('.remember-forgot a');
+//     const forgotIdLink = document.querySelector('.login-idforgot a');
+//     const loginIdLink = document.querySelector('.find-id .login-register .login-link'); // 아이디찾기 영역에 있는 로그인버튼
+//     const loginPwLink = document.querySelector('.find-pw .login-register .login-link'); // 비번찾기 영역에 있는 로그인버튼
+//     const idFindBtn = document.querySelector('.id-find-btn');
 
-    init();
-    function init(){
-        const initEl = '.form-box.login';
-        gsap.set('.form-box',{'xPercent':0});
-        gsap.set(initEl,{'xPercent':-100});
-        formBoxs.forEach(t=>{t.classList.remove('on')});
-        document.querySelector(initEl).classList.add('on');
-        popupHgt(initEl);
-    }
-    iconClose.addEventListener('click', () => {
-        init(); // init 함수 호출
-        wrapper.classList.remove('active-popup');
-        wrapper.classList.remove('active');
-    });
+//     init();
+//     function init(){
+//         const initEl = '.form-box.login';
+//         gsap.set('.form-box',{'xPercent':0});
+//         gsap.set(initEl,{'xPercent':-100});
+//         formBoxs.forEach(t=>{t.classList.remove('on')});
+//         document.querySelector(initEl).classList.add('on');
+//         popupHgt(initEl);
+//     }
+//     iconClose.addEventListener('click', () => {
+//         init(); // init 함수 호출
+//         wrapper.classList.remove('active-popup');
+//         wrapper.classList.remove('active');
+//     });
 
-    function popupTo(el,du=0.5){
-        gsap.fromTo(el,{'xPercent':0},{'xPercent':-100,duration:du});
-        formBoxs.forEach(t=>{t.classList.remove('on')});
-        document.querySelector(el).classList.add('on');
-        popupHgt(el);
-    }
+//     function popupTo(el,du=0.5){
+//         gsap.fromTo(el,{'xPercent':0},{'xPercent':-100,duration:du});
+//         formBoxs.forEach(t=>{t.classList.remove('on')});
+//         document.querySelector(el).classList.add('on');
+//         popupHgt(el);
+//     }
 
-    function popupFrom(el,du=0.5){
-        gsap.fromTo(el,{'xPercent':-100},{'xPercent':-200,duration:du});
-    }
+//     function popupFrom(el,du=0.5){
+//         gsap.fromTo(el,{'xPercent':-100},{'xPercent':-200,duration:du});
+//     }
 
-    function popupHgt(el = '.form-box.on'){
-        const hgt = document.querySelector(el).clientHeight;
-        gsap.to(wrapper,{'height':hgt,duration: 0.2});
-    }
+//     function popupHgt(el = '.form-box.on'){
+//         const hgt = document.querySelector(el).clientHeight;
+//         gsap.to(wrapper,{'height':hgt,duration: 0.2});
+//     }
 
-    function modalOpen(){
-        wrapperModal.classList.add('active');
-        setTimeout(()=>{
-            wrapper.classList.remove('active-popup');
-            wrapper.classList.remove('active');
-        },10);
-    }
-    function modalClose(){
-        wrapper.classList.remove('active-popup');
-        wrapper.classList.remove('active');
-        setTimeout(()=>{
-            wrapperModal.classList.remove('active');
-        },500);
-    }
+//     function modalOpen(){
+//         wrapperModal.classList.add('active');
+//         setTimeout(()=>{
+//             wrapper.classList.remove('active-popup');
+//             wrapper.classList.remove('active');
+//         },10);
+//     }
+//     function modalClose(){
+//         wrapper.classList.remove('active-popup');
+//         wrapper.classList.remove('active');
+//         setTimeout(()=>{
+//             wrapperModal.classList.remove('active');
+//         },500);
+//     }
 
-    window.addEventListener('resize',()=>{
-        popupHgt();
-    });
+//     window.addEventListener('resize',()=>{
+//         popupHgt();
+//     });
 
-    registerLink.addEventListener('click', ()=> {
-        popupFrom('.form-box.login');
-        popupTo('.form-box.register');
-    });
+//     registerLink.addEventListener('click', ()=> {
+//         popupFrom('.form-box.login');
+//         popupTo('.form-box.register');
+//     });
    
-    loginLink.addEventListener('click', ()=> {
-        popupFrom('.form-box.register');
-        popupTo('.form-box.login');
-    });
+//     loginLink.addEventListener('click', ()=> {
+//         popupFrom('.form-box.register');
+//         popupTo('.form-box.login');
+//     });
 
-    forgotIdLink.addEventListener('click', ()=> {
-        popupFrom('.form-box.login');
-        popupTo('.form-box.find-id');
-    });
+//     forgotIdLink.addEventListener('click', ()=> {
+//         popupFrom('.form-box.login');
+//         popupTo('.form-box.find-id');
+//     });
 
-    forgotPwLink.addEventListener('click', ()=> {
-        popupFrom('.form-box.login');
-        popupTo('.form-box.find-pw');
-    });
+//     forgotPwLink.addEventListener('click', ()=> {
+//         popupFrom('.form-box.login');
+//         popupTo('.form-box.find-pw');
+//     });
    
-    btnPopup.addEventListener('click', (e)=> {
-    e.preventDefault();
-    modalOpen();
-    setTimeout(()=>{
-        wrapper.classList.add('active-popup');
-        popupFrom('.form-box.login',0);
-        popupTo('.form-box.login',0);
-    },10);
-});
+//     btnPopup.addEventListener('click', (e)=> {
+//     e.preventDefault();
+//     modalOpen();
+//     setTimeout(()=>{
+//         wrapper.classList.add('active-popup');
+//         popupFrom('.form-box.login',0);
+//         popupTo('.form-box.login',0);
+//     },10);
+// });
    
+
 iconClose.addEventListener('click', () => {
     wrapperModal.classList.remove('active');
     setTimeout(() => {
@@ -570,6 +571,7 @@ iconClose.addEventListener('click', () => {
         popupTo('.form-box.register',0);
     },10);
 })
+
 
 </script>
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
