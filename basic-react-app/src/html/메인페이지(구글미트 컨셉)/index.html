@@ -544,9 +544,12 @@ header {
     },10);
 });
    
-    iconClose.addEventListener('click', ()=> {
-        modalClose();
-    });
+iconClose.addEventListener('click', () => {
+    wrapperModal.classList.remove('active');
+    setTimeout(() => {
+        wrapper.classList.remove('active-popup');
+    }, 500);
+});
 
     loginIdLink.addEventListener('click', ()=> {
         popupFrom('.form-box.find-id');
