@@ -1,14 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import TeacherScreen from './components/TeacherScreen';
 import {BrowserRouter,Route,Routes} from 'react-router-dom';
-import Home from './components/Home';
 import Teacher from './components/Teacher';
 import Student from './components/Student';
+import Home from './components/Home';
 
 function App() {
 
   return (
-    <div className="App"> 
     <BrowserRouter> 
        <Routes>  
 
@@ -18,7 +17,6 @@ function App() {
 
        </Routes>
     </BrowserRouter> 
-	</div>
   );
 }
 

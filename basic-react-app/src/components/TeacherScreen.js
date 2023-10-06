@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
+import React, { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
 import io from 'socket.io-client';
 import * as mediasoupClient from "mediasoup-client";
 
@@ -49,19 +49,19 @@ let socket = null;
 let wsocket = null;
 let queue = new SocketQueue();
 
-function TeacherScreen(props) {
+const TeacherScreen = forwardRef((props, ref) => {
 
   const [myPeerConnection, setMyPeerConnection] = useState(null);
   const [myStream, setMyStream] = useState(null);
   const videoRef = useRef(null);
   const [buttonVisible, setButtonVisible] = useState(true);
   const [cameraText, setCameraText] = useState("카메라 끄기");
-  const [cameraOn, setCameraOn] = useState(true);  
+  const [cameraOn, setCameraOn] = useState(true);
 
   useEffect(() => {
     getMedia();
-    return(
-      () => {if(socket) socket.disconnect()}
+    return (
+      () => { if (socket) socket.disconnect() }
     )
   }, [])
 
@@ -101,12 +101,27 @@ function TeacherScreen(props) {
     }
   }, [myPeerConnection]);
 
+  useImperativeHandle(ref, () => ({
+    handleCamera,
+  }));
+
   //------functions----------functions----------functions----------functions----------functions----------functions----
 
   async function joinRoom() {
     if (socket) {
       socket.emit('join_room', props.code);
       setButtonVisible(false);
+    }
+  }
+
+  const handleCamera = () => {
+    myStream.getVideoTracks().forEach((track) => (track.enabled = !track.enabled));
+    if (cameraOn) {
+      setCameraOn(false);
+      setCameraText("카메라 켜기");
+    } else {
+      setCameraOn(true);
+      setCameraText("카메라 끄기");
     }
   }
 
@@ -129,7 +144,7 @@ function TeacherScreen(props) {
           ]
         },
         {
-          urls: "turn:13.209.13.37:3478", 
+          urls: "turn:13.209.13.37:3478",
           username: "your-username", // TURN 서버 사용자명
           credential: "your-password" // TURN 서버 비밀번호
         }
@@ -160,10 +175,10 @@ function TeacherScreen(props) {
     try {
       // const myStream = await navigator.mediaDevices.getUserMedia(deviceId ? cameraConstrains : initialConstrains);
       const myStream = await navigator.mediaDevices
-      .getDisplayMedia({
-        video: { cursor: 'always' },
-        audio: { echoCancellation: true, noiseSuppression: true },
-      });
+        .getDisplayMedia({
+          video: { cursor: 'always' },
+          audio: { echoCancellation: true, noiseSuppression: true },
+        });
       console.log("마이스트림 : ", myStream);
       setMyStream(myStream);
       if (videoRef.current) {
@@ -395,18 +410,6 @@ function TeacherScreen(props) {
     }
   };
 
-  const handleCameraClick = () => {
-    myStream.getVideoTracks().forEach((track) => (track.enabled = !track.enabled));
-    if (cameraOn) {
-      setCameraOn(false);
-      setCameraText("카메라 켜기");
-    } else {
-      setCameraOn(true);
-      setCameraText("카메라 끄기");
-    }
-  }
-
-
   const startRecord = () => {
     console.log("스타트레코드 ws : ", wsocket);
     wsocket.send(JSON.stringify({
@@ -454,14 +457,15 @@ function TeacherScreen(props) {
   //-----view----------view----------view----------view----------view----------view----------view-----
 
   return (
-    <div className='screen-view '>
+    <div className="screen-view">
       <div className="video-wrap">
         <video ref={videoRef} className="video-play" autoPlay playsInline></video>
+        {buttonVisible && (
+          <button className='video-start-button' onClick={joinRoom}>강의를 시작하려면 클릭하세요.</button>
+        )}
       </div>
-      <button onClick={joinRoom} style={{ display: buttonVisible ? 'block' : 'none' }}>시작</button>
-      <button onClick={handleCameraClick} style={{ display: buttonVisible ? 'none' : 'block' }}>{cameraText}</button>
     </div>
   );
-}
+});
 
 export default TeacherScreen;
