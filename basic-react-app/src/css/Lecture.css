@@ -25,9 +25,8 @@ body {
 }
 
 .lecture_area {
-    display: contents;
+    display: flex;
     flex-direction: column;
-    position: relative;
     width: 100%;
     height: 100%;
     background-color: #000;
@@ -41,8 +40,6 @@ body {
 
 .lecture_body {
     display: inline-flex;
-    height: 100%;
-    max-height: calc(100% - 100px);
 }
 
 .lecture_body .video_area {
@@ -56,13 +53,6 @@ body {
 
 .lecture_body .chat_area {
     display: inline-grid;
-    flex-direction: column;
-    width: 25%;
-    height: 100%;
-}
-
-.lecture_footer {
-    height: 100px;
 }
 
 .msger {
@@ -181,9 +171,6 @@ body {
 .lecture_footer {
     display: flex;
     align-items: center;
-    position: absolute;
-    left: 0;
-    bottom: 0;
     width: 100%;
     padding: 0 20px;
     background-color: #666666;
@@ -249,7 +236,8 @@ body {
 }
 
 .video-play {
-    max-height: 99%;
+    max-height: 100%;
+    min-width: 100%;
     object-fit: contain;
 }
 
@@ -271,6 +259,17 @@ body {
 }
 
 .right-component {
-    width: min-content;
-    display: inline-table;
+    position: relative;
+}
+
+.video-start-button {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.5);
+    z-index: 1;
+    font-size: xxx-large;
+    font-family: cursive;
 }

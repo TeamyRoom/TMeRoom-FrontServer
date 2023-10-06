@@ -72,7 +72,7 @@ function Chatting(props) {
         //     </div>
         // </div>
         <div className="chat_area">
-            <main className="msger_chat">
+            <div className="msger_chat">
 
                 {messages.map((message, index) => (
                     <div className="msg right_msg">
@@ -89,7 +89,7 @@ function Chatting(props) {
                 ))}
 
 
-            </main>
+            </div>
             <div className="msger_inputarea">
                 <input
                     type="text"

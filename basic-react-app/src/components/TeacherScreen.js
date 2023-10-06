@@ -457,20 +457,11 @@ const TeacherScreen = forwardRef((props, ref) => {
   //-----view----------view----------view----------view----------view----------view----------view-----
 
   return (
-    <div className='screen-view '>
-      <div className="video-wrap" style={{ position: 'relative' }}>
+    <div className="screen-view">
+      <div className="video-wrap">
         <video ref={videoRef} className="video-play" autoPlay playsInline></video>
         {buttonVisible && (
-          <button style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            backgroundColor: 'rgba(0, 0, 0, 0.5)', // 반투명 검정색 배경
-            zIndex: 1, // 이 레이어가 버튼 및 비디오 위에 오도록 함
-            // pointerEvents: 'none', // 이벤트를 통과하도록 설정
-          }} onClick={joinRoom}>강의 시작</button>
+          <button className='video-start-button' onClick={joinRoom}>강의를 시작하려면 클릭하세요.</button>
         )}
       </div>
     </div>

@@ -9,7 +9,7 @@ import File from "./File";
 function Teacher() {
     const { code } = useParams();
     const { nickname } = useParams();
-    const [isChattingVisible, setChattingVisible] = useState(false);
+    const [isChattingVisible, setChattingVisible] = useState(true);
     const [isQuestionVisible, setQuestionVisible] = useState(false);
     const [isFileVisible, setFileVisible] = useState(false);
     const screenRef = useRef({});
