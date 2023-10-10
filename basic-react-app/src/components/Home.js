@@ -167,166 +167,166 @@ function Home() {
 
     return (
         <>
-            <header class="text-gray-600body-font">
+            <header className="text-gray-600body-font">
             </header>
 
-            <section class="text-gray-600body-font">
-                <div class="container mx-auto flex md:px-16 px-5 md:py-24 py-12 md:flex-row flex-col items-center">
+            <section className="text-gray-600body-font">
+                <div className="container mx-auto flex md:px-16 px-5 md:py-24 py-12 md:flex-row flex-col items-center">
                     <div
-                        class="lg:flex-grow md:w-1/2 md:pr-24 md:pr-16 flex flex-col md:items-start text-left mb-16 md:mb-0 items-center text-center premium_meeting">
-                        <h1 class="md:title-font md:text-4xl text-2xl mb-10 font-medium text-gray-900 w-3/4 home-text">
+                        className="lg:flex-grow md:w-1/2 md:pr-24 md:pr-16 flex flex-col md:items-start text-left mb-16 md:mb-0 items-center text-center premium_meeting">
+                        <h1 className="md:title-font md:text-4xl text-2xl mb-10 font-medium text-gray-900 w-3/4 home-text">
                             강의 중 수업이 이해가 안되거나 수업을 되돌리고싶다면 당신을 도와줄 친구 TMEROOM
                         </h1>
-                        <p class="mb-8 leading-relaxed w-[90%] md:text-lg text-normal text-gray-600 font-normal">
+                        <p className="mb-8 leading-relaxed w-[90%] md:text-lg text-normal text-gray-600 font-normal">
                             저희는 강의 중 질문과 수업 되돌리기 기능을 통하여 당신의 학습의 질을 높이는 경험을 선사합니다.
                         </p>
-                        <div class="flex md:flex-row md:justify-center items-center flex-col start_meeting">
+                        <div className="flex md:flex-row md:justify-center items-center flex-col start_meeting">
 
                             <button type="button"
-                                class="md:inline-flex text-white bg-blue-600 border-0 py-2 px-6 md:mb-0 mb-4 focus:outline-none             hover:bg-blue-800 rounded text-lg flex justify-center">
-                                <i class="fa-solid fa-video pr-2 py-1.5"></i>
+                                className="md:inline-flex text-white bg-blue-600 border-0 py-2 px-6 md:mb-0 mb-4 focus:outline-none             hover:bg-blue-800 rounded text-lg flex justify-center">
+                                <i className="fa-solid fa-video pr-2 py-1.5"></i>
                                 강의 제작하기
                             </button>
 
                             <input type="text" id="참여코드를 입력하세요"
-                                class="md:ml-2 pl-5 inline-flex font-normal placeholder:text-gray-500 bg-white border border-gray-300 py-2 px-2 outline-gray-500 rounded text-lg relative"
+                                className="md:ml-2 pl-5 inline-flex font-normal placeholder:text-gray-500 bg-white border border-gray-300 py-2 px-2 outline-gray-500 rounded text-lg relative"
                                 placeholder="코드를 입력해주세요" ref={codeRef} />
 
-                            <p class="md:ml-4 mt-2.5 text-gray-500 font-semibold cursor-pointer text-[17px]" onClick={goTeacher}>선생 참여</p>
-                            <p class="md:ml-4 mt-2.5 text-gray-500 font-semibold cursor-pointer text-[17px]" onClick={goStudent}>학생 참여</p>
+                            <p className="md:ml-4 mt-2.5 text-gray-500 font-semibold cursor-pointer text-[17px]" onClick={goTeacher}>선생 참여</p>
+                            <p className="md:ml-4 mt-2.5 text-gray-500 font-semibold cursor-pointer text-[17px]" onClick={goStudent}>학생 참여</p>
                         </div>
-                        <a href="https://support.google.com/accounts/answer/27441?hl=en" class="mt-10 font-medium id-find-btn">
+                        <a href="https://support.google.com/accounts/answer/27441?hl=en" className="mt-10 font-medium id-find-btn">
                             아이디가 있으신가요?
-                            <span class="text-blue-500 cursor-pointer">아이디를 만들어보세요</span>
+                            <span className="text-blue-500 cursor-pointer">아이디를 만들어보세요</span>
                         </a>
                     </div>
-                    <div class="md:max-w-lg md:w-full md:w-1/2 w-5/6 first-image-parent">
+                    <div className="md:max-w-lg md:w-full md:w-1/2 w-5/6 first-image-parent">
                         <img src="./images/image1.webp" alt="first image" id="first-image"
-                            class="object-cover object-center rounded" />
+                            className="object-cover object-center rounded" />
 
                     </div>
                 </div>
             </section>
-            <div class="mainbody">
+            <div className="mainbody">
                 <header>
-                    <h2 class="logo">TMEROOM</h2>
-                    <nav class="navigation">
+                    <h2 className="logo">TMEROOM</h2>
+                    <nav className="navigation">
 
-                        <button class="btnLogin-popup">Login</button>
+                        <button className="btnLogin-popup">Login</button>
                     </nav>
                 </header>
-                <div class="wrapper-modal">
-                    <div class="wrapper-center">
-                        <div class="wrapper">
-                            <span class="icon-close">
+                <div className="wrapper-modal">
+                    <div className="wrapper-center">
+                        <div className="wrapper">
+                            <span className="icon-close">
                                 <ion-icon name="close"></ion-icon>
                             </span>
 
-                            <div class="form-box login active">
+                            <div className="form-box login active">
                                 <h2>로그인</h2>
                                 <form action="#">
-                                    <div class="input-box">
-                                        <span class="icon">
+                                    <div className="input-box">
+                                        <span className="icon">
                                             <ion-icon name="mail"></ion-icon>
                                         </span>
                                         <input type="text" required />
                                         <label>아이디</label>
                                     </div>
-                                    <div class="input-box">
-                                        <span class="icon">
+                                    <div className="input-box">
+                                        <span className="icon">
                                             <ion-icon name="lock-closed"></ion-icon>
                                         </span>
                                         <input type="password" required />
                                         <label>비밀번호</label>
                                     </div>
-                                    <button type="submit" class="btn">로그인</button>
+                                    <button type="submit" className="btn">로그인</button>
                                     <label><input type="checkbox" /> 로그인 유지</label>
-                                    <div class="login-register">
-                                        <p>계정이 없으신가요? <a href="#" class="register-link">생성하기</a></p>
+                                    <div className="login-register">
+                                        <p>계정이 없으신가요? <a href="#" className="register-link">생성하기</a></p>
                                     </div>
-                                    <div class="login-idforgot">
-                                        <p>아이디를 잊어버리셨나요? <a href="#" class="register-link">아이디찾기</a></p>
+                                    <div className="login-idforgot">
+                                        <p>아이디를 잊어버리셨나요? <a href="#" className="register-link">아이디찾기</a></p>
                                     </div>
-                                    <div class="remember-forgot">
-                                        <p>비밀번호를 잊어버리셨나요? <a href="#" class="register-link">비밀번호찾기</a></p>
+                                    <div className="remember-forgot">
+                                        <p>비밀번호를 잊어버리셨나요? <a href="#" className="register-link">비밀번호찾기</a></p>
                                     </div>
                                 </form>
                             </div>
 
-                            <div class="form-box register">
+                            <div className="form-box register">
                                 <h2>계정 생성</h2>
                                 <form action="#">
-                                    <div class="input-box">
-                                        <span class="icon">
+                                    <div className="input-box">
+                                        <span className="icon">
                                             <ion-icon name="person"></ion-icon>
                                         </span>
                                         <input type="text" required />
                                         <label>계정명</label>
                                     </div>
-                                    <div class="input-box">
-                                        <span class="icon">
+                                    <div className="input-box">
+                                        <span className="icon">
                                             <ion-icon name="mail"></ion-icon>
                                         </span>
                                         <input type="email" required />
                                         <label>이메일</label>
                                     </div>
-                                    <div class="input-box">
-                                        <span class="icon">
+                                    <div className="input-box">
+                                        <span className="icon">
                                             <ion-icon name="lock-closed"></ion-icon>
                                         </span>
                                         <input type="password" required />
                                         <label>비밀번호</label>
                                     </div>
-                                    <div class="remember-forgot">
+                                    <div className="remember-forgot">
                                         <label><input type="checkbox" /> I agree to the terms & conditions</label>
                                     </div>
-                                    <button type="submit" class="btn">생성하기</button>
-                                    <div class="login-register">
-                                        <p>이미계정이있으신가요? <a href="#" class="login-link">Login</a></p>
+                                    <button type="submit" className="btn">생성하기</button>
+                                    <div className="login-register">
+                                        <p>이미계정이있으신가요? <a href="#" className="login-link">Login</a></p>
                                     </div>
                                 </form>
                             </div>
 
-                            <div class="form-box find-pw">
+                            <div className="form-box find-pw">
                                 <h2>비밀번호 찾기</h2>
                                 <form action="#">
-                                    <div class="input-box">
-                                        <span class="icon">
+                                    <div className="input-box">
+                                        <span className="icon">
                                             <ion-icon name="person"></ion-icon>
                                         </span>
                                         <input type="text" required />
                                         <label>계정명</label>
                                     </div>
-                                    <div class="input-box">
-                                        <span class="icon">
+                                    <div className="input-box">
+                                        <span className="icon">
                                             <ion-icon name="mail"></ion-icon>
                                         </span>
                                         <input type="email" required />
                                         <label>이메일</label>
                                     </div>
-                                    <button type="submit" class="btn">찾기</button>
-                                    <div class="login-register">
-                                        <div class="login-register">
-                                            <p>이미계정이있으신가요? <a href="#" class="login-link">Login</a></p>
+                                    <button type="submit" className="btn">찾기</button>
+                                    <div className="login-register">
+                                        <div className="login-register">
+                                            <p>이미계정이있으신가요? <a href="#" className="login-link">Login</a></p>
                                         </div>
                                     </div>
                                 </form>
                             </div>
-                            <div class="form-box find-id">
+                            <div className="form-box find-id">
                                 <h2>ID 찾기</h2>
                                 <form action="#">
-                                    <div class="input-box">
-                                        <span class="icon">
+                                    <div className="input-box">
+                                        <span className="icon">
                                             <ion-icon name="mail"></ion-icon>
                                         </span>
                                         <input type="email" required />
                                         <label>이메일</label>
                                     </div>
-                                    <button type="submit" class="btn">찾기</button>
-                                    <div class="login-register">
-                                        <p>이미계정이있으신가요? <a href="#" class="login-link">Login</a></p>
+                                    <button type="submit" className="btn">찾기</button>
+                                    <div className="login-register">
+                                        <p>이미계정이있으신가요? <a href="#" className="login-link">Login</a></p>
                                     </div>
-                                    <div class="login-register">
+                                    <div className="login-register">
                                     </div>
                                 </form>
                             </div>
@@ -337,7 +337,7 @@ function Home() {
 
             <script src="script.js"></script>
             <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-            <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+            <script noModule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
         </>
     )
