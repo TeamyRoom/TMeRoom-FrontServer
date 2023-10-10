@@ -78,7 +78,7 @@ function Chatting(props) {
             <div className="msger_chat">
 
                 {messages.map((message, index) => (
-                    <div className={message.type}>
+                    <div className={message.type} key={index}>
                         <div className="msg_bubble">
                             <div className="msg_info">
                                 <div className="msg_info_name">{message.nickname}</div>

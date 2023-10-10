@@ -1,7 +1,7 @@
 import Chatting from "./Chatting";
 import StudentScreen from "./StudentScreen";
 import { useParams } from "react-router-dom";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import File from "./File";
 import Question from "./Question";
 import '../css/Lecture.css';
@@ -12,6 +12,8 @@ function Student() {
     const [isChattingVisible, setChattingVisible] = useState(true);
     const [isQuestionVisible, setQuestionVisible] = useState(false);
     const [isFileVisible, setFileVisible] = useState(false);
+    const [isAudioOn, setAudioOn] = useState(false);
+    const screenRef = useRef({});
 
     const allFalse = () => {
         setChattingVisible(false);
@@ -39,11 +41,16 @@ function Student() {
         }
         setFileVisible(!isFileVisible);
     }
+    
+    const toggleAudio = () => {
+        setAudioOn(!isAudioOn);
+        screenRef.current.handleAudio();
+    }
 
     return (
         <div className="lecture_area">
             <div className="lecture_body">
-                <StudentScreen code={code} />
+                <StudentScreen code={code} ref={screenRef}/>
                 <div className="right-component" style={{ display: isChattingVisible ? 'inline-table' : 'none' }}>
                     <Chatting code={code} nickname={nickname} />
                 </div>
@@ -65,7 +72,7 @@ function Student() {
                 <div className="ico_area">
                     <div className="ico_list bdr_raius">
                         <a className="ico_btn" href="#">
-                            <img className="ico" src="/images/icon.png" />
+                            <img className="ico" onClick={toggleAudio} src={isAudioOn ? "/images/mikeoff.png" : "/images/mikeon.png"} />
                         </a>
                         <a className="ico_btn" href="#">
                             <img className="ico" src="/images/sub.png" />

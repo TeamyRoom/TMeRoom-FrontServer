@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, forwardRef, useImperativeHandle } from 'react';
 import io from 'socket.io-client';
 import VideoJS from './VideoJS';
 
@@ -9,12 +9,13 @@ let myPeerConnection = null;
 let joined = 0;
 let videoJsOptions = null;
 
-function StudentScreen(props) {
+const StudentScreen = forwardRef((props, ref) => {
 
   const videoRef = useRef(null);
   const playerRef = React.useRef(null);
   const [showHls, setShowHls] = useState(false);
   const [showRTC, setShowRTC] = useState(false);
+  const [audioOn, setAudioOn] = useState(false);
 
   useEffect(() => {
     console.log("useEffect");
@@ -23,6 +24,10 @@ function StudentScreen(props) {
       () => {if(socket) socket.disconnect();}
     )
   }, [])
+
+  useImperativeHandle(ref, () => ({
+    handleAudio,
+  }));
 
   const handlePlayerReady = (player) => {
     playerRef.current = player;
@@ -144,6 +149,11 @@ function StudentScreen(props) {
   const handleRTCclick = () => {
     if (showHls) setShowHls(false);
     setShowRTC(true);
+  };
+
+  const handleAudio = () => {
+    setAudioOn(!audioOn);
+    console.log("하위 컴포넌트의 핸들오디오");
   }
 
   //-----view----------view----------view----------view----------view----------view----------view-----
@@ -151,7 +161,7 @@ function StudentScreen(props) {
   return (
     <div className='screen-view '>
       <div className="video-wrap" style={{ display: showRTC ? 'block' : 'none' }}>
-        <video ref={videoRef} className="video-play" autoPlay playsInline></video>
+        <video muted={audioOn ? true : false} ref={videoRef} className="video-play" autoPlay playsInline></video>
       </div>
       <div>
         {showHls && <VideoJS options={videoJsOptions} onReady={handlePlayerReady} />}
@@ -159,6 +169,6 @@ function StudentScreen(props) {
       <button onClick={handleReplayClick}>다시보기</button><button onClick={handleRTCclick}>Live</button>
     </div>
   );
-}
+});
 
 export default StudentScreen;

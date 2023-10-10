@@ -12,6 +12,8 @@ function Teacher() {
     const [isChattingVisible, setChattingVisible] = useState(true);
     const [isQuestionVisible, setQuestionVisible] = useState(false);
     const [isFileVisible, setFileVisible] = useState(false);
+    const [isVideoOn, setVideoOn] = useState(true);
+    const [isMikeOn, setMikeOn] = useState(false);
     const screenRef = useRef({});
 
     const allFalse = () => {
@@ -43,6 +45,12 @@ function Teacher() {
 
     const toggleCamera = () => {
         screenRef.current.handleCamera();
+        setVideoOn(!isVideoOn);
+    }
+
+    const toggleAudio = () => {
+        screenRef.current.handleAudio();
+        setMikeOn(!isMikeOn);
     }
 
     return (
@@ -71,10 +79,10 @@ function Teacher() {
                 <div className="ico_area">
                     <div className="ico_list bdr_raius">
                         <a className="ico_btn" href="#">
-                            <img className="ico" src="/images/icon.png" />
+                            <img className="ico" src={isMikeOn ? "/images/mikeon.png" : "/images/mikeoff.png"} onClick={toggleAudio}/>
                         </a>
                         <a className="ico_btn" href="#">
-                            <img className="ico" src="/images/video.png" onClick={toggleCamera}/>
+                            <img className="ico" src={isVideoOn ? "/images/videoon.png" :"/images/videooff.png"} onClick={toggleCamera}/>
                         </a>
                         <a className="ico_btn" href="#">
                             <img className="ico" src="/images/sub.png" />
@@ -103,7 +111,7 @@ function Teacher() {
                             <img className="ico" src="/images/upload.png" />
                         </a>
                         <a className="etc_btn" href="#">
-                            <img className="ico" src="/images/information.png" onClick={toggleQuestion} />
+                            <img className="ico" src="/images/information.png" onClick={toggleFile} />
                         </a>
                         <a className="etc_btn" href="#">
                             <img className="ico" src="/images/friends.png" onClick={toggleQuestion} />
