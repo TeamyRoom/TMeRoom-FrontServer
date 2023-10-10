@@ -55,8 +55,6 @@ const TeacherScreen = forwardRef((props, ref) => {
   const [myStream, setMyStream] = useState(null);
   const videoRef = useRef(null);
   const [buttonVisible, setButtonVisible] = useState(true);
-  const [cameraText, setCameraText] = useState("카메라 끄기");
-  const [cameraOn, setCameraOn] = useState(true);
 
   useEffect(() => {
     getMedia();
@@ -103,6 +101,7 @@ const TeacherScreen = forwardRef((props, ref) => {
 
   useImperativeHandle(ref, () => ({
     handleCamera,
+    handleAudio,
   }));
 
   //------functions----------functions----------functions----------functions----------functions----------functions----
@@ -116,13 +115,10 @@ const TeacherScreen = forwardRef((props, ref) => {
 
   const handleCamera = () => {
     myStream.getVideoTracks().forEach((track) => (track.enabled = !track.enabled));
-    if (cameraOn) {
-      setCameraOn(false);
-      setCameraText("카메라 켜기");
-    } else {
-      setCameraOn(true);
-      setCameraText("카메라 끄기");
-    }
+  }
+
+  const handleAudio = () => {
+    myStream.getAudioTracks().forEach((track) => (track.enabled = !track.enabled));
   }
 
   const init = async () => {
@@ -164,14 +160,7 @@ const TeacherScreen = forwardRef((props, ref) => {
   };
 
   async function getMedia(deviceId) {
-    const initialConstrains = {
-      audio: true,
-      video: { facingMode: "user" },
-    };
-    const cameraConstrains = {
-      audio: true,
-      video: { deviceId: { exact: deviceId } },
-    };
+
     try {
       // const myStream = await navigator.mediaDevices.getUserMedia(deviceId ? cameraConstrains : initialConstrains);
       const myStream = await navigator.mediaDevices
@@ -180,6 +169,15 @@ const TeacherScreen = forwardRef((props, ref) => {
           audio: { echoCancellation: true, noiseSuppression: true },
         });
       console.log("마이스트림 : ", myStream);
+
+      const audioStream = await navigator.mediaDevices.getUserMedia({
+        audio: { echoCancellation: true, noiseSuppression: true }
+      });
+
+      myStream.addTrack(audioStream.getAudioTracks()[0]);
+
+      myStream.getAudioTracks().forEach((track) => (track.enabled = false));
+
       setMyStream(myStream);
       if (videoRef.current) {
         videoRef.current.srcObject = myStream;
@@ -459,7 +457,7 @@ const TeacherScreen = forwardRef((props, ref) => {
   return (
     <div className="screen-view">
       <div className="video-wrap">
-        <video ref={videoRef} className="video-play" autoPlay playsInline></video>
+        <video ref={videoRef} className="video-play" autoPlay muted playsInline></video>
         {buttonVisible && (
           <button className='video-start-button' onClick={joinRoom}>강의를 시작하려면 클릭하세요.</button>
         )}
