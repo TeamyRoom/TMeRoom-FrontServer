@@ -2,7 +2,6 @@ import { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { gsap } from '../../node_modules/gsap/index.js';
 import "../css/Home.css";
-import "https://cdn.tailwindcss.com";
 import "https://kit.fontawesome.com/7433d3320f.js";
 import { signUp } from "../service/ApiService.js";
 
@@ -169,7 +168,7 @@ function Home() {
 
     function handleSignUp() {
         console.log("handleSignUp");
-        signUp({memberId: memberId, password: password, nickname: nickname, email: email}).then(
+        signUp({ memberId: memberId, password: password, nickname: nickname, email: email }).then(
             (response) => {
                 alert("회원가입되었습니다.");
             }
@@ -308,11 +307,11 @@ function Home() {
                                         <span className="icon">
                                             <ion-icon name="person"></ion-icon>
                                         </span>
-                                        <input 
-                                        type="text" 
-                                        required 
-                                        value={nickname}
-                                        onChange={(e) => setNickname(e.target.value)}
+                                        <input
+                                            type="text"
+                                            required
+                                            value={nickname}
+                                            onChange={(e) => setNickname(e.target.value)}
                                         />
                                         <label>닉네임</label>
                                     </div>
