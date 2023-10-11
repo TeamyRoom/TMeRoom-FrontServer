@@ -2,14 +2,18 @@ import { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { gsap } from '../../node_modules/gsap/index.js';
 import "../css/Home.css";
-import "https://cdn.tailwindcss.com";
 import "https://kit.fontawesome.com/7433d3320f.js";
+import { signUp } from "../service/ApiService.js";
 
 function Home() {
 
     const navigate = useNavigate();
     const codeRef = useRef("");
-    const nickname = "임시닉네임";
+
+    const [memberId, setMemberId] = useState("");
+    const [password, setPassword] = useState("");
+    const [email, setEmail] = useState("");
+    const [nickname, setNickname] = useState("");
 
     const goTeacher = () => {
         if (codeRef === "") alert('강의 코드를 입력해주세요.');
@@ -162,7 +166,14 @@ function Home() {
         }, 500);
     }
 
-
+    function handleSignUp() {
+        console.log("handleSignUp");
+        signUp({ memberId: memberId, password: password, nickname: nickname, email: email }).then(
+            (response) => {
+                alert("회원가입되었습니다.");
+            }
+        );
+    }
 
 
     return (
@@ -260,27 +271,54 @@ function Home() {
                                         <span className="icon">
                                             <ion-icon name="person"></ion-icon>
                                         </span>
-                                        <input type="text" required />
+                                        <input
+                                            type="text"
+                                            required
+                                            value={memberId}
+                                            onChange={(e) => setMemberId(e.target.value)}
+                                        />
                                         <label>계정명</label>
-                                    </div>
-                                    <div className="input-box">
-                                        <span className="icon">
-                                            <ion-icon name="mail"></ion-icon>
-                                        </span>
-                                        <input type="email" required />
-                                        <label>이메일</label>
                                     </div>
                                     <div className="input-box">
                                         <span className="icon">
                                             <ion-icon name="lock-closed"></ion-icon>
                                         </span>
-                                        <input type="password" required />
+                                        <input
+                                            type="password"
+                                            required
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
+                                        />
                                         <label>비밀번호</label>
+                                    </div>
+                                    <div className="input-box">
+                                        <span className="icon">
+                                            <ion-icon name="mail"></ion-icon>
+                                        </span>
+                                        <input
+                                            type="email"
+                                            required
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                        />
+                                        <label>이메일</label>
+                                    </div>
+                                    <div className="input-box">
+                                        <span className="icon">
+                                            <ion-icon name="person"></ion-icon>
+                                        </span>
+                                        <input
+                                            type="text"
+                                            required
+                                            value={nickname}
+                                            onChange={(e) => setNickname(e.target.value)}
+                                        />
+                                        <label>닉네임</label>
                                     </div>
                                     <div className="remember-forgot">
                                         <label><input type="checkbox" /> I agree to the terms & conditions</label>
                                     </div>
-                                    <button type="submit" className="btn">생성하기</button>
+                                    <button type="submit" className="btn" onClick={handleSignUp}>생성하기</button>
                                     <div className="login-register">
                                         <p>이미계정이있으신가요? <a href="#" className="login-link">Login</a></p>
                                     </div>
