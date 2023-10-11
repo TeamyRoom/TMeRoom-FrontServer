@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { gsap } from '../../node_modules/gsap/index.js';
 import "../css/Home.css";
 import "https://kit.fontawesome.com/7433d3320f.js";
-import { signUp } from "../service/ApiService.js";
+import { signUp, signIn } from "../service/ApiService.js";
 
 function Home() {
 
@@ -175,6 +175,14 @@ function Home() {
         );
     }
 
+    function handleSignIn() {
+        signIn({ id: memberId, pw: password }).then(
+            (response) => {
+                alert("로그인되었습니다.");
+            }
+        );
+    }
+
 
     return (
         <>
@@ -240,17 +248,27 @@ function Home() {
                                         <span className="icon">
                                             <ion-icon name="mail"></ion-icon>
                                         </span>
-                                        <input type="text" required />
+                                        <input
+                                            type="text"
+                                            required
+                                            value={memberId}
+                                            onChange={(e) => setMemberId(e.target.value)}
+                                        />
                                         <label>아이디</label>
                                     </div>
                                     <div className="input-box">
                                         <span className="icon">
                                             <ion-icon name="lock-closed"></ion-icon>
                                         </span>
-                                        <input type="password" required />
+                                        <input
+                                            type="password"
+                                            required
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
+                                        />
                                         <label>비밀번호</label>
                                     </div>
-                                    <button type="submit" className="btn">로그인</button>
+                                    <button type="submit" className="btn" onClick={handleSignIn}>로그인</button>
                                     <label><input type="checkbox" /> 로그인 유지</label>
                                     <div className="login-register">
                                         <p>계정이 없으신가요? <a href="#" className="register-link">생성하기</a></p>
