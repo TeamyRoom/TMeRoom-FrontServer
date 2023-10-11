@@ -10,6 +10,7 @@
     "mediasoup-client": "^3.6.100",
     "os-browserify": "^0.3.0",
     "react": "^18.2.0",
+    "react-cookie": "^6.1.1",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.16.0",
     "react-scripts": "5.0.1",
@@ -43,5 +44,6 @@
   },
   "devDependencies": {
     "@types/video.js": "^7.3.52"
-  }
+  },
+  "proxy": "http://localhost:8080"
 }
