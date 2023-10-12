@@ -19,6 +19,15 @@ export async function call(api, method, request) {
         .then((response) =>
             response.json().then((json) => {
                 if (json.resultCode !== "SUCCESS") {
+                    if (json.result && Array.isArray(json.result)) {
+                        // result 배열 각각에 대해 field와 message 출력
+                        json.result.forEach((error) => {
+                            alert(`${error.field}: ${error.message}`);
+                        });
+                    } else {
+                        // result 하나 출력
+                        alert(json.result);
+                    }
                     return Promise.reject(json);
                 }
                 return json;
@@ -34,10 +43,7 @@ export async function call(api, method, request) {
 }
 
 export async function signIn(webDTO) {
-
-    const response = await call("/auth/login", "POST", webDTO).catch((error) => { alert("입력 정보가 올바르지 않습니다."); });
-    return response;
-
+    return call("/auth/login", "POST", webDTO);
 }
 
 export function signOut() {
@@ -45,6 +51,5 @@ export function signOut() {
 }
 
 export function signUp(webDTO) {
-    console.log("signUp function : ", webDTO);
     return call("/member", "POST", webDTO);
 }
