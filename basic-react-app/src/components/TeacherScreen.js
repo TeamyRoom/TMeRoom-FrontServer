@@ -430,7 +430,8 @@ const TeacherScreen = forwardRef((props, ref) => {
           skipButtons: {
             forward: 5,
             backward: 5
-          }
+          },
+          seekToLive: false
         },
         sources: [{
           src: `https://tmeroom-hls-bucket.s3.ap-northeast-2.amazonaws.com/${props.code}/${jsonMessage.id}.m3u8`,
