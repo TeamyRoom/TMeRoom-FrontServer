@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect, forwardRef, useImperativeHandle } from 'react';
 import io from 'socket.io-client';
+import Video from './Video';
 import VideoJS from './VideoJS';
 
 const SFU_SERVER_URL = process.env.REACT_APP_SFU_SERVER_URL;
@@ -30,9 +31,10 @@ const StudentScreen = forwardRef((props, ref) => {
   }));
 
   const handlePlayerReady = (player) => {
+    player.getChild("ControlBar").getChild("SettingsButton").on("click", handleRTCclick);
     playerRef.current = player;
 
-
+    
     // You can handle player events here, for example:
     // player.on('waiting', () => {
     // videojs.log('player is waiting');
@@ -156,17 +158,18 @@ const StudentScreen = forwardRef((props, ref) => {
     console.log("하위 컴포넌트의 핸들오디오");
   }
 
+  
+
   //-----view----------view----------view----------view----------view----------view----------view-----
 
   return (
     <div className='screen-view '>
       <div className="video-wrap" style={{ display: showRTC ? 'block' : 'none' }}>
-        <video muted={audioOn ? true : false} ref={videoRef} className="video-play" autoPlay playsInline></video>
+        <Video videoref={videoRef} className="video-play" hlsButtonClicked={handleReplayClick}/>
       </div>
       <div>
         {showHls && <VideoJS options={videoJsOptions} onReady={handlePlayerReady} />}
       </div>
-      <button onClick={handleReplayClick}>다시보기</button><button onClick={handleRTCclick}>Live</button>
     </div>
   );
 });

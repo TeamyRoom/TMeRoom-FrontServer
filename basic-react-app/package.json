@@ -6,6 +6,7 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "classnames": "^2.3.2",
     "gsap": "^3.12.2",
     "mediasoup-client": "^3.6.100",
     "os-browserify": "^0.3.0",
@@ -19,7 +20,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "proxy=$REACT_APP_SPRING_SERVER_URL && PORT=3001 && react-scripts start",
+    "start": "proxy=$REACT_APP_SPRING_SERVER_URL PORT=3001 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -44,6 +45,13 @@
   },
   "devDependencies": {
     "@types/video.js": "^7.3.52",
-    "tailwindcss": "^3.3.3"
+    "css-loader": "^6.8.1",
+    "node-sass": "^7.0.3",
+    "postcss-loader": "^7.3.3",
+    "resolve-url-loader": "^5.0.0",
+    "sass-loader": "^13.3.2",
+    "style-loader": "^3.3.3",
+    "tailwindcss": "^3.3.3",
+    "webpack-cli": "^5.1.4"
   }
 }
