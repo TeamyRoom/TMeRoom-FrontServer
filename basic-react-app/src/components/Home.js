@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { gsap } from '../../node_modules/gsap/index.js';
 import "../css/Home.css";
 import "https://kit.fontawesome.com/7433d3320f.js";
-import { signUp } from "../service/ApiService.js";
+import { signUp, signIn, call } from "../service/ApiService.js";
 
 function Home() {
 
@@ -14,6 +14,7 @@ function Home() {
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
     const [nickname, setNickname] = useState("");
+    const [isLogined, setLogined] = useState(false);
 
     const goTeacher = () => {
         if (codeRef === "") alert('강의 코드를 입력해주세요.');
@@ -120,12 +121,6 @@ function Home() {
                 popupTo('.form-box.register', 0);
             }, 10);
         });
-
-        iconClose.addEventListener('click', () => {
-            init(); // init 함수 호출
-            wrapper.classList.remove('active-popup');
-            wrapper.classList.remove('active');
-        });
     }
 
 
@@ -146,9 +141,6 @@ function Home() {
             const hgt = element.clientHeight;
             gsap.to(wrapper, { 'height': hgt, duration: 0.2 });
         }
-
-        // const hgt = document.querySelector(el).clientHeight;
-        // gsap.to(wrapper, { 'height': hgt, duration: 0.2 });
     }
 
     function modalOpen() {
@@ -158,6 +150,7 @@ function Home() {
             wrapper.classList.remove('active');
         }, 10);
     }
+
     function modalClose() {
         wrapper.classList.remove('active-popup');
         wrapper.classList.remove('active');
@@ -168,13 +161,30 @@ function Home() {
 
     function handleSignUp() {
         console.log("handleSignUp");
+        if (memberId === "" || password === "" || nickname === "" || email === "") {
+            alert("모든 입력란을 기입해주세요.");
+            return;
+        }
         signUp({ memberId: memberId, password: password, nickname: nickname, email: email }).then(
             (response) => {
                 alert("회원가입되었습니다.");
             }
-        );
+        ).catch((e) => { });
     }
 
+    function handleSignIn() {
+        signIn({ id: memberId, pw: password }).then(
+            (response) => {
+                alert("로그인되었습니다.");
+                setLogined(true);
+            }
+        ).catch((e) => { });
+    }
+
+    function handleSignOut() {
+        alert("로그아웃되었습니다.");
+        setLogined(false);
+    }
 
     return (
         <>
@@ -222,8 +232,10 @@ function Home() {
                 <header>
                     <h2 className="logo">TMEROOM</h2>
                     <nav className="navigation">
-
-                        <button className="btnLogin-popup">Login</button>
+                        {isLogined ? (
+                            // 로그인 상태일 때 버튼 렌더링
+                            <button className="btnLogout" onClick={handleSignOut}>Logout</button>
+                        ) : <button className="btnLogin-popup">Login</button>}
                     </nav>
                 </header>
                 <div className="wrapper-modal">
@@ -240,17 +252,27 @@ function Home() {
                                         <span className="icon">
                                             <ion-icon name="mail"></ion-icon>
                                         </span>
-                                        <input type="text" required />
+                                        <input
+                                            type="text"
+                                            required
+                                            value={memberId}
+                                            onChange={(e) => setMemberId(e.target.value)}
+                                        />
                                         <label>아이디</label>
                                     </div>
                                     <div className="input-box">
                                         <span className="icon">
                                             <ion-icon name="lock-closed"></ion-icon>
                                         </span>
-                                        <input type="password" required />
+                                        <input
+                                            type="password"
+                                            required
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
+                                        />
                                         <label>비밀번호</label>
                                     </div>
-                                    <button type="submit" className="btn">로그인</button>
+                                    <button type="submit" className="btn" onClick={handleSignIn}>로그인</button>
                                     <label><input type="checkbox" /> 로그인 유지</label>
                                     <div className="login-register">
                                         <p>계정이 없으신가요? <a href="#" className="register-link">생성하기</a></p>
