@@ -17,16 +17,28 @@ if (!playerRef.current) {
 // The Video.js player needs to be _inside_ the component el for React 18 Strict Mode.
     const videoElement = document.createElement("video-js");
 
-
     videoElement.classList.add('vjs-big-play-centered');
     videoRef.current.appendChild(videoElement);
-
 
     const player = playerRef.current = videojs(videoElement, options, () => {
     videojs.log('player is ready');
     onReady && onReady(player);
 });
 
+let Button = videojs.getComponent("button");
+
+class SettingsButton extends Button {
+    constructor(player, options) {
+        super(player, options);
+        this.controlText("ToLive");
+        // ADD UNIQUE CLASS TO THE CUSTOM BUTTON
+        this.addClass('vjs-visible-text');
+    }
+};
+
+videojs.registerComponent("SettingsButton", SettingsButton);
+
+player.getChild("ControlBar").addChild("SettingsButton", {}, 10);
 // You could update an existing player in the `else` block here
 // on prop change, for example:
 } else {
