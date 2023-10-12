@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { gsap } from '../../node_modules/gsap/index.js';
 import "../css/Home.css";
 import "https://kit.fontawesome.com/7433d3320f.js";
-import { signUp, signIn } from "../service/ApiService.js";
+import { signUp, signIn, call } from "../service/ApiService.js";
 
 function Home() {
 
