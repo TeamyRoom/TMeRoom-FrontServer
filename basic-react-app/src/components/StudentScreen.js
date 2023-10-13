@@ -63,7 +63,7 @@ const StudentScreen = forwardRef((props, ref) => {
         console.log("i got welcome");
         if (joined === 0) {
           joined = 1;
-          socket.emit("offerstudent", props.code);
+          socket.emit("offerstudent", props.lecturecode);
         }
       });
 
@@ -86,7 +86,7 @@ const StudentScreen = forwardRef((props, ref) => {
         myPeerConnection = null;
         joined = 1;
         await makeConnection();
-        socket.emit("offerstudent", props.code);
+        socket.emit("offerstudent", props.lecturecode);
       });
 
       socket.on("hls-video-option", async (hlsOption) => {
@@ -94,7 +94,7 @@ const StudentScreen = forwardRef((props, ref) => {
         console.log("비디오옵션은", hlsOption);
       });
 
-      socket.emit("join_roomstudent", props.code);
+      socket.emit("join_roomstudent", props.lecturecode);
     }
   }
 
