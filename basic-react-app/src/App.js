@@ -10,6 +10,7 @@ function App() {
   return (
     <BrowserRouter> 
        <Routes>  
+       <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 
         <Route path="/" element={<Home/>} >  </Route>
         <Route path="/teacher/:code/:nickname" element={<Teacher/>}>  </Route> 
