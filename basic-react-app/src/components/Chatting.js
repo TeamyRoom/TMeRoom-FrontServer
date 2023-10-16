@@ -67,8 +67,9 @@ function Chatting(props) {
         return `${hours}:${minutes}`;
     }
 
-    function handleKeyDown(event) {
+    function handleKeyUp(event) {
         if (event.key === 'Enter') {
+            event.preventDefault();
             sendMessage();
         }
     }
@@ -99,7 +100,7 @@ function Chatting(props) {
                     className="msger_input"
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    onKeyDown={handleKeyDown}
+                    onKeyUp={handleKeyUp}
                 />
                 <button className="msger_send_btn" onClick={sendMessage}>전송</button>
             </div>
