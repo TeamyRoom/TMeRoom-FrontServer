@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { gsap } from '../../node_modules/gsap/index.js';
 import "../css/Home.css";
-import { signUp, signIn, call } from "../service/ApiService.js";
+import { signUp, signIn, call, getAccessToken, signOut } from "../service/ApiService.js";
 
 function Home() {
 
@@ -115,6 +115,9 @@ function Home() {
                 popupTo('.form-box.register', 0);
             }, 10);
         });
+
+        if(getAccessToken()) setLogined(true)
+        else setLogined(false);
     }
 
 
@@ -176,6 +179,7 @@ function Home() {
     }
 
     function handleSignOut() {
+        signOut();
         alert("로그아웃되었습니다.");
         setLogined(false);
     }

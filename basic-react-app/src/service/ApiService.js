@@ -47,6 +47,7 @@ export async function signIn(webDTO) {
 }
 
 export function signOut() {
+    document.cookie = "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     window.location.href = "/";
 }
 
