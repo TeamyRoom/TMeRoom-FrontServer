@@ -74,7 +74,7 @@ const TeacherScreen = forwardRef((props, ref) => {
       socket.on("welcome", async () => {
         const offer = await myPeerConnection.createOffer();
         myPeerConnection.setLocalDescription(offer);
-        socket.emit("offerteacher", offer, props.code);
+        socket.emit("offerteacher", offer, props.lecturecode);
         console.log("sent my offer!");
       });
 
@@ -108,7 +108,7 @@ const TeacherScreen = forwardRef((props, ref) => {
 
   async function joinRoom() {
     if (socket) {
-      socket.emit('join_room', props.code);
+      socket.emit('join_room', props.lecturecode);
       setButtonVisible(false);
     }
   }
@@ -188,7 +188,7 @@ const TeacherScreen = forwardRef((props, ref) => {
   }
 
   function handleIce(data) {
-    socket.emit("ice", data.candidate, 0, props.code);
+    socket.emit("ice", data.candidate, 0, props.lecturecode);
     console.log("sent my candidate");
   }
 
@@ -413,7 +413,7 @@ const TeacherScreen = forwardRef((props, ref) => {
     wsocket.send(JSON.stringify({
       action: 'start-record',
       sessionId: peer.sessionId,
-      roomName: props.code
+      roomName: props.lecturecode
     }));
   }
 
@@ -434,7 +434,7 @@ const TeacherScreen = forwardRef((props, ref) => {
           seekToLive: false
         },
         sources: [{
-          src: `https://tmeroom-hls-bucket.s3.ap-northeast-2.amazonaws.com/${props.code}/${jsonMessage.id}.m3u8`,
+          src: `https://tmeroom-hls-bucket.s3.ap-northeast-2.amazonaws.com/${props.lecturecode}/${jsonMessage.id}.m3u8`,
           type: "application/x-mpegURL"
         }],
         liveTracker: {
@@ -442,7 +442,7 @@ const TeacherScreen = forwardRef((props, ref) => {
         }
       };
 
-      socket.emit("hls-video-option", videoJsOptions, props.code);
+      socket.emit("hls-video-option", videoJsOptions, props.lecturecode);
 
 
       console.log("파일 경로는", videoJsOptions);

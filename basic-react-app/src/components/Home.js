@@ -15,14 +15,9 @@ function Home() {
     const [nickname, setNickname] = useState("");
     const [isLogined, setLogined] = useState(false);
 
-    const goTeacher = () => {
+    const goLecture = () => {
         if (codeRef === "") alert('강의 코드를 입력해주세요.');
-        else navigate(`teacher/${codeRef.current.value}/${nickname}`);
-    }
-
-    const goStudent = () => {
-        if (codeRef === "") alert('강의 코드를 입력해주세요.');
-        else navigate(`student/${codeRef.current.value}/${nickname}`);
+        else navigate(`lecture/${codeRef.current.value}`);
     }
 
     var wrapperModal;
@@ -212,8 +207,7 @@ function Home() {
                                 className="md:ml-2 pl-5 inline-flex font-normal placeholder:text-gray-500 bg-white border border-gray-300 py-2 px-2 outline-gray-500 rounded text-lg relative"
                                 placeholder="코드를 입력해주세요" ref={codeRef} />
 
-                            <p className="md:ml-4 mt-2.5 text-gray-500 font-semibold cursor-pointer text-[17px]" onClick={goTeacher}>선생 참여</p>
-                            <p className="md:ml-4 mt-2.5 text-gray-500 font-semibold cursor-pointer text-[17px]" onClick={goStudent}>학생 참여</p>
+                            <p className="md:ml-4 mt-2.5 text-gray-500 font-semibold cursor-pointer text-[17px]" onClick={goLecture}>입장</p>
                         </div>
                         <a href="https://support.google.com/accounts/answer/27441?hl=en" className="mt-10 font-medium id-find-btn">
                             아이디가 있으신가요?
