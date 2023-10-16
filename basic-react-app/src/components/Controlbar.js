@@ -42,10 +42,10 @@ const Controlbar = ({videoElement, hlsButtonClick}) => {
                 src={volumeClicked ? volumeIcon : muteIcon}
                 onClick={handleVolume}
                 />
-                <img
-                className={styles.replayIcon}
+                <button
+                className={styles.text}
                 onClick={hlsButtonClick}
-                />
+                >Replay</button>
             </div>
             <div className={playControlClassProps}>
                 <div className={styles.playBg}>

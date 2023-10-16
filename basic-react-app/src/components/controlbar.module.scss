@@ -1,14 +1,17 @@
 .controlBar {
   display: flex;
-  justify-content: center;
+  justify-content: right;
   align-items: center;
   position: absolute;
-  bottom: 5px;
+  bottom: 0;
+  left: 0;
+  right: 0;
   width: 100%;
-  height: 55px;
+  border-radius: 5px;
+  height: 1.5em;
   z-index: 100;
-  background-image: linear-gradient(to bottom, rgba(34, 34, 34, 0), #222222);
-  opacity: 1;
+  background: linear-gradient(to top, rgb(16, 16, 16), rgb(74, 73, 73));
+  opacity: 0.5;
   transition: opacity 2s;
   pointer-events: none;
   padding: 0px 10px;
@@ -31,11 +34,10 @@
     width: 20px;
     height: 20px;
     margin-left: 8px;
-    background-color: white;
   }
 
   & .text {
-    width: 35px;
+    width: 70px;
     color: white;
     font-size: 14px;
   }
