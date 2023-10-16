@@ -417,6 +417,21 @@ const TeacherScreen = forwardRef((props, ref) => {
     }));
   }
 
+  const browserCheck = () => {
+    let userAgent = window.navigator.userAgent;
+    if (userAgent.includes("MSIE") || userAgent.includes("Trident")) {
+      browserRef = "Internet Explorer";
+    } else if (userAgent.includes("Edge")) {
+      browserRef = "Microsoft Edge";
+    } else if (userAgent.includes("Firefox")) {
+      browserRef = "Mozilla Firefox";
+    } else if (userAgent.includes("Chrome")) {
+      browserRef = "Google Chrome";
+    } else if (userAgent.includes("Safari") && !userAgent.includes("Chrome")) {
+      browserRef = "Safari";
+    }
+  }
+
   const handleHlsVideo = async (jsonMessage) => {
     try {
 
