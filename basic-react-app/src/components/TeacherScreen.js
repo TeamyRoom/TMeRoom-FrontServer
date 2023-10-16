@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
 import io from 'socket.io-client';
 import * as mediasoupClient from "mediasoup-client";
+import Popup from "./Popup"
 
 const HLS_SERVER_URL = process.env.REACT_APP_HLS_SERVER_URL;
 const SFU_SERVER_URL = process.env.REACT_APP_SFU_SERVER_URL
@@ -55,9 +56,17 @@ const TeacherScreen = forwardRef((props, ref) => {
   const [myStream, setMyStream] = useState(null);
   const videoRef = useRef(null);
   const [buttonVisible, setButtonVisible] = useState(true);
+  let browserRef = useRef(null);
+  const [isSafari, setIsSafari] = useState(false);
 
   useEffect(() => {
-    getMedia();
+    browserCheck();
+    if (browserRef == "Safari") {
+      setButtonVisible(false);
+      setIsSafari(true);
+    } else {
+      getMedia();
+    }
     return (
       () => { if (socket) socket.disconnect() }
     )
@@ -203,7 +212,6 @@ const TeacherScreen = forwardRef((props, ref) => {
       wsocket.addEventListener('message', handleSocketMessage);
       wsocket.addEventListener('error', handleSocketError);
       wsocket.addEventListener('close', handleSocketClose);
-
     }
   }, [myStream]);
 
@@ -465,13 +473,22 @@ const TeacherScreen = forwardRef((props, ref) => {
       console.error('handleHlsVideo() failed to create transport [error:%o]', error);
       wsocket.close();
     }
-
   };
+
+  const popupClose = () => {
+    setIsSafari(false);
+    getMedia();
+    setButtonVisible(true);
+  }
 
   //-----view----------view----------view----------view----------view----------view----------view-----
 
   return (
     <div className="screen-view">
+      {isSafari && (
+          <Popup onClose={popupClose}>
+          </Popup>
+        )}
       <div className="video-wrap">
         <video ref={videoRef} className="video-play" autoPlay muted playsInline></video>
         {buttonVisible && (
