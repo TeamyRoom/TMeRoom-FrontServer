@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect, forwardRef, useImperativeHandle } f
 import io from 'socket.io-client';
 import Video from './Video';
 import VideoJS from './VideoJS';
+import { getAccessToken } from '../service/ApiService';
 
 const SFU_SERVER_URL = process.env.REACT_APP_SFU_SERVER_URL;
 
@@ -50,14 +51,15 @@ const StudentScreen = forwardRef((props, ref) => {
     console.log("init Socket");
     await makeConnection();
     initSocket();
-    if (showHls == true) setShowHls(false);
+    if (showHls === true) setShowHls(false);
     setShowRTC(true);
   }
 
   function initSocket() {
     if (myPeerConnection && socket === null) {
-      console.log("소켓 생성");
-      socket = io(SFU_SERVER_URL);
+      const accessToken = getAccessToken();
+
+      socket = io(SFU_SERVER_URL, { query: `accessToken=${accessToken}&lecturecode=${props.lecturecode}` });
 
       socket.on("welcome", () => {
         console.log("i got welcome");

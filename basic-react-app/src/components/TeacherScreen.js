@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
 import io from 'socket.io-client';
 import * as mediasoupClient from "mediasoup-client";
+import { getAccessToken } from '../service/ApiService';
 import Popup from "./Popup"
 
 const HLS_SERVER_URL = process.env.REACT_APP_HLS_SERVER_URL;
@@ -78,7 +79,9 @@ const TeacherScreen = forwardRef((props, ref) => {
 
   useEffect(() => {
     if (myPeerConnection) {
-      socket = io(SFU_SERVER_URL);
+      const accessToken = getAccessToken();
+
+      socket = io(SFU_SERVER_URL, { query: `accessToken=${accessToken}&lecturecode=${props.lecturecode}` });
 
       socket.on("welcome", async () => {
         const offer = await myPeerConnection.createOffer();
