@@ -1,6 +1,7 @@
 const path = require('path');
 
 const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
     plugins: [
@@ -18,7 +19,10 @@ module.exports = {
             use: [
                 'style-loader', // HTML에 스타일을 삽입하는 로더
                 'css-loader',   // CSS 파일을 모듈로 로드하는 로더
-                'sass-loader'   // SCSS 파일을 CSS로 변환하는 로더
+                {loader: 'sass-loader',
+                options: {
+                    implementation: require('sass') // Dart Sass를 사용하도록 설정
+                }}
             ],
         },
         ],
