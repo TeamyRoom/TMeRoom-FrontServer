@@ -1,4 +1,4 @@
-import React from 'react';
+import {useState} from 'react';
 import axios from 'axios';
 
 function NewQuestionForm(props) {
@@ -58,9 +58,7 @@ function NewQuestionForm(props) {
                     <p>제목:</p><input onChange={handleChangeQuestionTitle} className="different-title"></input>
                     <p>내용:</p><input onChange={handleChangeQuestionContent} className="different-detail"></input>
                         <div className="different-footer">
-                        <p><span className="different-nickname">{authorNickname}</span></p>
                         <button class="different-nickname" onClick={uploadQuestion}>확인</button>
-                        <p><span className="different-time">{createdAt}</span></p>
                         <div className="msger_input_container">
                             <div className="dropdown">
                             <button className="dropbtn">공개 여부</button>
