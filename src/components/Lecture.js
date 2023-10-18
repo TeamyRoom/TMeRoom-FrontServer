@@ -94,24 +94,24 @@ function Lecture(props) {
                 <div className="right-component" style={{ display: isChattingVisible ? 'inline-table' : 'none' }}>
                     <Chatting lecturecode={props.lecturecode} nickname={props.nickname} />
                 </div>
-                {isQuestionVisible && role == 'teacher' &&
+                {isQuestionVisible && props.role == 'teacher' &&
                     <div className="right-component">
-                        <TeacherQuestion lecturecode={lecturecode} nickname={nickname} />
+                        <TeacherQuestion lecturecode={props.lecturecode} nickname={props.nickname} />
                     </div>
                 }
-                {isQuestionVisible && role == 'student' &&
+                {isQuestionVisible && props.role == 'student' &&
                     <div className="right-component">
-                        <StudentQuestion lecturecode={lecturecode} nickname={nickname} />
+                        <StudentQuestion lecturecode={props.lecturecode} nickname={props.nickname} />
                     </div>
                 }
-                {isFileVisible && role == 'teacher' &&
+                {isFileVisible && props.role == 'teacher' &&
                     <div className="right-component">
-                        <TeacherFile lecturecode={lecturecode} nickname={nickname} />
+                        <TeacherFile lecturecode={props.lecturecode} nickname={props.nickname} />
                     </div>
                 }
-                {isFileVisible && role == 'student' &&
+                {isFileVisible && props.role == 'student' &&
                     <div className="right-component">
-                        <StudentFile lecturecode={lecturecode} nickname={nickname}/>
+                        <StudentFile lecturecode={props.lecturecode} nickname={props.nickname}/>
                     </div>
                 }
             </div>
