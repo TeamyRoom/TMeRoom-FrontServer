@@ -6,7 +6,7 @@ function TeacherFileDetail(props) {
 
     function handleDeleteFile() {
 
-        axios.delete(`/api/v1/lecture/${props.code}/file/${fileId}`)
+        axios.delete(`/api/v1/lecture/${props.lecturecode}/file/${fileId}`)
         .then((response) => {
             console.log("해당 파일 삭제 성공", response);
         }) 
