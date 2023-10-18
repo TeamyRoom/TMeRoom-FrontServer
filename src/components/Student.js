@@ -2,8 +2,8 @@ import Chatting from "./Chatting";
 import StudentScreen from "./StudentScreen";
 import { useParams } from "react-router-dom";
 import { useState, useRef } from "react";
-import File from "./File";
-import Question from "./Question";
+import File from "./StudentFile";
+import Question from "./StudentQuestion";
 import '../css/Lecture.css';
 
 function Student() {
@@ -56,12 +56,12 @@ function Student() {
                 </div>
                 {isQuestionVisible &&
                     <div className="right-component">
-                        <Question />
+                        <Question code={code} />
                     </div>
                 }
                 {isFileVisible &&
                     <div className="right-component">
-                        <File />
+                        <File code={code} />
                     </div>
                 }
             </div>
@@ -98,7 +98,7 @@ function Student() {
                     <div className="etc_list bdr_raius">
 
                         <a className="etc_btn" href="#">
-                            <img className="ico" src="/images/upload.png" />
+                            <img className="ico" src="/images/upload.png" onClick={toggleFile} />
                         </a>
                         <a className="etc_btn" href="#">
                             <img className="ico" src="/images/information.png" onClick={toggleQuestion} />

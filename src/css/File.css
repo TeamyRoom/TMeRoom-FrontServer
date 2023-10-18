@@ -1,0 +1,59 @@
+* { margin: 0; padding: 0; box-sizing: border-box;}
+a { text-decoration: none; color: #000;}
+img { vertical-align: top;}
+ol, ul, li { list-style: none;}
+
+html, body { height: 100%;}
+.Resource {
+font-size: 50px;
+text-align: center;
+font-family: 'Noto Sans', sans-serif;
+font-weight: bold;
+}
+
+.file-type-label{
+font-size: 20px;
+text-align: center;
+}
+
+.search-container{
+font-size:20px;
+text-align: center;
+}
+
+.search-input{
+font-size:15px;
+text-align: center;
+}
+
+.search-button{
+font-size: 17px;
+text-align: center;
+}
+
+.file-type-dropdown{
+font-size:17px;
+text-align: center;
+}
+
+.msg_text{
+height:400px;
+}
+.file-info{
+font-size:18px;
+text-align: left;
+}
+.download-button{
+width:30px;
+height:30px;
+margin-left:250px;
+margin-top:-30px;
+cursor: pointer;
+}
+
+.delete-button{
+width:30px;
+height:30px;
+margin-top:-30px;
+cursor: pointer;
+}

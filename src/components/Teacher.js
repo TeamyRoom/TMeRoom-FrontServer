@@ -3,8 +3,8 @@ import TeacherScreen from "./TeacherScreen"
 import Chatting from "./Chatting";
 import "../css/Lecture.css"
 import { useRef, useState } from "react";
-import Question from "./Question";
-import File from "./File";
+import Question from "./TeacherQuestion";
+import File from "./TeacherFile";
 
 function Teacher() {
     const { code } = useParams();
@@ -63,12 +63,12 @@ function Teacher() {
                 </div>
                 {isQuestionVisible &&
                     <div className="right-component">
-                        <Question />
+                        <Question code={code} />
                     </div>
                 }
                 {isFileVisible &&
                     <div className="right-component">
-                        <File />
+                        <File code={code} />
                     </div>
                 }
             </div>
