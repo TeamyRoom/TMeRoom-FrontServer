@@ -8,28 +8,20 @@ import TeacherQuestion from "./TeacherQuestion";
 import StudentQuestion from "./StudentQuestion";
 import TeacherFile from "./TeacherFile";
 import StudentFile from "./StudentFile";
+import { call } from "../service/ApiService";
 
 function Lecture(props) {
-
-    const [lecturecode, setLecturecode] = useState('');
-    const [lecturename, setLecturename] = useState('');
-    const [nickname, setNickname] = useState('');
-    const [role, setRole] = useState('');
-
+    const [lectureName, setLecturename] = useState(props.lectureName);
+    const [isBroadCast, setBroadCast] = useState(false);
     const [isChattingVisible, setChattingVisible] = useState(true);
     const [isQuestionVisible, setQuestionVisible] = useState(false);
     const [isFileVisible, setFileVisible] = useState(false);
     const [isVideoOn, setVideoOn] = useState(true);
     const [isMikeOn, setMikeOn] = useState(false);
+    const [toggleName, setToggleName] = useState(false);
     const teacherRef = useRef({});
     const studentRef = useRef({});
-
-    useEffect(() => {
-        setLecturecode(props.lecturecode);
-        setLecturename(props.lecturename);
-        setNickname(props.nickname);
-        setRole(props.role);
-    }, [])
+    const nameRef = useRef(props.lecturename);
 
     const allFalse = () => {
         setChattingVisible(false);
@@ -66,23 +58,41 @@ function Lecture(props) {
     }
 
     const toggleAudio = () => {
-        if (role === 'teacher') teacherRef.current.handleAudio();
+        if (props.role === 'teacher') teacherRef.current.handleAudio();
         else studentRef.current.handleAudio();
         setMikeOn(!isMikeOn);
+    }
+
+    const handleChangeLectureName = () => {
+        if (toggleName) {
+            if (nameRef.current.value !== props.lecturename) {
+                call(`/lecture/${props.lecturecode}`, 'PUT', { lectureCode: props.lecturecode, lectureName: nameRef.current.value })
+                    .then(setLecturename(nameRef.current.value))
+                    .catch((e) => { console.log(e) });
+            }
+            setToggleName(false);
+        }
+        else {
+            setToggleName(true);
+        }
+    }
+
+    const handleBroadCast = () => {
+        if(isBroadCast) setBroadCast(false);
+        else setBroadCast(true);
     }
 
     return (
 
         <div className="lecture_area">
             <div className="lecture_body">
-                {role === 'teacher' &&
-                    <TeacherScreen lecturecode={lecturecode} ref={teacherRef} />
-                }
-                {role === 'student' &&
-                    <StudentScreen lecturecode={lecturecode} ref={studentRef} />
+                {isBroadCast ?
+                    <TeacherScreen lecturecode={props.lecturecode} ref={teacherRef} />
+                    :
+                    <StudentScreen lecturecode={props.lecturecode} ref={studentRef} />
                 }
                 <div className="right-component" style={{ display: isChattingVisible ? 'inline-table' : 'none' }}>
-                    <Chatting lecturecode={lecturecode} nickname={nickname} />
+                    <Chatting lecturecode={props.lecturecode} nickname={props.nickname} />
                 </div>
                 {isQuestionVisible && role == 'teacher' &&
                     <div className="right-component">
@@ -107,14 +117,21 @@ function Lecture(props) {
             </div>
             <div className="lecture_footer">
                 <div className="lecture_name">
-                    <span className="txt">{lecturename}</span>
+                    {toggleName ?
+                        <input type="text" ref={nameRef} placeholder={lectureName} />
+                        : <span className="txt">{lectureName}</span>
+                    }
+
+                    {props.role === 'manager' &&
+                        <button className="btnChangeLectureName" onClick={handleChangeLectureName}>연필</button>
+                    }
                 </div>
                 <div className="ico_area">
                     <div className="ico_list bdr_raius">
                         <a className="ico_btn" href="#">
                             <img className="ico" src={isMikeOn ? "/images/mikeon.png" : "/images/mikeoff.png"} onClick={toggleAudio} />
                         </a>
-                        {role === 'teacher' &&
+                        {isBroadCast &&
                             <a className="ico_btn" href="#">
                                 <img className="ico" src={isVideoOn ? "/images/videoon.png" : "/images/videooff.png"} onClick={toggleCamera} />
                             </a>
@@ -125,9 +142,12 @@ function Lecture(props) {
                         <a className="ico_btn" href="#">
                             <img className="ico" src="/images/imoji.png" />
                         </a>
-                        <a className="ico_btn" href="#">
-                            <img className="ico" src="/images/screenshare.png" />
-                        </a>
+                        {props.role !== "student" &&
+                            <a className="ico_btn" href="#">
+                                <img className="ico" src="/images/screenshare.png" onClick={handleBroadCast} />
+                            </a>
+                        }
+
                         <a className="ico_btn" href="#">
                             <img className="ico" src="/images/hands-up.png" />
                         </a>

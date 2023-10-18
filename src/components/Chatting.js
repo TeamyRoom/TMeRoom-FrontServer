@@ -11,7 +11,6 @@ function Chatting(props) {
 
     useEffect(() => {
         init();
-        console.log("닉네임은 : ", props.nickname, " 룸이름은 : ", props.lecturecode);
         socket.emit("nickname", props.nickname);
         socket.emit("enter_room", props.lecturecode);
 
