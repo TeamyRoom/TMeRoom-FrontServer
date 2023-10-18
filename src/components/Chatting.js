@@ -11,9 +11,9 @@ function Chatting(props) {
 
     useEffect(() => {
         init();
-        console.log("닉네임은 : ", props.nickname, " 룸이름은 : ", props.code);
+        console.log("닉네임은 : ", props.nickname, " 룸이름은 : ", props.lecturecode);
         socket.emit("nickname", props.nickname);
-        socket.emit("enter_room", props.code);
+        socket.emit("enter_room", props.lecturecode);
 
         return () => {
             socket.disconnect();
@@ -45,7 +45,7 @@ function Chatting(props) {
 
     function sendMessage() {
         if (message) {
-            socket.emit("new_message", message, props.code);
+            socket.emit("new_message", message, props.lecturecode);
             const curretnTime = getCurrentTime();
 
             const newMessage = {

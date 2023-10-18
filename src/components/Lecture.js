@@ -4,8 +4,10 @@ import StudentScreen from "./StudentScreen";
 import Chatting from "./Chatting";
 import "../css/Lecture.css"
 import { useEffect, useRef, useState } from "react";
-import Question from "./Question";
-import File from "./File";
+import TeacherQuestion from "./TeacherQuestion";
+import StudentQuestion from "./StudentQuestion";
+import TeacherFile from "./TeacherFile";
+import StudentFile from "./StudentFile";
 
 function Lecture(props) {
 
@@ -82,14 +84,24 @@ function Lecture(props) {
                 <div className="right-component" style={{ display: isChattingVisible ? 'inline-table' : 'none' }}>
                     <Chatting lecturecode={lecturecode} nickname={nickname} />
                 </div>
-                {isQuestionVisible &&
+                {isQuestionVisible && role == 'teacher' &&
                     <div className="right-component">
-                        <Question />
+                        <TeacherQuestion code={lecturecode} nickname={nickname} />
                     </div>
                 }
-                {isFileVisible &&
+                {isQuestionVisible && role == 'student' &&
                     <div className="right-component">
-                        <File />
+                        <StudentQuestion code={lecturecode} nickname={nickname} />
+                    </div>
+                }
+                {isFileVisible && role == 'teacher' &&
+                    <div className="right-component">
+                        <TeacherFile code={lecturecode} nickname={nickname} />
+                    </div>
+                }
+                {isFileVisible && role == 'student' &&
+                    <div className="right-component">
+                        <StudentFile code={lecturecode} nickname={nickname}/>
                     </div>
                 }
             </div>
