@@ -86,22 +86,22 @@ function Lecture(props) {
                 </div>
                 {isQuestionVisible && role == 'teacher' &&
                     <div className="right-component">
-                        <TeacherQuestion code={lecturecode} nickname={nickname} />
+                        <TeacherQuestion lecturecode={lecturecode} nickname={nickname} />
                     </div>
                 }
                 {isQuestionVisible && role == 'student' &&
                     <div className="right-component">
-                        <StudentQuestion code={lecturecode} nickname={nickname} />
+                        <StudentQuestion lecturecode={lecturecode} nickname={nickname} />
                     </div>
                 }
                 {isFileVisible && role == 'teacher' &&
                     <div className="right-component">
-                        <TeacherFile code={lecturecode} nickname={nickname} />
+                        <TeacherFile lecturecode={lecturecode} nickname={nickname} />
                     </div>
                 }
                 {isFileVisible && role == 'student' &&
                     <div className="right-component">
-                        <StudentFile code={lecturecode} nickname={nickname}/>
+                        <StudentFile lecturecode={lecturecode} nickname={nickname}/>
                     </div>
                 }
             </div>

@@ -244,7 +244,6 @@ function Home() {
 
                             <div className="form-box login active">
                                 <h2>로그인</h2>
-                                <form action="#">
                                     <div className="input-box">
                                         <span className="icon">
                                             <ion-icon name="mail"></ion-icon>
@@ -280,12 +279,10 @@ function Home() {
                                     <div className="remember-forgot">
                                         <p>비밀번호를 잊어버리셨나요? <a href="#" className="register-link">비밀번호찾기</a></p>
                                     </div>
-                                </form>
                             </div>
 
                             <div className="form-box register">
                                 <h2>계정 생성</h2>
-                                <form action="#">
                                     <div className="input-box">
                                         <span className="icon">
                                             <ion-icon name="person"></ion-icon>
@@ -341,9 +338,7 @@ function Home() {
                                     <div className="login-register">
                                         <p>이미계정이있으신가요? <a href="#" className="login-link">Login</a></p>
                                     </div>
-                                </form>
                             </div>
-
                             <div className="form-box find-pw">
                                 <h2>비밀번호 찾기</h2>
                                 <form action="#">
