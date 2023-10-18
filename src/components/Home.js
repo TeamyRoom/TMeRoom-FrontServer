@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { gsap } from '../../node_modules/gsap/index.js';
 import "../css/Home.css";
-import { signUp, signIn, call, getAccessToken, signOut } from "../service/ApiService.js";
+import { signUp, signIn, call, getAccessToken, signOut, createLecture } from "../service/ApiService.js";
 
 function Home() {
 
@@ -116,7 +116,7 @@ function Home() {
             }, 10);
         });
 
-        if(getAccessToken()) setLogined(true)
+        if (getAccessToken()) setLogined(true)
         else setLogined(false);
     }
 
@@ -166,7 +166,7 @@ function Home() {
             (response) => {
                 alert("회원가입되었습니다.");
             }
-        ).catch((e) => { });
+        ).catch((e) => { console.log(e) });
     }
 
     function handleSignIn() {
@@ -175,13 +175,17 @@ function Home() {
                 alert("로그인되었습니다.");
                 setLogined(true);
             }
-        ).catch((e) => { });
+        ).catch((e) => { console.log(e) });
     }
 
     function handleSignOut() {
         signOut();
         alert("로그아웃되었습니다.");
         setLogined(false);
+    }
+
+    function handleCreateLecture() {
+        createLecture({ lectureName: "임시 강의명" });
     }
 
     return (
@@ -202,7 +206,8 @@ function Home() {
                         <div className="flex md:flex-row md:justify-center items-center flex-col start_meeting">
 
                             <button type="button"
-                                className="md:inline-flex text-white bg-blue-600 border-0 py-2 px-6 md:mb-0 mb-4 focus:outline-none             hover:bg-blue-800 rounded text-lg flex justify-center">
+                                className="md:inline-flex text-white bg-blue-600 border-0 py-2 px-6 md:mb-0 mb-4 focus:outline-none           hover:bg-blue-800 rounded text-lg flex justify-center"
+                                onClick={handleCreateLecture}>
                                 <i className="fa-solid fa-video pr-2 py-1.5"></i>
                                 강의 제작하기
                             </button>
@@ -244,41 +249,41 @@ function Home() {
 
                             <div className="form-box login active">
                                 <h2>로그인</h2>
-                                    <div className="input-box">
-                                        <span className="icon">
-                                            <ion-icon name="mail"></ion-icon>
-                                        </span>
-                                        <input
-                                            type="text"
-                                            required
-                                            value={memberId}
-                                            onChange={(e) => setMemberId(e.target.value)}
-                                        />
-                                        <label>아이디</label>
-                                    </div>
-                                    <div className="input-box">
-                                        <span className="icon">
-                                            <ion-icon name="lock-closed"></ion-icon>
-                                        </span>
-                                        <input
-                                            type="password"
-                                            required
-                                            value={password}
-                                            onChange={(e) => setPassword(e.target.value)}
-                                        />
-                                        <label>비밀번호</label>
-                                    </div>
-                                    <button type="submit" className="btn" onClick={handleSignIn}>로그인</button>
-                                    <label><input type="checkbox" /> 로그인 유지</label>
-                                    <div className="login-register">
-                                        <p>계정이 없으신가요? <a href="#" className="register-link">생성하기</a></p>
-                                    </div>
-                                    <div className="login-idforgot">
-                                        <p>아이디를 잊어버리셨나요? <a href="#" className="register-link">아이디찾기</a></p>
-                                    </div>
-                                    <div className="remember-forgot">
-                                        <p>비밀번호를 잊어버리셨나요? <a href="#" className="register-link">비밀번호찾기</a></p>
-                                    </div>
+                                <div className="input-box">
+                                    <span className="icon">
+                                        <ion-icon name="mail"></ion-icon>
+                                    </span>
+                                    <input
+                                        type="text"
+                                        required
+                                        value={memberId}
+                                        onChange={(e) => setMemberId(e.target.value)}
+                                    />
+                                    <label>아이디</label>
+                                </div>
+                                <div className="input-box">
+                                    <span className="icon">
+                                        <ion-icon name="lock-closed"></ion-icon>
+                                    </span>
+                                    <input
+                                        type="password"
+                                        required
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                    />
+                                    <label>비밀번호</label>
+                                </div>
+                                <button type="submit" className="btn" onClick={handleSignIn}>로그인</button>
+                                <label><input type="checkbox" /> 로그인 유지</label>
+                                <div className="login-register">
+                                    <p>계정이 없으신가요? <a href="#" className="register-link">생성하기</a></p>
+                                </div>
+                                <div className="login-idforgot">
+                                    <p>아이디를 잊어버리셨나요? <a href="#" className="register-link">아이디찾기</a></p>
+                                </div>
+                                <div className="remember-forgot">
+                                    <p>비밀번호를 잊어버리셨나요? <a href="#" className="register-link">비밀번호찾기</a></p>
+                                </div>
                             </div>
 
                             <div className="form-box register">

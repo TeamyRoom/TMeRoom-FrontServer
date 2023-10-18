@@ -20,7 +20,6 @@ const StudentScreen = forwardRef((props, ref) => {
   const [audioOn, setAudioOn] = useState(false);
 
   useEffect(() => {
-    console.log("useEffect");
     init();
     return (
       () => {if(socket) socket.disconnect();}
