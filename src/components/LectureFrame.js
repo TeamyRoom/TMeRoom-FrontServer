@@ -15,10 +15,6 @@ function LectureFrame() {
         console.log("rf");
         call(`/lecture/${lecturecode}`, "GET")
             .then((response) => {
-                if(response.result === null) {
-                    alert("수강중인 강의가 아닙니다.");
-                    navigate('/');
-                }
                 setLecturename(response.result.lectureName);
                 setNickname(response.result.nickName);
                 setRole(response.result.role);
