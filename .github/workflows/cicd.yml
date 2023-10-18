@@ -15,12 +15,19 @@ jobs:
           ref: master
           token: ${{ secrets.ACTION_TOKEN }}
 
-      - name: Upload front-env files
+      - name: Upload env file
         uses: actions/upload-artifact@master
         with:
           name: front-env
           # 가져올 프로젝트의 설정 파일을 지정
-          path: ./front/env
+          path: ./front/env/.env
+
+      - name: Upload nginx folder
+        uses: actions/upload-artifact@master
+        with:
+          name: front-nginx
+          # 가져올 프로젝트의 설정 파일을 지정
+          path: ./front/env/nginx
 
   build:
     runs-on: ubuntu-latest
@@ -35,20 +42,21 @@ jobs:
         uses: actions/download-artifact@master
         with:
           name: front-env
-          path: ./basic-react-app
+          path: ./
 
       # node 설치하기
       - name: Set up Node
         uses: actions/setup-node@v3
 
-      # - name: apt update
-      #   run: sudo apt-get update && apt-get upgrade
+      - name: Install Dependencies
+        # 이전의 cache가 없다면 의존성을 설치
+        run: npm ci
 
-      - name: Execute npm install
-        run: npm install
+      # - name: Execute npm install
+      #   run: npm install
 
       - name: Execute npm build
-        run: npm run build
+        run: CI='false' npm run build
 
       # job은 별도의 가상환경에서 실행되므로
       # job 사이에 파일 공유를 위해 빌드 결과물인 jar 파일을 upload함
@@ -56,13 +64,13 @@ jobs:
         uses: actions/upload-artifact@master
         with:
           name: build-result
-          path: ./basic-react-app/build
+          path: ./build
 
       - name: Upload Dockerfile
         uses: actions/upload-artifact@master
         with:
           name: Dockerfile
-          path: ./basic-react-app/Dockerfile
+          path: ./Dockerfile
 
   # 참고 사이트
   # https://docs.github.com/ko/actions/publishing-packages/publishing-docker-images
@@ -71,11 +79,17 @@ jobs:
     needs: build
     steps:
       # 이전 job에서 업로드 한 jar 파일을 다운로드하여 docker image 생성 시 사용
-      - name: Download jar file
+      - name: Download build file
         uses: actions/download-artifact@master
         with:
           name: build-result
           path: ./build
+
+      - name: Download nginx folder
+        uses: actions/download-artifact@master
+        with:
+          name: front-nginx
+          path: ./
 
       - name: Download Dockerfile
         uses: actions/download-artifact@master
@@ -145,7 +159,7 @@ jobs:
         with:
           host: ${{ secrets.AWS_SSH_FRONT_HOST }}
           username: ${{ secrets.AWS_SSH_USERNAME }}
-          key: ${{ secrets.AWS_SSH_KEY }}
+          key: ${{ secrets.AWS_SSH_FRONT_KEY }}
 
           # 스크립트 중간에 실패하면 다음 스크립트를 실행하지 않는 옵션 true로 주기
           script_stop: true
@@ -155,7 +169,7 @@ jobs:
             aws ecr get-login-password --region ap-northeast-2 | sudo docker login --username AWS --password-stdin 135685504741.dkr.ecr.ap-northeast-2.amazonaws.com
             sudo docker pull 135685504741.dkr.ecr.ap-northeast-2.amazonaws.com/tmeroom-front:${{ github.run_number }}
             sudo docker rm -f tmeroom-app
-            sudo docker run -p 8080:8080 -itd --name tmeroom-app 135685504741.dkr.ecr.ap-northeast-2.amazonaws.com/tmeroom-spring:${{ github.run_number }}
+            sudo docker run -p 80:80 -itd --name tmeroom-app 135685504741.dkr.ecr.ap-northeast-2.amazonaws.com/tmeroom-front:${{ github.run_number }}
       # 등록했던 인바운드 규칙을 삭제하기
       - name: Remove Github Actions IP From Security Group
         run: |
@@ -167,10 +181,12 @@ jobs:
 
       # 업로드한 artifacts를 삭제하기
       - name: Remove Github Actions Artifacts
+        if : always()
         uses: GeekyEggo/delete-artifact@v2.0.0
         with:
           # The name of the artifact to delete; multiple names can be supplied on new lines.
           name: |
             front-env
+            front-nginx
             build-result
             Dockerfile
