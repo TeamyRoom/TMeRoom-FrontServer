@@ -23,7 +23,7 @@ function TeacherFile(props) {
         const formData = new FormData();
         formData.append('file', uploadFile);
 
-        axios.post(`/api/v1/lecture/${props.code}/file`, formData, {
+        axios.post(`/api/v1/lecture/${props.lecturecode}/file`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
@@ -47,7 +47,7 @@ function TeacherFile(props) {
 
 
     const searchFile = () => {
-        axios.get(`/api/v1/lecture/${props.code}/file`, searchFileType, searchFileName, currentPage)
+        axios.get(`/api/v1/lecture/${props.lecturecode}/file`, searchFileType, searchFileName, currentPage)
         .then((response) => {
             setSearchedFiles(response.data);
             setTotalPages(response.data.totalPages);

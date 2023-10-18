@@ -71,9 +71,9 @@ function TeacherQuestion(props) {
                   <a href="#" onClick={clickQuestion(data.questionId)} className="question" key={index}>{`Q${index + 1}) ${data.questionTitle}`}</a>
                 })
               ) : showQuestion === 'detail' ? (
-                <TeacherQuestionDetail {...questionDetail} lecturecode={lecturecode} />
+                <TeacherQuestionDetail {...questionDetail} lecturecode={props.lecturecode} />
               ) : (
-                <NewQuestionForm {...questionDetail} lecturecode={lecturecode}/>
+                <NewQuestionForm {...questionDetail} lecturecode={props.lecturecode}/>
               )
             }   
           </div>       
