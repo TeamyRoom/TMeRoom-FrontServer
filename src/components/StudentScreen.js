@@ -22,7 +22,15 @@ const StudentScreen = forwardRef((props, ref) => {
   useEffect(() => {
     init();
     return (
-      () => {if(socket) socket.disconnect();}
+      () => {
+        if (socket) {
+          socket.disconnect();
+          socket = null;
+          myPeerConnection = null;
+          joined = 0;
+          videoJsOptions = null;
+        }
+      }
     )
   }, [])
 
@@ -34,7 +42,7 @@ const StudentScreen = forwardRef((props, ref) => {
     player.getChild("ControlBar").getChild("SettingsButton").on("click", handleRTCclick);
     playerRef.current = player;
 
-    
+
     // You can handle player events here, for example:
     // player.on('waiting', () => {
     // videojs.log('player is waiting');
@@ -159,14 +167,14 @@ const StudentScreen = forwardRef((props, ref) => {
     console.log("하위 컴포넌트의 핸들오디오");
   }
 
-  
+
 
   //-----view----------view----------view----------view----------view----------view----------view-----
 
   return (
     <div className='screen-view '>
       <div className="video-wrap" style={{ display: showRTC ? 'block' : 'none' }}>
-        <Video videoref={videoRef} className="video-play" hlsButtonClicked={handleReplayClick}/>
+        <Video videoref={videoRef} className="video-play" hlsButtonClicked={handleReplayClick} />
       </div>
       <div>
         {showHls && <VideoJS options={videoJsOptions} onReady={handlePlayerReady} />}
