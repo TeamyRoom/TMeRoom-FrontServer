@@ -69,7 +69,14 @@ const TeacherScreen = forwardRef((props, ref) => {
       getMedia();
     }
     return (
-      () => { if (socket) socket.disconnect() }
+      () => {
+        if (socket) {
+          socket.disconnect()
+          socket = null;
+          wsocket = null;
+          queue = new SocketQueue();
+        }
+      }
     )
   }, [])
 
@@ -489,9 +496,9 @@ const TeacherScreen = forwardRef((props, ref) => {
   return (
     <div className="screen-view">
       {isSafari && (
-          <Popup onClose={popupClose}>
-          </Popup>
-        )}
+        <Popup onClose={popupClose}>
+        </Popup>
+      )}
       <div className="video-wrap">
         <video ref={videoRef} className="video-play" autoPlay muted playsInline></video>
         {buttonVisible && (

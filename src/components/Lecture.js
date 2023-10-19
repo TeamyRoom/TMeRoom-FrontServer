@@ -11,7 +11,7 @@ import StudentFile from "./StudentFile";
 import { call } from "../service/ApiService";
 
 function Lecture(props) {
-    const [lectureName, setLecturename] = useState(props.lectureName);
+    const [lectureName, setLecturename] = useState(props.lecturename);
     const [isBroadCast, setBroadCast] = useState(false);
     const [isChattingVisible, setChattingVisible] = useState(true);
     const [isQuestionVisible, setQuestionVisible] = useState(false);
@@ -58,7 +58,7 @@ function Lecture(props) {
     }
 
     const toggleAudio = () => {
-        if (props.role === 'teacher') teacherRef.current.handleAudio();
+        if (isBroadCast) teacherRef.current.handleAudio();
         else studentRef.current.handleAudio();
         setMikeOn(!isMikeOn);
     }
