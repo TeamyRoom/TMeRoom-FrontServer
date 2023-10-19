@@ -108,7 +108,7 @@ const TeacherScreen = forwardRef((props, ref) => {
       });
 
       socket.on("denied", () => {
-        alert("이미 강의가 진행 중입니다. 학생 페이지로 입장해주세요.");
+        alert("이미 강의가 진행 중입니다.");
         window.history.back();
       })
     }

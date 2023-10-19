@@ -94,7 +94,7 @@ function Lecture(props) {
                 <div className="right-component" style={{ display: isChattingVisible ? 'inline-table' : 'none' }}>
                     <Chatting lecturecode={props.lecturecode} nickname={props.nickname} />
                 </div>
-                {isQuestionVisible && props.role == 'teacher' &&
+                {isQuestionVisible && props.role !== 'student' &&
                     <div className="right-component">
                         <TeacherQuestion lecturecode={props.lecturecode} nickname={props.nickname} />
                     </div>
@@ -104,7 +104,7 @@ function Lecture(props) {
                         <StudentQuestion lecturecode={props.lecturecode} nickname={props.nickname} />
                     </div>
                 }
-                {isFileVisible && props.role == 'teacher' &&
+                {isFileVisible && props.role !== 'student' &&
                     <div className="right-component">
                         <TeacherFile lecturecode={props.lecturecode} nickname={props.nickname} />
                     </div>
