@@ -202,6 +202,7 @@ const Login = forwardRef((props, ref) => {
                             <input
                                 type="text"
                                 required
+                                autocomplete="one-time-code"
                                 onChange={(e) => setMemberId(e.target.value)}
                             />
                             <label>아이디</label>
@@ -213,6 +214,7 @@ const Login = forwardRef((props, ref) => {
                             <input
                                 type="password"
                                 required
+                                autocomplete="one-time-code"
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                             <label>비밀번호</label>
@@ -239,6 +241,7 @@ const Login = forwardRef((props, ref) => {
                             <input
                                 type="text"
                                 required
+                                autocomplete="one-time-code"
                                 onChange={(e) => setMemberId(e.target.value)}
                             />
                             <label>계정명</label>
@@ -250,6 +253,7 @@ const Login = forwardRef((props, ref) => {
                             <input
                                 type="password"
                                 required
+                                autocomplete="one-time-code"
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                             <label>비밀번호</label>
@@ -261,6 +265,7 @@ const Login = forwardRef((props, ref) => {
                             <input
                                 type="email"
                                 required
+                                autocomplete="one-time-code"
                                 onChange={(e) => setEmail(e.target.value)}
                             />
                             <label>이메일</label>
@@ -272,6 +277,7 @@ const Login = forwardRef((props, ref) => {
                             <input
                                 type="text"
                                 required
+                                autocomplete="one-time-code"
                                 onChange={(e) => setNickname(e.target.value)}
                             />
                             <label>닉네임</label>
