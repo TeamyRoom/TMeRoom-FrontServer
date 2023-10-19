@@ -162,7 +162,11 @@ const Login = forwardRef((props, ref) => {
         }
         signUp({ memberId: memberId, password: password, nickname: nickname, email: email }).then(
             (response) => {
-                if(response.resultCode === "SUCCESS") alert("회원가입되었습니다.");
+                if(response.resultCode === "SUCCESS") {
+                    alert("회원가입되었습니다.");
+                    popupFrom('.form-box.register');
+                    popupTo('.form-box.login');
+                }
             }
         ).catch((e) => { console.log(e) });
     }
