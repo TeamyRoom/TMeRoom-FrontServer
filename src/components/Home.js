@@ -60,7 +60,9 @@ function Home() {
 
                             <input type="text" id="참여코드를 입력하세요"
                                 className="md:ml-2 pl-5 inline-flex font-normal placeholder:text-gray-500 bg-white border border-gray-300 py-2 px-2 outline-gray-500 rounded text-lg relative"
-                                placeholder="코드를 입력해주세요" ref={codeRef} />
+                                placeholder="코드를 입력해주세요" 
+                                autocomplete="one-time-code"
+                                ref={codeRef} />
 
                             <p className="md:ml-4 mt-2.5 text-gray-500 font-semibold cursor-pointer text-[17px]" onClick={goLecture}>입장</p>
                         </div>
