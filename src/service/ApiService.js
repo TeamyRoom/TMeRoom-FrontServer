@@ -23,14 +23,11 @@ export async function call(api, method, request) {
                         // result 배열 각각에 대해 field와 message 출력
                         json.result.forEach((error) => {
                             alert(`${error.field}: ${error.message}`);
-                            window.location.href = "/";
                         });
                     } else {
                         // result 하나 출력
                         alert(json.result);
-                        window.location.href = "/";
                     }
-                    return Promise.reject(json);
                 }
                 return json;
             })
