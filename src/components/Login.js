@@ -144,6 +144,9 @@ const Login = forwardRef((props, ref) => {
     }
 
     function modalClose() {
+        popupFrom('.form-box.find-id', 0);
+        popupFrom('.form-box.find-pw', 0);
+        popupFrom('.form-box.register', 0);
         wrapper.classList.remove('active-popup');
         wrapper.classList.remove('active');
         setTimeout(() => {
@@ -213,13 +216,13 @@ const Login = forwardRef((props, ref) => {
                         <button type="submit" className="btn" onClick={handleSignIn}>로그인</button>
                         <label><input type="checkbox" /> 로그인 유지</label>
                         <div className="login-register">
-                            <p>계정이 없으신가요? <a href="#" className="register-link">생성하기</a></p>
+                            <p>계정이 없으신가요? <a className="register-link">생성하기</a></p>
                         </div>
                         <div className="login-idforgot">
-                            <p>아이디를 잊어버리셨나요? <a href="#" className="register-link">아이디찾기</a></p>
+                            <p>아이디를 잊어버리셨나요? <a className="register-link">아이디찾기</a></p>
                         </div>
                         <div className="remember-forgot">
-                            <p>비밀번호를 잊어버리셨나요? <a href="#" className="register-link">비밀번호찾기</a></p>
+                            <p>비밀번호를 잊어버리셨나요? <a className="register-link">비밀번호찾기</a></p>
                         </div>
                     </div>
 
@@ -274,7 +277,7 @@ const Login = forwardRef((props, ref) => {
                         </div>
                         <button type="submit" className="btn" onClick={handleSignUp}>생성하기</button>
                         <div className="login-register">
-                            <p>이미계정이있으신가요? <a href="#" className="login-link">Login</a></p>
+                            <p>이미계정이있으신가요? <a className="login-link">Login</a></p>
                         </div>
                     </div>
                     <div className="form-box find-pw">
@@ -297,7 +300,7 @@ const Login = forwardRef((props, ref) => {
                             <button type="submit" className="btn">찾기</button>
                             <div className="login-register">
                                 <div className="login-register">
-                                    <p>이미계정이있으신가요? <a href="#" className="login-link">Login</a></p>
+                                    <p>이미계정이있으신가요? <a className="login-link">Login</a></p>
                                 </div>
                             </div>
                         </form>
@@ -314,7 +317,7 @@ const Login = forwardRef((props, ref) => {
                             </div>
                             <button type="submit" className="btn">찾기</button>
                             <div className="login-register">
-                                <p>이미계정이있으신가요? <a href="#" className="login-link">Login</a></p>
+                                <p>이미계정이있으신가요? <a className="login-link">Login</a></p>
                             </div>
                             <div className="login-register">
                             </div>
