@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 
 function StudentQuestionDetail(props) {
@@ -7,6 +7,28 @@ function StudentQuestionDetail(props) {
     const [questionTitle, setQuestionTitle] = useState(props.title);
     const [questionContent, setQuestionContent] = useState(props.content);
     const [questionVisibility, setQuestionVisibility] = useState(props.isPublic ? "public" : "private");
+    const [commentList, setCommentList] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const [comment, setComment] = useState("");
+
+    useEffect(() => {
+      if (!viewEditQuestion) {
+        renderCommentList();                
+      }
+     },[],viewEditQuestion);
+
+  
+    const renderCommentList = () => {
+      axios.get(`/api/v1/lecture/${props.lecturecode}/questions/${questionId}/comments`, currentPage)
+      .then((response) => {
+          setCommentList(response.data);
+          setTotalPages(response.data.totalPages);
+      })
+      .catch((error) => {
+          console.log("답변리스트 불러오기 실패",error);
+      })
+    }
 
     const editButtonClcik = () => {
       setViewEditQuestion(true);
@@ -50,7 +72,29 @@ function StudentQuestionDetail(props) {
         .catch((error) => {
           console.log("질문 공개 수정 실패", error);
         })
-      }
+    }
+
+    const postComment = () => {
+        axios.post(`/api/v1/lecture/${props.lecturecode}/question/${questionId}/comment`, comment)
+        .then((response) => {
+          console.log("댓글 업로드 성공", response);
+        })
+        .catch((error) => {
+          console.log("댓글 업로드 실패", error);
+        })
+        renderCommentList();
+    }
+
+    const deleteComment = (commentId) => {
+      axios.delete(`/api/v1/lecture/${props.lecturecode}/question/${questionId}/comment/${commentId}`)
+      .then((response) => {
+        console.log("댓글 삭제 성공", response);
+      })
+      .catch((error) => {
+        console.log("댓글 삭제 실패", error);
+      })
+      renderCommentList();
+    }
 
     const handleChangeQuestionTitle = (e) => {
       setQuestionTitle(e.target.value);
@@ -62,6 +106,15 @@ function StudentQuestionDetail(props) {
 
     const handleChangeQuestionVisibility = (e) => {
       setQuestionVisibility(e.target.value);
+    }
+
+    const handlePageChange = (page) => {
+      setCurrentPage(page);
+      renderCommentList();
+    }
+
+    const handleCommentChange = (e) => {
+      setComment(e.target.value);
     }
 
     return (
@@ -111,6 +164,7 @@ function StudentQuestionDetail(props) {
                 </div>
               </div>
                 ) : (
+            <div>
               <div className="msg_bubble">
                 <p><span className="different-title">{questionTitle}</span></p>
                 <p><span className="different-detail">{questionContent}</span></p>
@@ -121,12 +175,21 @@ function StudentQuestionDetail(props) {
                   <p><span className="different-time">{createdAt}</span></p>
                 </div>
               </div>
+              <div className="msg_bubble">
+                {commentList.map((data, index) => {
+                  <p key={index}>{data.commenterNickname} | {data.content} | {data.createdAt}<button onClick={deleteComment(data.commentId)}>DELETE</button></p>
+                })}
+                {Array.from({length:totalPages},(_,index) => {
+                  <button key={index} onClick={() => {handlePageChange(index+1)}} className={currentPage === index+1 ? 'active' :''}>
+                    {index+1}
+                  </button>
+                } )}
+                <input onChange={handleCommentChange}></input><button onClick={postComment}>게시</button>
+              </div>
+            </div>
                 )}
               
-            <div className="msg_bubble">
-              <p><span className="teacher-title">질문답변:TEST</span></p>
-              <p><span className="teacher-answer">해당 문제는 이렇게 하면 됩니다.</span></p>
-            </div>
+            
           </div>
         </main>
       </div>
