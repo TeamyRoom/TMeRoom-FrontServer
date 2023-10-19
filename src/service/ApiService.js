@@ -38,6 +38,33 @@ export async function call(api, method, request) {
         });
 }
 
+export async function getResultCodeCall(api, method, request) {
+    let headers = new Headers({
+        "Content-Type": "application/json",
+    });
+
+    let options = {
+        headers: headers,
+        url: SPRING_SERVER_URL + api,
+        method: method,
+        credentials: 'include',
+    };
+
+    if (request) {
+        options.body = JSON.stringify(request);
+    }
+    return fetch(options.url, options)
+        .then((response) =>
+            response.json().then((json) => {
+                return json;
+            })
+        )
+        .catch((error) => {
+            console.log(error.status);
+            Promise.reject(error);
+        });
+}
+
 export async function signIn(webDTO) {
     return call("/auth/login", "POST", webDTO);
 }
@@ -69,4 +96,8 @@ export function getAccessToken() {
 export function createLecture(lectureDTO) {
     return call("/lecture", "POST", lectureDTO)
         .then((response) => {window.location.href = `lecture/${response.result.lectureCode}`;});
+}
+
+export function confirmEmail(confirmCode){
+    return getResultCodeCall("/member/email/confirm/"+confirmCode, "PUT", null);
 }
