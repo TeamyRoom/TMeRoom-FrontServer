@@ -122,7 +122,7 @@ function TeacherQuestionDetail(props) {
         <main className="msger_chat">
           <p className="Resource">Q&A</p>
           <div className="body"></div>
-          <button className="icon-button" onClick={this.myFunction}>
+          <button className="icon-button">
             <img src="image/alarm-bell-symbol.png" alt="아이콘 이미지" />
           </button>
           <div className="msg_bubble_wrap">
@@ -165,6 +165,9 @@ function TeacherQuestionDetail(props) {
               </div>
                 ) : (
             <div>
+              <div className="icon-button" >
+                <img src="./assets/back.png"/>
+              </div>
               <div className="msg_bubble">
                 <p><span className="different-title">{questionTitle}</span></p>
                 <p><span className="different-detail">{questionContent}</span></p>

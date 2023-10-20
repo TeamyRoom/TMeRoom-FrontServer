@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import "../css/Question.css";
 import NewQuestionForm from "./NewQuestionForm";
 import TeacherQuestionDetail from "./TeacherQuestionDetail";
+import "../css/File.css";
+import { call, getAccessToken } from "../service/ApiService"
 
 function TeacherQuestion(props) {
 
@@ -20,19 +21,24 @@ function TeacherQuestion(props) {
 
     
     const renderQuestionList = () => {
-        axios.get(`/api/v1/lecture/${props.lecturecode}/questions/permitted-only`, currentPage)
-        .then((response) => {
-            setQuestionList(response.data);
-            setTotalPages(response.data.totalPages);
-        })
-        .catch((error) => {
-            console.log("질문리스트 불러오기 실패",error);
-        })
 
+      axios.get(`http://localhost:8080/api/v1/lecture/${props.lecturecode}/questions/permitted-only`, 
+      {withCredentials:true, 
+        params: {
+        page: currentPage, // 페이지 번호를 매개변수로 전달
+        size: totalPages
+      }})
+      .then((response) => {
+          setQuestionList(response.data);
+          setTotalPages(response.data.totalPages);
+      })
+      .catch((error) => {
+          console.log("질문리스트 불러오기 실패",error);
+      })
     }
 
     const clickQuestion = (questionId) => {
-      axios.get(`/api/v1/lecture/${props.lecturecode}/question/${questionId}`)
+      axios.get(`http://localhost:8080/api/v1/lecture/${props.lecturecode}/question/${questionId}`)
       .then((response) => {
         setQuestionDetail(response.data);
         setShowQuestion('detail');
@@ -42,8 +48,12 @@ function TeacherQuestion(props) {
       })
     }
 
+    const clickCreateQuestion = () => {
+      setShowQuestion('create');
+    }
+
     const clickBackward = () => {
-      setShowQuestion('list')
+      setShowQuestion('list');
       renderQuestionList();
     }
 
@@ -58,14 +68,14 @@ function TeacherQuestion(props) {
 
 
     return(
-      <div className="chat_area">
-        <main className="msger_chat">
-          <p className="Resource">Q&A</p>
-          <button className="icon-button" >
-            <img src="image/alarm-bell-symbol.png" alt="아이콘 이미지" />
-          </button>
-          <div className="msg left_msg">
-          {
+<div className="chat_area">
+            <main className="msger_chat">
+                <p className="Resource">Q&A</p>
+  
+                <div className="search-container">
+                </div>
+                <div className="msg_bubble">
+                {
               showQuestion === 'list' ? (
                 questionList.map((data, index) => {
                   <a href="#" onClick={clickQuestion(data.questionId)} className="question" key={index}>{`Q${index + 1}) ${data.questionTitle}`}</a>
@@ -75,10 +85,10 @@ function TeacherQuestion(props) {
               ) : (
                 <NewQuestionForm {...questionDetail} lecturecode={props.lecturecode}/>
               )
-            }   
-          </div>       
-          <div className="msg_bubble">
-            <div className="msg_info"></div>
+            }  
+                <div className="msg_text">
+                </div>
+            </div>           
             { showQuestion === 'list' && (
               <div className="page-number">
               {Array.from({length: totalPages},(_,index) => {
@@ -88,10 +98,14 @@ function TeacherQuestion(props) {
               })}
             </div>
             )}
-          </div>
-        </main>
-      </div>
+            </main>
+            <div className="msger_inputarea"><button onClick={clickCreateQuestion}>질문하기</button></div>  
+                
+        </div>
+
+      
     );
 }
 
 export default TeacherQuestion;
+

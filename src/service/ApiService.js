@@ -1,10 +1,16 @@
+
 const SPRING_SERVER_URL = process.env.REACT_APP_SPRING_SERVER_URL;
 
-export async function call(api, method, request) {
+
+export async function call(api, method, request, header) {
+
+    const myToken = getAccessToken();
+    
     let headers = new Headers({
-        "Content-Type": "application/json",
+        "Content-Type": header ? header : "application/json",
     });
 
+    console.log(header,"...",headers);
     let options = {
         headers: headers,
         url: SPRING_SERVER_URL + api,
@@ -13,8 +19,23 @@ export async function call(api, method, request) {
     };
 
     if (request) {
-        options.body = JSON.stringify(request);
-    }
+        if (headers.get("Content-Type") === "multipart/form-data") {
+            const formData = new FormData();
+            formData.append("file", request);
+            options.body = formData;
+            for (let key of formData.keys()) {
+                console.log(key);
+              }
+              
+              // FormData의 value 확인
+              for (let value of formData.values()) {
+                console.log(value);
+              }
+        } else {
+            options.body = JSON.stringify(request);
+        }
+    } 
+
     return fetch(options.url, options)
         .then((response) =>
             response.json().then((json) => {
@@ -40,6 +61,9 @@ export async function call(api, method, request) {
             Promise.reject(error);
         });
 }
+
+
+
 
 export async function signIn(webDTO) {
     return call("/auth/login", "POST", webDTO);
@@ -73,3 +97,4 @@ export function createLecture(lectureDTO) {
     return call("/lecture", "POST", lectureDTO)
         .then((response) => {window.location.href = `lecture/${response.result.lectureCode}`;});
 }
+

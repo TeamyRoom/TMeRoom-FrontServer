@@ -11,6 +11,20 @@ font-family: 'Noto Sans', sans-serif;
 font-weight: bold;
 }
 
+.icon-button img {
+    width: 20px;
+    height: 20px;
+    float: right; /* 이미지를 오른쪽으로 정렬합니다. */
+}
+
+
+.icon-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+
+}
+
 .file-type-label{
 font-size: 20px;
 text-align: center;

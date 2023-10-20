@@ -1,33 +1,23 @@
-import {useState} from 'react';
+import React, {useState} from 'react';
 import axios from 'axios';
+import {call} from '../service/ApiService'
 
 function NewQuestionForm(props) {
-    const {questionTitle, setQuestionTitle} = useState('');
-    const {questionContent, setQuestionContent} = useState('');
-    const {questionVisibility, setQuestionVisibility} = useState('');
+    const [questionTitle, setQuestionTitle] = useState('');
+    const [questionContent, setQuestionContent] = useState('');
+    const [questionVisibility, setQuestionVisibility] = useState('');
 
 
     
-    const uploadQuestion = () => {
+    const uploadQuestion = async () => {
         const questionData = {
             title : questionTitle,
             content : questionContent,
             isPublic : questionVisibility==='public' ? true : false
         };
 
-        const question = JSON.stringify(questionData);
 
-        axios.post(`/api/v1/lecture/${props.code}/question`,question, {
-            headers: {
-                'Content-Type': 'application/json'
-              }
-        })
-        .then((response) => {
-          console.log("질문 업로드 성공", response);
-        })
-        .catch((error) => {
-          console.log("질문 업로드 실패", error);
-        })
+        await call(`/lecture/${props.lecturecode}/question`,"POST",questionData);
       }
 
 
@@ -44,11 +34,9 @@ function NewQuestionForm(props) {
     }
 
     return (
-      <div className="chat_area">
-        <main className="msger_chat">
-          <p className="Resource">Q&A</p>
+      <div>
           <div className="body"></div>
-          <button className="icon-button" onClick={this.myFunction}>
+          <button className="icon-button">
             <img src="image/alarm-bell-symbol.png" alt="아이콘 이미지" />
           </button>
           <div className="msg_bubble_wrap">       
@@ -89,14 +77,9 @@ function NewQuestionForm(props) {
                         </div>
                     </div>
                 </div>
-              </div>              
-            <div className="msg_bubble">
-              <p><span className="teacher-title">질문답변:TEST</span></p>
-              <p><span className="teacher-answer">해당 문제는 이렇게 하면 됩니다.</span></p>
-            </div>
+              </div>           
           </div>
-        </main>
-      </div>
+          </div>
     );
 };
 
