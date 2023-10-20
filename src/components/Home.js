@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 import "../css/Home.css";
-import { getAccessToken, signOut, createLecture } from "../service/ApiService.js";
+import { getAccessToken, signOut } from "../service/ApiService.js";
 import Login from "./Login.js";
 import Main from "./Main";
 import MyLecture from "./MyLecture";
