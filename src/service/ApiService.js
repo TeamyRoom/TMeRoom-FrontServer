@@ -128,3 +128,7 @@ export function confirmResetCode(resetCode){
 export function resetPassword(webDTO){
     return getResultCodeCall("/member/password/lost", "PUT", webDTO);
 }
+
+export function accessLecture(lectureCode) {
+    return getResultCodeCall(`/lecture/${lectureCode}`, "GET");
+}
