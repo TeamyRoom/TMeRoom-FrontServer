@@ -13,7 +13,18 @@ export async function call(api, method, request) {
     };
 
     if (request) {
-        options.body = JSON.stringify(request);
+        if(method === "GET"){
+            options.url += '?';
+            var keys = Object.keys(request); //키를 가져옵니다. 이때, keys 는 반복가능한 객체가 됩니다.
+            for (var i=0; i<keys.length; i++) {
+                var key = keys[i];
+                var val = request[key];
+                options.url += `${key}=${val}`;
+                if(i !== keys.length-1) options.url +='&'; 
+            }
+        }else{
+            options.body = JSON.stringify(request);
+        }    
     }
     return fetch(options.url, options)
         .then((response) =>
@@ -78,6 +89,14 @@ export function signUp(webDTO) {
     return call("/member", "POST", webDTO);
 }
 
+export function findId(webDTO){
+    return call("/member/id/lost", "GET", webDTO);
+}
+
+export function findPw(webDTO){
+    return call("/member/password/lost", "POST", webDTO);
+}
+
 export function getAccessToken() {
     const name = "accessToken=";
     const decodedCookie = decodeURIComponent(document.cookie);
@@ -100,4 +119,12 @@ export function createLecture(lectureDTO) {
 
 export function confirmEmail(confirmCode){
     return getResultCodeCall("/member/email/confirm/"+confirmCode, "PUT", null);
+}
+
+export function confirmResetCode(resetCode){
+    return getResultCodeCall("/member/password/checking/"+resetCode, "GET", null);
+}
+
+export function resetPassword(webDTO){
+    return getResultCodeCall("/member/password/lost", "PUT", webDTO);
 }
