@@ -11,13 +11,18 @@ function EmailApprovedFrame() {
     useEffect(() => {
         confirmEmail(confirmcode).then(
             res => {
-                switch(res.resultCode){
-                    case "SUCCESS":
-                        setSuccess(true);
-                        break;
-                    default:
-                        setSuccess(false);
-                        break;
+                try{
+                    switch(res.resultCode){
+                        case "SUCCESS":
+                            setSuccess(true);
+                            break;
+                        default:
+                            setSuccess(false);
+                            break;
+                    }
+                }
+                catch{
+                    setSuccess(false);
                 }
             }
         );
