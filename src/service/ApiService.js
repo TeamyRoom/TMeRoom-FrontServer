@@ -31,10 +31,20 @@ export async function call(api, method, request, header) {
               for (let value of formData.values()) {
                 console.log(value);
               }
-        } else {
+        } 
+        else if(method === "GET"){
+            options.url += '?';
+            var keys = Object.keys(request);
+            for (var i=0; i<keys.length; i++) {
+                var key = keys[i];
+                var val = request[key];
+                options.url += `${key}=${val}`;
+                if(i !== keys.length-1) options.url +='&'; 
+            }
+        }else{
             options.body = JSON.stringify(request);
-        }
-    } 
+        }    
+    }
 
     return fetch(options.url, options)
         .then((response) =>
@@ -44,14 +54,11 @@ export async function call(api, method, request, header) {
                         // result 배열 각각에 대해 field와 message 출력
                         json.result.forEach((error) => {
                             alert(`${error.field}: ${error.message}`);
-                            window.location.href = "/";
                         });
                     } else {
                         // result 하나 출력
                         alert(json.result);
-                        window.location.href = "/";
                     }
-                    return Promise.reject(json);
                 }
                 return json;
             })
@@ -63,7 +70,32 @@ export async function call(api, method, request, header) {
 }
 
 
+export async function getResultCodeCall(api, method, request) {
+    let headers = new Headers({
+        "Content-Type": "application/json",
+    });
 
+    let options = {
+        headers: headers,
+        url: SPRING_SERVER_URL + api,
+        method: method,
+        credentials: 'include',
+    };
+
+    if (request) {
+        options.body = JSON.stringify(request);
+    }
+    return fetch(options.url, options)
+        .then((response) =>
+            response.json().then((json) => {
+                return json;
+            })
+        )
+        .catch((error) => {
+            console.log(error.status);
+            Promise.reject(error);
+        });
+}
 
 export async function signIn(webDTO) {
     return call("/auth/login", "POST", webDTO);
@@ -76,6 +108,14 @@ export function signOut() {
 
 export function signUp(webDTO) {
     return call("/member", "POST", webDTO);
+}
+
+export function findId(webDTO){
+    return call("/member/id/lost", "GET", webDTO);
+}
+
+export function findPw(webDTO){
+    return call("/member/password/lost", "POST", webDTO);
 }
 
 export function getAccessToken() {
@@ -98,3 +138,18 @@ export function createLecture(lectureDTO) {
         .then((response) => {window.location.href = `lecture/${response.result.lectureCode}`;});
 }
 
+export function confirmEmail(confirmCode){
+    return getResultCodeCall("/member/email/confirm/"+confirmCode, "PUT", null);
+}
+
+export function confirmResetCode(resetCode){
+    return getResultCodeCall("/member/password/checking/"+resetCode, "GET", null);
+}
+
+export function resetPassword(webDTO){
+    return getResultCodeCall("/member/password/lost", "PUT", webDTO);
+}
+
+export function accessLecture(lectureCode) {
+    return getResultCodeCall(`/lecture/${lectureCode}`, "GET");
+}

@@ -1,0 +1,79 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans&family=Noto+Sans+KR:wght@300;400&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+}
+.table-box
+{
+    margin: 50px auto;
+}
+
+.table-row{
+    display: table;
+    width: 80%;
+    margin: 10px auto;
+    font-family: sans-serif;
+    background: transparent;
+    padding: 12px 0;
+    color: #555;
+    font-size: 13px;
+    box-shadow: 0 1px 4px 0px rgba(0,0,50,0.3);
+}
+.table-head{
+    background: #8665f7;
+    box-shadow: none;
+    color: #fff;
+    font-weight: 600;
+}
+.table-head .table-cell{
+    border-right: none;
+}
+.table-cell{
+    display: table-cell;
+    width: 20%;
+    text-align: center;
+    padding: 4px 0;
+    border-right: 1px solid #d6d4d4;
+    vertical-align: middle;
+}
+.first-cell{
+    text-align: left;
+    padding-left: 10px;
+}
+.last-cell{
+    border-right: none;
+}
+a{
+    text-decoration: none;
+    color: #555;
+}
+.Title {
+    font-family: 'Noto Sans', sans-serif;
+    text-align: center;
+    position: relative;
+    top: -20px; /* 위로 10px 올리려면 top 속성을 사용합니다. */
+}
+
+/* 버튼 배경 제거 및 테두리 스타일 설정 */
+.apply {
+    background: none;
+    border: 1px solid #8665f7; /* 원하는 테두리 스타일 및 색상 설정 */
+    padding: 5px 10px; /* 버튼 내용과 테두리 사이의 간격 설정 */
+    border-radius: 5px; /* 테두리의 모서리를 둥글게 만듭니다. */
+    cursor: pointer; /* 마우스 커서를 손가락 모양으로 변경하여 버튼을 클릭할 수 있음을 나타냅니다. */
+}
+
+/* 버튼에 마우스를 올렸을 때의 스타일 설정 */
+.apply:hover {
+    background: #8665f7; /* 마우스 호버 시 배경 색상 설정 */
+    color: #fff; /* 버튼 텍스트 색상 설정 */
+}
+
+
+
+@media only screen and (max-width: 600px) {
+  .table-row {
+    font-size: 11px;
+  }
+}

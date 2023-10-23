@@ -1,21 +1,22 @@
-import { useParams } from "react-router-dom";
 import TeacherScreen from "./TeacherScreen";
 import StudentScreen from "./StudentScreen";
 import Chatting from "./Chatting";
 import "../css/Lecture.css"
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import TeacherQuestion from "./TeacherQuestion";
 import StudentQuestion from "./StudentQuestion";
 import TeacherFile from "./TeacherFile";
 import StudentFile from "./StudentFile";
 import { call } from "../service/ApiService";
+import Management from "./Management";
 
 function Lecture(props) {
-    const [lectureName, setLecturename] = useState(props.lectureName);
+    const [lectureName, setLecturename] = useState(props.lecturename);
     const [isBroadCast, setBroadCast] = useState(false);
     const [isChattingVisible, setChattingVisible] = useState(true);
     const [isQuestionVisible, setQuestionVisible] = useState(false);
     const [isFileVisible, setFileVisible] = useState(false);
+    const [isManagementVisible, setManagementVisible] = useState(false);
     const [isVideoOn, setVideoOn] = useState(true);
     const [isMikeOn, setMikeOn] = useState(false);
     const [toggleName, setToggleName] = useState(false);
@@ -27,6 +28,7 @@ function Lecture(props) {
         setChattingVisible(false);
         setQuestionVisible(false);
         setFileVisible(false);
+        setManagementVisible(false);
     }
 
     const toggleChatting = () => {
@@ -51,6 +53,13 @@ function Lecture(props) {
         setFileVisible(!isFileVisible);
     }
 
+    const toggleManagement = () => {
+        if (!isManagementVisible) {
+            allFalse();
+        }
+        setManagementVisible(!isManagementVisible);
+    }
+
     const toggleCamera = () => {
 
         teacherRef.current.handleCamera();
@@ -59,7 +68,7 @@ function Lecture(props) {
     }
 
     const toggleAudio = () => {
-        if (props.role === 'teacher') teacherRef.current.handleAudio();
+        if (isBroadCast) teacherRef.current.handleAudio();
         else studentRef.current.handleAudio();
         setMikeOn(!isMikeOn);
     }
@@ -79,7 +88,7 @@ function Lecture(props) {
     }
 
     const handleBroadCast = () => {
-        if(isBroadCast) setBroadCast(false);
+        if (isBroadCast) setBroadCast(false);
         else setBroadCast(true);
     }
 
@@ -95,7 +104,8 @@ function Lecture(props) {
                 <div className="right-component" style={{ display: isChattingVisible ? 'inline-table' : 'none' }}>
                     <Chatting lecturecode={props.lecturecode} nickname={props.nickname} />
                 </div>
-                {isQuestionVisible && 
+
+                {isQuestionVisible && props.role !== 'student' &&
                     <div className="right-component">
                         <TeacherQuestion lecturecode={props.lecturecode} nickname={props.nickname} />
                     </div>
@@ -104,17 +114,22 @@ function Lecture(props) {
                     <div className="right-component">
                         <StudentQuestion lecturecode={props.lecturecode} nickname={props.nickname} />
                     </div>
-                } */}
-                {isFileVisible &&
+                }
+                {isFileVisible && props.role !== 'student' &&
                     <div className="right-component">
                         <TeacherFile lecturecode={props.lecturecode} nickname={props.nickname} />
                     </div>
                 }
                 {/* {isFileVisible && props.role === 'student' &&
                     <div className="right-component">
-                        <StudentFile lecturecode={props.lecturecode} nickname={props.nickname}/>
+                        <StudentFile lecturecode={props.lecturecode} nickname={props.nickname} />
                     </div>
-                } */}
+                }
+                {isManagementVisible &&
+                    <div className="right-component">
+                        <Management lecturecode={props.lecturecode} />
+                    </div>
+                }
             </div>
             <div className="lecture_footer">
                 <div className="lecture_name">
@@ -175,9 +190,11 @@ function Lecture(props) {
                         <a className="etc_btn" href="#">
                             <img className="ico" src="/images/chat.png" onClick={toggleChatting} />
                         </a>
-                        <a className="etc_btn" href="#">
-                            <img className="ico" src="/images/lock.png" />
-                        </a>
+                        {props.role === "manager" &&
+                            <a className="etc_btn" href="#">
+                                <img className="ico" src="/images/lock.png" onClick={toggleManagement} />
+                            </a>
+                        }
 
                     </div>
                 </div>

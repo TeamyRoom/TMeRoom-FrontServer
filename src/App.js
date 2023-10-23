@@ -3,6 +3,8 @@ import TeacherScreen from './components/TeacherScreen';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './components/Home';
 import LectureFrame from './components/LectureFrame';
+import EmailApprovedFrame from './components/EmailApprovedFrame';
+import PasswordResetFrame from './components/PasswordResetFrame';
 
 function App() {
 
@@ -12,6 +14,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} >  </Route>
         <Route path="/lecture/:lecturecode" element={<LectureFrame />}>  </Route>
+        <Route path="/email-confirm/:confirmcode" element={<EmailApprovedFrame />}> </Route>
+        <Route path="/pw-reset/:resetcode" element={<PasswordResetFrame />}> </Route>
       </Routes>
     </BrowserRouter>
   );
