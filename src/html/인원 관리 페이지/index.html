@@ -1,0 +1,388 @@
+<!--<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:400&display=swap">-->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TMEROOM</title>
+    <link href="style.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box;}
+a { text-decoration: none; color: #000;}
+img { vertical-align: top;}
+ol, ul, li { list-style: none;}
+
+html, body { height: 100%;}
+.lecture_area-course-management { display: flex; flex-direction: column; position: relative; width: 100%; height: 100%; background-color: #000;}
+.lecture_area-course-management .ico { width: 100%; height: 100%; object-fit: cover;}
+.lecture_body-course-management { display: flex; height: 100%; max-height: calc(100% - 100px);}
+.lecture_body-course-management .video_area-course-management { width: 75%;}
+.lecture_body-course-management .video_area-course-management .video-course-management { width: 100%; height: 100%;}
+.lecture_body-course-management .chat_area-course-management { display: flex; flex-direction: column; width: 25%; height: 100%;}
+.lecture_footer { height: 100px;}
+
+.msger { display: flex; flex-flow: column wrap; justify-content: space-between; width: 100%; max-width: 867px; margin: 25px 10px; height: calc(100% - 50px); border-radius: 5px; box-shadow: 0 15px 15px -5px rgba(0, 0, 0, 0.2);}
+.msger_chat { display: flex; flex: 1; flex-direction: column; flex: 1; padding: 10px; background-color: #fcfcfe;}
+.msg { display: flex; align-items: flex-end; margin-bottom: 10px;}
+.msg_img { width: 50px; min-width: 50px; height: 50px; margin-right: 10px; background: #ddd; background-repeat: no-repeat; background-position: center; background-size: cover; border-radius: 50%;}
+.msg_bubble-manage { display: flex; flex-direction: column; max-width: 450px; padding: 15px; border-radius: 15px; background: #ececec; margin-top:20px;}
+.msg_bubble:nth-child(2) { flex: 1;}
+.msg_info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;}
+.msg_info_name { margin-right: 10px; font-weight: 700;}
+.msg_info_time { font-size: 0.85em;}
+.left_msg .msg_bubble-manage { border-bottom-left-radius: 0;}
+.right_msg { flex-direction: row-reverse;}
+.right_msg .msg_bubble-manage { background: #579ffb; color: #fff; border-bottom-right-radius: 0;}
+.right_msg .msg_img { margin: 0 0 0 10px;}
+.msger_inputarea { display: flex; padding: 10px; background: #eee;}
+.msger_inputarea * { padding: 10px; border: none; border-radius: 3px; font-size: 1em;}
+.msger_input { flex: 1; background: #ddd;}
+.msger_send_btn { margin-left: 10px; background: rgb(0, 196, 65); color: #fff; font-weight: bold; cursor: pointer; transition: background 0.23s;}
+.msger_send_btn:hover { background: rgb(0, 180, 50);}
+
+.lecture_footer { display: flex; align-items: center; position: absolute; left: 0; bottom: 0; width: 100%; padding: 0 20px; background-color: #666666;}
+.lecture_footer .lecture_name .txt { font-size: 24px; color: #fff;}
+.lecture_footer .ico_area { display: flex; flex: 1; justify-content: center; position: relative;}
+.lecture_footer .emoji_area { position: absolute; bottom: calc(100% + 10px); padding: 5px;}
+.lecture_footer .emoji_list { display: flex; gap: 5px;}
+.lecture_footer .emoji_btn { display: block; width: 20px; height: 20px;}
+.lecture_footer .ico_list { display: flex; gap: 10px; padding: 10px;}
+.lecture_footer .ico_btn { display: block; width: 50px; height: 50px;}
+.lecture_footer .etc_list { display: flex; gap: 10px; padding: 10px;}
+.lecture_footer .etc_btn { display: block; width: 35px; height: 35px; }
+.lecture_footer .bdr_raius { padding: 10px 20px; border-radius: 100px; background-color: rgba(0,0,0,.3);}
+.Resource-manage {
+   
+    font-size: 40px;
+    text-align: center;
+    font-family: 'Noto Sans', sans-serif;
+    font-weight: bold;
+    margin-top:30px;
+}
+
+
+
+.msg_text{
+    height: 450px;
+    top: 20px;
+}
+.file-info{
+    font-size:20px;
+    text-align: left;
+}
+
+
+
+
+.msg_bubble_wrap { 
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+}
+
+.msger_send_btn{
+    height: auto;
+    width: auto;
+    margin-right:auto;
+}
+
+.msger_input{
+    font-size: 12px;
+    width:auto;
+    margin-left: 25px;
+}
+/* 또는 다른 스크롤 가능한 요소에도 적용 가능 */
+.scrollable-element {
+    overflow: hidden;
+}
+.msg_text-1{
+    height: 250px;
+    top: 20px;
+}
+
+.different-course-management-footer { display: flex; justify-content: space-between; margin-top: 10px;}
+
+
+
+
+form {
+    display: flex;
+    flex-direction: row; /* 수평으로 정렬 */
+    justify-content: center; /* 수평 가운데 정렬 */
+    align-items: center; /* 수직 가운데 정렬 */
+}
+
+/* 선택된 항목을 가운데 정렬 */
+.search-label,
+.search-input,
+.search-button {
+    margin: 5px; /* 각 항목 사이의 간격을 조정할 수 있습니다. */
+}
+
+/* 불필요한 마진 및 패딩 제거 */
+form * {
+    margin: 0;
+    padding: 0;
+}
+
+.search-input-2 {
+    height: 50px;
+}
+.search-label{
+    font-size:30px;
+}
+
+.search-button-manage{
+    font-size:30px;
+}
+.invite-course-management-button {
+    font-size: 15px;
+    width: 70px;
+    height: 30px;
+    margin-left: auto; /* 오른쪽 정렬을 위해 왼쪽 마진을 auto로 설정 */
+    margin-top: -30px;
+    background: #0000FF;
+    border: 1px solid #000; /* 테두리 스타일을 파란색(#0000ff)으로 설정 */
+    padding: 5px 10px; /* 버튼 내용과 테두리 사이의 간격 설정 */
+    border-radius: 5px; /* 테두리의 모서리를 둥글게 만듭니다. */
+    cursor: pointer; /* 마우스 커서를 손가락 모양으로 변경하여 버튼을 클릭할 수 있음을 나타냅니다. */
+    color: #fff;
+}
+
+/* 초대 버튼 호버 스타일 */
+.invite-course-management-button:hover {
+    background: white; /* 호버 시 배경색 변경 */
+    color:black;
+}
+
+.cancle-button-manage {
+    font-size: 15px;
+    width: 70px;
+    height: 30px;
+    background: green;
+    border: 1px solid #000;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #fff;
+    position: relative; /* 상대 위치 지정 */
+    left: -40px; /* 왼쪽으로 40px 이동 */
+}
+.cancle-button-manage-two {
+    font-size: 15px;
+    width: 70px;
+    height: 30px;
+    background: green;
+    border: 1px solid #000;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #fff;
+    position: relative; /* 상대 위치 지정 */
+    top:-25px;
+    left:102px;
+}
+.cancle-button-manage-two:hover {
+    background: white; /* 호버 시 배경색 변경 */
+    color:black;
+}
+.fire-button-manage-two {
+    font-size: 15px;
+    width: 70px;
+    height: 30px;
+    background: red;
+    border: 1px solid #000;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #fff;
+    position: relative; /* 상대 위치 지정 */
+    top:-45px;
+    left:102px;
+}
+
+.fire-button-manage-two:hover{
+    background: white; /* 호버 시 배경색 변경 */
+    color:black;
+}
+.cancle-button-manage:hover {
+    background: white; /* 호버 시 배경색 변경 */
+    color:black;
+}
+
+.different-id-nickname {
+    display: block; /* 블록 레벨 요소로 설정 */
+    margin-top: 5px;
+}
+
+.different-id-nickname-two {
+    display: block; /* 블록 레벨 요소로 설정 */
+    margin-top:20px;
+}
+.different-id-nickname-three {
+    display: block; /* 블록 레벨 요소로 설정 */
+    margin-top:-40px;
+}
+.nickname-manage {
+    font-size: 16px;
+    display: flex;
+    margin-top: 30px;
+    margin-left: -255px; /* 왼쪽으로 40px 이동 */
+    justify-content: flex-start; /* 내부 컨텐츠를 왼쪽으로 정렬 */
+}
+
+.fire-button-manage{
+    font-size: 15px;
+    width: 70px;
+    height: 30px;
+    background: red;
+    border: 1px solid #000;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #fff;
+    position: relative; /* 상대 위치 지정 */
+    top:45px;
+    left:-193px;
+}
+
+.fire-button-manage:hover {
+    background: white; /* 호버 시 배경색 변경 */
+    color:black;
+}
+
+.fire-button-manage-second{
+    font-size: 15px;
+    width: 70px;
+    height: 30px;
+    background: green;
+    border: 1px solid #000;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #fff;
+    position: relative; /* 상대 위치 지정 */
+    top:-55px;
+    left:180px;
+}
+.fire-button-manage-second:hover{
+    background: white; /* 호버 시 배경색 변경 */
+    color:black;
+}
+    </style>
+</head>
+<body>
+    <div class="lecture_area-course-management">
+        <div class="lecture_body-course-management">
+            <div class="video_area-course-management">
+                <video class="video-course-management" loop="" muted="" controls="false" data-autoplay="">
+                    <source src="image/sample2.mp4" type="video/mp4">
+                    <source src="http://www.w3schools.com/html/mov_bbb.ogg" type="video/ogg">
+                </video>
+            </div>
+            <div class="chat_area-course-management">
+                <main class="msger_chat">
+                    <p class="Resource-manage">인원관리</p>
+                    <body></body>
+                    <div class="msg_bubble_wrap">
+                        <div class="msg_bubble-manage">
+                            <p><span class="different-title-course-management">강사</span></p>
+                            <button class="invite-course-management-button">초대</button>
+                            <div class="different-course-management-footer">
+                                <p><span class="different-id-nickname">아이디 닉네임</span></p>
+                                <button class="cancle-button-manage">취소</button>
+                                <p><span class="nickname-manage"><br>아이디 닉네임</span></p>
+                                <button class="fire-button-manage">해임</button>
+                            </div>
+                        </div>
+                        <div class="msg_bubble-manage">
+                            <p><span class="different-title-course-management-two">학생</span></p>
+                                <p><span class="different-id-nickname-two">아이디 닉네임</span></p>
+                                    <button class="cancle-button-manage-two">승인</button><button class="fire-button-manage-second">반려</button>
+                                    <p><span class="different-id-nickname-three">아이디 닉네임</span></p>
+                                    <button class="fire-button-manage-two">반려</button>                             
+                        </div>
+                    </div>
+                    </div>
+                </main>
+               
+               
+        </div>
+        <div class="lecture_footer">
+            <div class="lecture_name">
+                <span class="txt">카카오 클라우드 스쿨3기 개발자반</span>
+            </div>
+            <div class="ico_area">
+                <div class="ico_list bdr_raius">
+                    <a class="ico_btn" href="#">
+                        <img class="ico" src="image/icon.png"/>
+                    </a>
+                    <a class="ico_btn" href="#">
+                        <img class="ico" src="image/video.png"/>
+                    </a>
+                    <a class="ico_btn" href="#">
+                        <img class="ico" src="image/sub.png"/>
+                    </a>
+                    <a class="ico_btn" href="#">
+                        <img class="ico" src="image/imoji.png"/>
+                    </a>
+                    <a class="ico_btn" href="#">
+                        <img class="ico" src="image/screenshare.png"/>
+                    </a>
+                    <a class="ico_btn" href="#">
+                        <img class="ico" src="image/hands-up.png"/>
+                    </a>
+                    <a class="ico_btn" href="#">
+                        <img class="ico" src="image/3dot.png"/>
+                    </a>
+                    <a class="ico_btn" href="#">
+                        <img class="ico" src="image/call.png"/>
+                    </a>
+                </div>
+            </div>
+            <div class="etc_area">
+                <div class="etc_list bdr_raius">
+
+                    <a class="etc_btn" href="#">
+                        <img class="ico" src="image/upload.png"/>
+                    </a>
+                    <a class="etc_btn" href="#">
+                        <img class="ico" src="image/information.png"/>
+                    </a>
+                    <a class="etc_btn" href="#">
+                        <img class="ico" src="image/friends.png"/>
+                    </a>
+                    <a class="etc_btn" href="#">
+                        <img class="ico" src="image/chat.png"/>
+                    </a>
+                    <a class="etc_btn" href="#">
+                        <img class="ico" src="image/lock.png"/>
+                    </a>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+ 
+    const fileTypeDropdown = document.getElementById("fileTypeDropdown");
+        const selectedFileType = document.getElementById("selectedFileType");
+        const searchBox = document.getElementById("searchBox");
+        const searchButton = document.getElementById("searchButton");
+
+        fileTypeDropdown.addEventListener("change", () => {
+            const selectedOption = fileTypeDropdown.value;
+            selectedFileType.textContent = `선택된 파일 타입: ${selectedOption}`;
+        });
+
+        searchButton.addEventListener("click", () => {
+            const selectedFileTypeText = selectedFileType.textContent;
+            const searchText = searchBox.value;
+           
+            alert(`선택된 파일 타입: ${selectedFileTypeText}\n검색어: ${searchText}`);
+            // 실제 검색 기능을 실행하려면 이 부분을 원하는 동작으로 수정하세요.
+        })
+</script>
+</html>
