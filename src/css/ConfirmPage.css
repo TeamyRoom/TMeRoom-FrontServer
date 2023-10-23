@@ -23,7 +23,6 @@ body {
   transform-origin: 50% 0%;
   transform: scale3d(1, 1, 1);
   transition: none;
-
 }
 
 /* 제목 스타일 */
@@ -116,11 +115,6 @@ body {
   border: 1px solid #06c59c; /* 테두리 스타일 변경 */
   background: #fafafa; /* 배경색 변경 */
 }
-
-
-
-
-
 
 /* 타이틀 텍스트 스타일 */
 .title-text {

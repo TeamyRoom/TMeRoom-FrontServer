@@ -1,6 +1,6 @@
 import { forwardRef, useEffect, useState, useImperativeHandle } from "react";
 import { gsap } from '../../node_modules/gsap/index.js';
-import { signUp, signIn, signOut } from "../service/ApiService.js";
+import { signUp, signIn, signOut, findId, findPw } from "../service/ApiService.js";
 
 const Login = forwardRef((props, ref) => {
 
@@ -42,7 +42,7 @@ const Login = forwardRef((props, ref) => {
     useImperativeHandle(ref, () => ({
         modalClose,
         modalOpen
-      }));
+    }));
 
     function init() {
         const initEl = '.form-box.login';
@@ -76,7 +76,7 @@ const Login = forwardRef((props, ref) => {
             popupTo('.form-box.find-pw');
         });
 
-        if(btnPopup) {
+        if (btnPopup) {
             btnPopup.addEventListener('click', (e) => {
                 modalOpen();
             });
@@ -95,7 +95,7 @@ const Login = forwardRef((props, ref) => {
             popupFrom('.form-box.find-pw');
             popupTo('.form-box.login');
         });
-        if(idFindBtn) {
+        if (idFindBtn) {
             idFindBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 modalOpen();
@@ -162,8 +162,8 @@ const Login = forwardRef((props, ref) => {
         }
         signUp({ memberId: memberId, password: password, nickname: nickname, email: email }).then(
             (response) => {
-                if(response.resultCode === "SUCCESS") {
-                    alert("회원가입되었습니다.");
+                if (response.resultCode === "SUCCESS") {
+                    alert("메일이 정상적으로 전송되었습니다. 확인해주세요.");
                     popupFrom('.form-box.register');
                     popupTo('.form-box.login');
                 }
@@ -174,15 +174,35 @@ const Login = forwardRef((props, ref) => {
     function handleSignIn() {
         signIn({ id: memberId, pw: password }).then(
             (response) => {
-                if(response.resultCode === "SUCCESS") {
+                if (response.resultCode === "SUCCESS") {
                     alert("로그인되었습니다.");
-                    window.location.href=window.location.href;
+                    window.location.href = window.location.href;
                 }
             }
         ).catch((e) => { console.log(e) });
     }
 
+    function handleFindId() {
+        findId({ email: email }).then(
+            (response) => {
+                if (response.resultCode === "SUCCESS") {
+                    alert("메일 전송에 성공하였습니다.");
+                    window.location.href = window.location.href;
+                }
+            }
+        ).catch((e) => { console.log(e) });
+    }
 
+    function handleFindPassword() {
+        findPw({ memberId: memberId, email: email }).then(
+            (response) => {
+                if (response.resultCode === "SUCCESS") {
+                    alert("메일 전송에 성공하였습니다.");
+                    window.location.href = window.location.href;
+                }
+            }
+        ).catch((e) => { console.log(e) });
+    }
 
     return (
 
@@ -202,7 +222,7 @@ const Login = forwardRef((props, ref) => {
                             <input
                                 type="text"
                                 required
-                                autocomplete="one-time-code"
+                                autoComplete="one-time-code"
                                 onChange={(e) => setMemberId(e.target.value)}
                             />
                             <label>아이디</label>
@@ -214,7 +234,7 @@ const Login = forwardRef((props, ref) => {
                             <input
                                 type="password"
                                 required
-                                autocomplete="one-time-code"
+                                autoComplete="one-time-code"
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                             <label>비밀번호</label>
@@ -241,10 +261,10 @@ const Login = forwardRef((props, ref) => {
                             <input
                                 type="text"
                                 required
-                                autocomplete="one-time-code"
+                                autoComplete="one-time-code"
                                 onChange={(e) => setMemberId(e.target.value)}
                             />
-                            <label>계정명</label>
+                            <label>ID</label>
                         </div>
                         <div className="input-box">
                             <span className="icon">
@@ -253,7 +273,7 @@ const Login = forwardRef((props, ref) => {
                             <input
                                 type="password"
                                 required
-                                autocomplete="one-time-code"
+                                autoComplete="one-time-code"
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                             <label>비밀번호</label>
@@ -265,7 +285,7 @@ const Login = forwardRef((props, ref) => {
                             <input
                                 type="email"
                                 required
-                                autocomplete="one-time-code"
+                                autoComplete="one-time-code"
                                 onChange={(e) => setEmail(e.target.value)}
                             />
                             <label>이메일</label>
@@ -277,7 +297,7 @@ const Login = forwardRef((props, ref) => {
                             <input
                                 type="text"
                                 required
-                                autocomplete="one-time-code"
+                                autoComplete="one-time-code"
                                 onChange={(e) => setNickname(e.target.value)}
                             />
                             <label>닉네임</label>
@@ -297,17 +317,27 @@ const Login = forwardRef((props, ref) => {
                                 <span className="icon">
                                     <ion-icon name="person"></ion-icon>
                                 </span>
-                                <input type="text" required />
-                                <label>계정명</label>
+                                <input
+                                type="text"
+                                required
+                                autocomplete="one-time-code"
+                                onChange={(e) => setMemberId(e.target.value)}
+                                />
+                                <label>ID</label>
                             </div>
                             <div className="input-box">
                                 <span className="icon">
                                     <ion-icon name="mail"></ion-icon>
                                 </span>
-                                <input type="email" required />
+                                <input
+                                    type="email"
+                                    required
+                                    autocomplete="one-time-code"
+                                    onChange={(e) => setEmail(e.target.value)}
+                                />
                                 <label>이메일</label>
                             </div>
-                            <button type="submit" className="btn">찾기</button>
+                            <button type="submit" className="btn" onClick={handleFindPassword}>찾기</button>
                             <div className="login-register">
                                 <div className="login-register">
                                     <p>이미계정이있으신가요? <a className="login-link">Login</a></p>
@@ -322,10 +352,15 @@ const Login = forwardRef((props, ref) => {
                                 <span className="icon">
                                     <ion-icon name="mail"></ion-icon>
                                 </span>
-                                <input type="email" required />
+                                <input
+                                    type="email"
+                                    required
+                                    autocomplete="one-time-code"
+                                    onChange={(e) => setEmail(e.target.value)}
+                                />
                                 <label>이메일</label>
                             </div>
-                            <button type="submit" className="btn">찾기</button>
+                            <button type="submit" className="btn" onClick={handleFindId}>찾기</button>
                             <div className="login-register">
                                 <p>이미계정이있으신가요? <a className="login-link">Login</a></p>
                             </div>

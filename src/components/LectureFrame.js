@@ -1,4 +1,4 @@
-import { call, getAccessToken } from "../service/ApiService";
+import { accessLecture, call, getAccessToken } from "../service/ApiService";
 import Lecture from "./Lecture";
 import { useEffect, useState, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -15,26 +15,36 @@ function LectureFrame() {
 
     useEffect(() => {
 
-        if(getAccessToken() === null) {
+        if (getAccessToken() === null) {
             loginRef.current.modalOpen();
         }
         else {
-            call(`/lecture/${lecturecode}`, "GET")
-            .then((response) => {
-                if(response.resultCode !== "SUCCESS") {
-                    window.location.href = "/";
-                    return false;
-                }
-                else {
-                    setLecturename(response.result.lectureName);
-                    setNickname(response.result.nickName);
-                    setRole(response.result.role);
-                    return true;
-                }
 
-            })
-            .then((render) => {if(render) setReady(true)})
-            .catch(e => {console.log(e); });
+            accessLecture(lecturecode)
+                .then((response) => {
+                    if (response.resultCode !== "SUCCESS") {
+                        var application = window.confirm("해당 강의에 수강신청 하시겠습니까?");
+                        if(application) {
+                            call(`/lecture/${lecturecode}/application`, "POST")
+                                .then(() => alert("수강신청 되었습니다."))
+                                .then(() =>  {window.location.href = "/";});
+                        }
+                        else{
+                            window.location.href = "/";
+                            return false;
+                        }
+                    }
+                    else {
+                        setLecturename(response.result.lectureName);
+                        setNickname(response.result.nickName);
+                        setRole(response.result.role);
+                        return true;
+                    }
+
+                })
+                .then((render) => { if (render) setReady(true) })
+                .catch(e => { console.log(e); });
+
         }
 
     }, []);
@@ -44,7 +54,7 @@ function LectureFrame() {
             {ready &&
                 <Lecture lecturecode={lecturecode} lecturename={lecturename} nickname={nickname} role={role} />
             }
-            <Login ref={loginRef}/>
+            <Login ref={loginRef} />
         </>
     )
 }
