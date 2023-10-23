@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import axios from "axios";
+import {call} from '../service/ApiService';
 import FileDetail from './StudentFileDetail';
-import "../css/File.css";
 
 function StudentFile(props) {
     const [searchFileType, setSearchFileType] = useState('선택 안 함');

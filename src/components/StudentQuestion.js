@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import "../css/Question.css";
 import NewQuestionForm from "./NewQuestionForm";
 import StudentQuestionDetail from "./StudentQuestionDetail";
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import FileDetail from './TeacherFileDetail';
-import "../css/File.css";
+import { call, getAccessToken } from "../service/ApiService.js"
 
 function TeacherFile(props) {
     const [uploadFile, setUploadFile] = useState("");
@@ -19,26 +19,17 @@ function TeacherFile(props) {
         setSearchFileName(e.target.value);
     };
 
-    const handleFileUpload = (e) => {
-        const formData = new FormData();
-        formData.append('file', uploadFile);
+    const handleFileUpload = async () => {
 
-        axios.post(`/api/v1/lecture/${props.lecturecode}/file`, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-        })
-        .then((response) => {
-            console.log("파일 업로드 성공", response);
-        })
-        .catch((error) => {
-            console.log("파일 업로드 실패", error);
-        });
+        await call(`/lecture/${props.lecturecode}/file`, "POST", uploadFile, "multipart/form-data");
+
+        
+        
     };
 
     const handleUploadFileChange = (e) => {
-        setUploadFile(e.target.value);
-        console.log("이 파일이야?", e.target.value);
+        setUploadFile(e.target.files[0]);
+        console.log("이 파일이야?", e.target.files[0]);
     }
 
     const handlePageChange = (page) => {
@@ -47,7 +38,7 @@ function TeacherFile(props) {
 
 
     const searchFile = () => {
-        axios.get(`/api/v1/lecture/${props.lecturecode}/file`, searchFileType, searchFileName, currentPage)
+        axios.get(`http://localhost:8080/api/v1/lecture/${props.lecturecode}/file`, searchFileType, searchFileName, currentPage)
         .then((response) => {
             setSearchedFiles(response.data);
             setTotalPages(response.data.totalPages);
@@ -85,13 +76,7 @@ function TeacherFile(props) {
                 />
                 <button className="search-button" onClick={searchFile}>검색</button>
                 </div>
-                <div className="msg left_msg">
-                {/* 메시지 내용 */}
-                </div>
                 <div className="msg_bubble">
-                <div className="msg_info">
-                    {/* 메시지 정보 */}
-                </div>
                 <div className="msg_text">
                     <div className="file-info">
                     파일명 | 업로더 | 업로드 날짜
@@ -110,17 +95,17 @@ function TeacherFile(props) {
                 })}
             </div>
             </main>
-            <form className="msger_inputarea">
+            <div className="msger_inputarea">
                 <input
                 type="file"
                 className="msger_input"
                 placeholder="파일 업로드"
                 onChange={handleUploadFileChange}
                 />
-                <button type="submit" className="msger_send_btn" onClick={handleFileUpload}>
+                <button className="msger_send_btn" onClick={handleFileUpload}>
                 업로드
                 </button>
-            </form>
+            </div>
         </div>
     );
 };

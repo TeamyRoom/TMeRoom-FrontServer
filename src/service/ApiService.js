@@ -1,10 +1,16 @@
+
 const SPRING_SERVER_URL = process.env.REACT_APP_SPRING_SERVER_URL;
 
-export async function call(api, method, request) {
+
+export async function call(api, method, request, header) {
+
+    const myToken = getAccessToken();
+    
     let headers = new Headers({
-        "Content-Type": "application/json",
+        "Content-Type": header ? header : "application/json",
     });
 
+    console.log(header,"...",headers);
     let options = {
         headers: headers,
         url: SPRING_SERVER_URL + api,
@@ -13,9 +19,22 @@ export async function call(api, method, request) {
     };
 
     if (request) {
-        if(method === "GET"){
+        if (headers.get("Content-Type") === "multipart/form-data") {
+            const formData = new FormData();
+            formData.append("file", request);
+            options.body = formData;
+            for (let key of formData.keys()) {
+                console.log(key);
+              }
+              
+              // FormData의 value 확인
+              for (let value of formData.values()) {
+                console.log(value);
+              }
+        } 
+        else if(method === "GET"){
             options.url += '?';
-            var keys = Object.keys(request); //키를 가져옵니다. 이때, keys 는 반복가능한 객체가 됩니다.
+            var keys = Object.keys(request);
             for (var i=0; i<keys.length; i++) {
                 var key = keys[i];
                 var val = request[key];
@@ -26,6 +45,7 @@ export async function call(api, method, request) {
             options.body = JSON.stringify(request);
         }    
     }
+
     return fetch(options.url, options)
         .then((response) =>
             response.json().then((json) => {
@@ -48,6 +68,7 @@ export async function call(api, method, request) {
             Promise.reject(error);
         });
 }
+
 
 export async function getResultCodeCall(api, method, request) {
     let headers = new Headers({
