@@ -116,8 +116,13 @@ body {
   background: #fafafa; /* 배경색 변경 */
 }
 
-/* 제출 버튼 스타일 */
-.form_wrapper input[type=submit] {
+/* 타이틀 텍스트 스타일 */
+.title-text {
+  text-align: center; /* 텍스트 가운데 정렬 */
+  font-weight: bold;
+}
+
+.button {
   background: #06c59c; /* 배경색 */
   height: 35px; /* 높이 */
   line-height: 35px; /* 텍스트 수직 중앙 정렬 */
@@ -129,26 +134,14 @@ body {
   font-size: 1.1em; /* 글꼴 크기 */
   margin-bottom: 10px; /* 하단 여백 */
   transition: all 0.3s ease-in-out; /* 호버 효과 애니메이션 */
+  background: #05a281;
+  text-align: center; 
 }
 
-/* 제출 버튼 호버 스타일 */
-.form_wrapper input[type=submit]:hover {
-  background: #05a281; /* 호버 시 배경색 변경 */
-}
-
-/* 제출 버튼 포커스 스타일 */
-.form_wrapper input[type=submit]:focus {
+.button input[type=submit]:focus {
   background: #05a281; /* 포커스 시 배경색 변경 */
 }
 
-
-
-/* 타이틀 텍스트 스타일 */
-.title-text {
-  text-align: center; /* 텍스트 가운데 정렬 */
-}
-
-/* 타이틀 컨테이너 스타일 */
-.title_container {
-  font-weight: bold; /* 글꼴 굵기 */
+.button input[type=submit]:hover {
+  background: #05a281; /* 호버 시 배경색 변경 */
 }
