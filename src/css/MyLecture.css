@@ -20,6 +20,17 @@
     font-size: 13px;
     box-shadow: 0 1px 4px 0px rgba(0,0,50,0.3);
 }
+.table-row-unaccepted{
+    display: table;
+    width: 80%;
+    margin: 10px auto;
+    font-family: sans-serif;
+    background: lightgray;
+    padding: 12px 0;
+    color: #555;
+    font-size: 13px;
+    box-shadow: 0 1px 4px 0px rgba(0,0,50,0.3);
+}
 .table-head{
     background: #8665f7;
     box-shadow: none;
