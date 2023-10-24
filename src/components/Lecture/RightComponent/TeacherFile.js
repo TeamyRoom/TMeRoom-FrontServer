@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import FileDetail from './TeacherFileDetail';
+import "../../../css/File.css";
 import { call, getAccessToken } from "../../../service/ApiService.js"
 
 function TeacherFile(props) {

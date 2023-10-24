@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios, { all } from "axios";
 import NewQuestionForm from "./NewQuestionForm";
 import TeacherQuestionDetail from "./TeacherQuestionDetail";
-import "../../../css/File.css";
+import "../../../css/Question.css";
 import { call, getAccessToken } from "../../../service/ApiService"
 
 function TeacherQuestion(props) {
@@ -81,12 +81,12 @@ function TeacherQuestion(props) {
 
     return(
 <div className="chat_area">
-            <main className="msger_chat">
-                <p className="Resource">Q&A</p>
+            <main className="msger_chat-qna-main">
+                <p className="Resource-qna-main">Q&A</p>
   
                 <div className="search-container">
                 </div>
-                <div className="msg_bubble">
+                <div className="msg_bubble-qna-main">
                 {
               showQeustionList && (
                 questionList.map((data, index) => (
@@ -106,11 +106,11 @@ function TeacherQuestion(props) {
                 <NewQuestionForm lecturecode={props.lecturecode}/>
               )
               }  
-                <div className="msg_text">
+                <div className="msg_text-qna-main">
                 </div>
             </div>           
             { showQeustionList && (
-              <div className="page-number">
+              <div className="page-number-qna-main">
               {Array.from({length: totalPages},(_,index) => (
                 <button key={index} onClick={() => handlePageChange(index+1)} className={currentPage === index+1 ? "active" : ""}>
                   {index+1}
