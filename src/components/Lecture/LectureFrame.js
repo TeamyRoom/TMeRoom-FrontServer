@@ -1,8 +1,8 @@
-import { accessLecture, call, getAccessToken } from "../service/ApiService";
+import { accessLecture, call, getAccessToken } from "../../service/ApiService";
 import Lecture from "./Lecture";
 import { useEffect, useState, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import Login from "./Login";
+import Login from "../SinglePage/Login";
 
 function LectureFrame() {
     const navigate = useNavigate();

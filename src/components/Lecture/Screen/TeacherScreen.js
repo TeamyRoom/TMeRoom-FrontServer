@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
 import io from 'socket.io-client';
 import * as mediasoupClient from "mediasoup-client";
-import { getAccessToken } from '../service/ApiService';
+import { getAccessToken } from '../../../service/ApiService';
 import Popup from "./Popup"
 
 const HLS_SERVER_URL = process.env.REACT_APP_HLS_SERVER_URL;

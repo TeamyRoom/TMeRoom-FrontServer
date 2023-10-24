@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { createLecture } from "../service/ApiService";
+import { createLecture } from "../../service/ApiService";
 import { useNavigate } from "react-router-dom";
 
 export default function Main() {

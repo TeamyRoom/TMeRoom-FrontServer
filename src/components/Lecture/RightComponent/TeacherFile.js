@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import FileDetail from './TeacherFileDetail';
-import { call, getAccessToken } from "../service/ApiService.js"
+import { call, getAccessToken } from "../../../service/ApiService.js"
 
 function TeacherFile(props) {
     const [uploadFile, setUploadFile] = useState("");

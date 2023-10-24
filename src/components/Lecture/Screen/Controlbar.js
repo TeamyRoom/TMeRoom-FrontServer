@@ -3,10 +3,8 @@ import classNames from "classnames";
 
 
 import styles from "./controlbar.module.scss";
-import pauseIcon from "./assets/pause.png";
-import playIcon from "./assets/play.png";
-import muteIcon from "./assets/mute.png";
-import volumeIcon from "./assets/volume.png";
+import muteIcon from "../../assets/mute.png";
+import volumeIcon from "../../assets/volume.png";
 
 const Controlbar = ({videoElement, hlsButtonClick}) => {
 
