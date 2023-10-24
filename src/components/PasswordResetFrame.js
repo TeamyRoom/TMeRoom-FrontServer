@@ -1,7 +1,7 @@
 import { confirmResetCode, resetPassword } from "../service/ApiService";
 import { useParams } from "react-router-dom";
 import React, { useEffect, useState } from 'react';
-import "../css/PasswordResetPage.css";
+import "../css/ConfirmPage.css";
 
 
 function PasswordResetFrame() {
