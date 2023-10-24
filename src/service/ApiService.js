@@ -2,37 +2,33 @@
 const SPRING_SERVER_URL = process.env.REACT_APP_SPRING_SERVER_URL;
 
 
-export async function call(api, method, request, header) {
+export async function call(api, method, request, type) {
 
-    const myToken = getAccessToken();
-    
-    let headers = new Headers({
-        "Content-Type": header ? header : "application/json",
-    });
+    let header;
+    let body;
+    let options;
 
-    console.log(header,"...",headers);
-    let options = {
-        headers: headers,
-        url: SPRING_SERVER_URL + api,
-        method: method,
-        credentials: 'include',
-    };
+    if (type) {
+        header = new Headers({});
+        const formData = new FormData();
+        formData.append("file", request);
+        body = formData;
+    } else {
+        header =  new Headers({
+            "Content-Type": "application/json",
+        });
+        body = request ? JSON.stringify(request) : null;
+    }
 
-    if (request) {
-        if (headers.get("Content-Type") === "multipart/form-data") {
-            const formData = new FormData();
-            formData.append("file", request);
-            options.body = formData;
-            for (let key of formData.keys()) {
-                console.log(key);
-              }
-              
-              // FormData의 value 확인
-              for (let value of formData.values()) {
-                console.log(value);
-              }
-        } 
-        else if(method === "GET"){
+    if (method === "GET") {
+        options = {
+            headers: header,
+            url: SPRING_SERVER_URL + api,
+            method: method,
+            credentials: 'include',      
+        };
+
+        if (request) {
             options.url += '?';
             var keys = Object.keys(request);
             for (var i=0; i<keys.length; i++) {
@@ -41,10 +37,17 @@ export async function call(api, method, request, header) {
                 options.url += `${key}=${val}`;
                 if(i !== keys.length-1) options.url +='&'; 
             }
-        }else{
-            options.body = JSON.stringify(request);
-        }    
-    }
+        }
+    } else {
+        options = {
+            headers: header,
+            url: SPRING_SERVER_URL + api,
+            method: method,
+            credentials: 'include',
+            body: body        
+        };
+    }    
+
 
     return fetch(options.url, options)
         .then((response) =>
