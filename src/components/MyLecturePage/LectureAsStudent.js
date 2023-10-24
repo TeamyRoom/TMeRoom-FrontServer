@@ -58,7 +58,9 @@ export default function LectureAsStudent() {
                             <p>{lecture.lectureCode}</p>
                         </div>
                         <div className="table-cell last-cell">
-                            <button class="apply" onClick={() => { goLecture(lecture.lectureCode) }}>입장</button>
+                            { lecture.acceptedAt &&
+                                <button class="apply" onClick={() => { goLecture(lecture.lectureCode) }}>입장</button>
+                            }
                             <button class="apply" onClick={() =>{deleteLecture(lecture.lectureCode)}}>수강취소</button>
                         </div>
                     </div>
