@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react"
-import { call } from "../../../service/ApiService";
-import axios from 'axios';
+import { call, dismissTeacher as dismissTeacherAPI, rejectStudent, acceptStudent } from "../../../service/ApiService";
 import React from 'react';
-import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
 import "../../../css/Question.css";
 
@@ -30,6 +28,7 @@ export default function Management(props) {
     const [teacherTotalPages, setTeacherTotalPages] = useState(1);
     const [studentCurrentPage, setStudentCurrentPage] = useState(-1);
     const [studentTotalPages, setStudentTotalPages] = useState(1);
+    const [reload, setReload] = useState(true);
 
     // Modal ------------------------------
     let subtitle;
@@ -83,20 +82,76 @@ export default function Management(props) {
         });
     }
 
+    const suggestTeacher = (teacherId) =>{
+        call(`/lecture/${props.lecturecode}/teacher`, "POST", {teacherId : teacherId})
+        .then((response) => {
+            if(response.resultCode === "SUCCESS"){
+                alert("초청 성공");
+                setReload(!reload);
+            }else{
+                alert("초청 실패");
+            }
+        })
+        .catch((error) => {
+            alert("초청 실패");
+        });
+    }
+
+    const dismissTeacher = (teacherId) =>{
+        dismissTeacherAPI(props.lecturecode, teacherId)
+        .then((response) => {
+            if(response.resultCode === "SUCCESS"){
+                alert("요청 성공");
+            }else{
+                alert("요청 실패");
+            }
+        })
+        .catch((error) => {
+            alert("요청 실패");
+        });
+    }
+
+    const acceptApplicant = (teacherId) =>{
+        acceptStudent(props.lecturecode, teacherId)
+        .then((response) => {
+            if(response.resultCode === "SUCCESS"){
+                alert("요청 성공");
+                setReload(!reload);
+            }else{
+                alert("요청 실패");
+            }
+        })
+        .catch((error) => {
+            alert("요청 실패");
+        });
+    }
+
+    const rejectApplicant = (teacherId) =>{
+        rejectStudent(props.lecturecode, teacherId)
+        .then((response) => {
+            if(response.resultCode === "SUCCESS"){
+                alert("요청 성공");
+                setReload(!reload);
+            }else{
+                alert("요청 실패");
+            }
+        })
+        .catch((error) => {
+            alert("요청 실패");
+        });
+    }
+
     useEffect(() => {
         call(`/lecture/${props.lecturecode}/applications?page=0`, "GET")
             .then((response) => {
                 setApplications(response.result.content);
             });
-    }, []);
-
-
-    useEffect(() => {
-        call(`/lecture/${props.lecturecode}/teachers?page=0`, "GET")
+            call(`/lecture/${props.lecturecode}/teachers?page=0`, "GET")
             .then((response) => {
                 setTeachers(response.result.content);
             });
-    }, []);
+    }, [reload]);
+
 
     return (
         <div className="chat_area">
@@ -134,16 +189,16 @@ export default function Management(props) {
                     {searchedTeachers.map((person, index) => (
                         <div key={index}>
                             <span>{person.memberId} / {person.nickname} </span>
-                            <button>초청</button>
+                            <button onClick={()=>{suggestTeacher(person.memberId)}}>초청</button>
                         </div>
                     ))}
                 </Modal>
                 {teachers.map((person, index) => (
                     <div key={index}>
-                        <a>{person.memberNickname} / {person.applicantNickName} </a>
-                        {
-                            (person.acceptedAt == null) ? <button>취소</button> : <button>해임</button>
-                        }
+                        <span>{person.id} / {person.nickName} </span>
+                        <button onClick={()=>{dismissTeacher(person.memberId)}}>{
+                            (person.acceptedAt == null) ? "취소" : "해임"
+                        }</button>
                     </div>
                 ))}
                 <div className='page-number'>
@@ -157,14 +212,14 @@ export default function Management(props) {
                 <h3>학생 관리</h3>
                 {applications.map((person, index) => (
                     <div key={index}>
-                        <a>{person.memberNickname} / {person.applicantNickName} / {person.applicantEmail}</a>
+                        <span>{person.id} / {person.nickName}</span>
                         {
                             (person.acceptedAt == null) ?
                                 <div>
-                                    <button>승인</button>
-                                    <button>반려</button>
+                                    <button onClick={()=>{acceptApplicant(person.id)}}>승인</button>
+                                    <button onClick={()=>{rejectApplicant(person.id)}}>반려</button>
                                 </div>
-                                : <button>퇴출</button>
+                                : <button onClick={()=>{rejectApplicant(person.id)}}>퇴출</button>
                         }
 
                     </div>

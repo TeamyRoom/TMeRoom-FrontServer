@@ -153,3 +153,23 @@ export function resetPassword(webDTO){
 export function accessLecture(lectureCode) {
     return getResultCodeCall(`/lecture/${lectureCode}`, "GET");
 }
+
+export function dismissTeacher(lectureCode, teacherId){
+    return getResultCodeCall(`/lecture/${lectureCode}/teacher/${teacherId}`, "DELETE");
+}
+
+export function acceptStudent(lectureCode, studentId){
+    return getResultCodeCall(`/lecture/${lectureCode}/application/${studentId}`, "PUT");
+}
+
+export function rejectStudent(lectureCode, studentId){
+    return getResultCodeCall(`/lecture/${lectureCode}/application/${studentId}`, "DELETE");
+}
+
+export function decisionTeacher(lectureCode, answer){
+    if(answer){
+        return getResultCodeCall(`/lecture/${lectureCode}/teacher`, "PUT");
+    }else{
+        return getResultCodeCall(`/lecture/${lectureCode}/teacher`, "DELETE");
+    }
+}
