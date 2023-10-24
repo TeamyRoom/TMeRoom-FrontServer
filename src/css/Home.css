@@ -93,7 +93,7 @@ header {
 }
 
 .navigation-tab {
-    color:black;
+    color: black;
 }
 
 .wrapper-modal {
@@ -287,4 +287,24 @@ header {
     text-align: center;
     font-weight: 500;
     margin: 25px 0 10px;
+}
+
+.MuiPagination-root {
+    display: flex;
+    justify-content: center;
+}
+
+.MuiPaginationItem-root {
+    margin: 0 4px;
+}
+
+.MuiPaginationItem-previousNext {
+    display: flex;
+    align-items: center;
+}
+
+.MuiPaginationItem-icon,
+.MuiPaginationItem-page {
+    display: flex;
+    align-items: center;
 }

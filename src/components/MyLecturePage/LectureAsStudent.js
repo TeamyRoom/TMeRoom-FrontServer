@@ -1,23 +1,29 @@
 import { useEffect, useState } from "react"
 import { call, getResultCodeCall } from "../../service/ApiService";
 import { useNavigate } from "react-router-dom";
+import { Pagination } from "@mui/material";
 
 
 export default function LectureAsStudent() {
 
     const navigate = useNavigate();
 
+    const [totalPages, setTotalPages] = useState(0);
     const [lectures_student, setLectures_student] = useState([]);
+    const [pageNumber, setPageNumber] = useState(0);
 
     useEffect(() => {
         getLectureList();
     }, []);
 
     const getLectureList = () => {
-        getResultCodeCall("/lectures/taking?page=0", "GET")
-        .then((response) => {
-            if (response.resultCode === "SUCCESS") setLectures_student(response.result.content);
-        });
+        getResultCodeCall(`/lectures/taking?page=${pageNumber}`, "GET")
+            .then((response) => {
+                if (response.resultCode === "SUCCESS") {
+                    setLectures_student(response.result.content);
+                    setTotalPages(response.result.totalPages);
+                }
+            });
     }
 
     const goLecture = (lectureCode) => {
@@ -31,6 +37,11 @@ export default function LectureAsStudent() {
                 getLectureList();
             })
     }
+
+    const handlePageChange = (event, page) => {
+        setPageNumber(page - 1);
+        getLectureList();
+    };
 
     return (
         <>
@@ -58,14 +69,22 @@ export default function LectureAsStudent() {
                             <p>{lecture.lectureCode}</p>
                         </div>
                         <div className="table-cell last-cell">
-                            { lecture.acceptedAt &&
+                            {lecture.acceptedAt &&
                                 <button class="apply" onClick={() => { goLecture(lecture.lectureCode) }}>입장</button>
                             }
-                            <button class="apply" onClick={() =>{deleteLecture(lecture.lectureCode)}}>수강취소</button>
+                            <button class="apply" onClick={() => { deleteLecture(lecture.lectureCode) }}>수강취소</button>
                         </div>
                     </div>
                 ))
             }
+            <Pagination
+                count={totalPages} // 전체 페이지 수
+                page={pageNumber} // 현재 페이지
+                onChange={handlePageChange} // 페이지 변경 핸들러
+                variant="outlined"
+                shape="rounded"
+                className="lecture-list-pagination"
+            />
         </>
     )
 }
