@@ -1,23 +1,29 @@
 import { useEffect, useState } from "react"
 import { call, getResultCodeCall } from "../../service/ApiService";
 import { useNavigate } from "react-router-dom";
+import { Pagination } from "@mui/material";
 
 
 export default function LectureAsStudent() {
 
     const navigate = useNavigate();
 
+    const [totalPages, setTotalPages] = useState(0);
     const [lectures_student, setLectures_student] = useState([]);
+    const [pageNumber, setPageNumber] = useState(0);
 
     useEffect(() => {
         getLectureList();
-    }, []);
+    }, [pageNumber]);
 
     const getLectureList = () => {
-        getResultCodeCall("/lectures/taking?page=0", "GET")
-        .then((response) => {
-            if (response.resultCode === "SUCCESS") setLectures_student(response.result.content);
-        });
+        getResultCodeCall(`/lectures/taking/student?page=${pageNumber}`, "GET")
+            .then((response) => {
+                if (response.resultCode === "SUCCESS") {
+                    setLectures_student(response.result.content);
+                    setTotalPages(response.result.totalPages);
+                }
+            });
     }
 
     const goLecture = (lectureCode) => {
@@ -32,9 +38,13 @@ export default function LectureAsStudent() {
             })
     }
 
+    const handlePageChange = (event, page) => {
+        setPageNumber(page - 1);
+    };
+
     return (
         <>
-            <h1 className="Title">수업 중인 강의 목록</h1>
+            <h1 className="Title">수강 중인 강의 목록</h1>
 
             <div className="table-row table-head">
                 <div className="table-cell first-cell">
@@ -50,7 +60,7 @@ export default function LectureAsStudent() {
 
             {
                 lectures_student.map((lecture, index) => (
-                    <div className="table-row" key={index}>
+                    <div className={lecture.acceptedAt ? "table-row" : "table-row-unaccepted"} key={index}>
                         <div className="table-cell first-cell">
                             <p>{lecture.lectureName}</p>
                         </div>
@@ -58,12 +68,24 @@ export default function LectureAsStudent() {
                             <p>{lecture.lectureCode}</p>
                         </div>
                         <div className="table-cell last-cell">
-                            <button class="apply" onClick={() => { goLecture(lecture.lectureCode) }}>입장</button>
-                            <button class="apply" onClick={() =>{deleteLecture(lecture.lectureCode)}}>수강취소</button>
+                            {lecture.acceptedAt ?
+                                <button className="apply" onClick={() => { goLecture(lecture.lectureCode) }}>강의실 입장</button>
+                                :
+                                <button className="apply">수락 대기중</button>
+                            }
+                            <button className="apply" onClick={() => { deleteLecture(lecture.lectureCode) }}>강의 탈퇴</button>
                         </div>
                     </div>
                 ))
             }
+            <Pagination
+                count={totalPages}
+                page={pageNumber}
+                onChange={handlePageChange}
+                variant="outlined"
+                shape="rounded"
+                className="lecture-list-pagination"
+            />
         </>
     )
 }
