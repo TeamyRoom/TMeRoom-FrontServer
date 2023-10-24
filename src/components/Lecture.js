@@ -110,7 +110,7 @@ function Lecture(props) {
                         <TeacherQuestion lecturecode={props.lecturecode} nickname={props.nickname} />
                     </div>
                 }
-                {/* {isQuestionVisible && props.role === 'student' &&
+                {isQuestionVisible && props.role === 'student' &&
                     <div className="right-component">
                         <StudentQuestion lecturecode={props.lecturecode} nickname={props.nickname} />
                     </div>
@@ -120,7 +120,7 @@ function Lecture(props) {
                         <TeacherFile lecturecode={props.lecturecode} nickname={props.nickname} />
                     </div>
                 }
-                {/* {isFileVisible && props.role === 'student' &&
+                {isFileVisible && props.role === 'student' &&
                     <div className="right-component">
                         <StudentFile lecturecode={props.lecturecode} nickname={props.nickname} />
                     </div>
