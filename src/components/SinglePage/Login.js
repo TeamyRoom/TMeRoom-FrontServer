@@ -1,6 +1,6 @@
 import { forwardRef, useEffect, useState, useImperativeHandle } from "react";
-import { gsap } from '../../node_modules/gsap/index.js';
-import { signUp, signIn, signOut, findId, findPw } from "../service/ApiService.js";
+import { gsap } from 'gsap/index.js';
+import { signUp, signIn, signOut, findId, findPw } from "../../service/ApiService.js";
 
 const Login = forwardRef((props, ref) => {
 
@@ -320,7 +320,7 @@ const Login = forwardRef((props, ref) => {
                                 <input
                                 type="text"
                                 required
-                                autocomplete="one-time-code"
+                                autoComplete="one-time-code"
                                 onChange={(e) => setMemberId(e.target.value)}
                                 />
                                 <label>ID</label>
@@ -332,7 +332,7 @@ const Login = forwardRef((props, ref) => {
                                 <input
                                     type="email"
                                     required
-                                    autocomplete="one-time-code"
+                                    autoComplete="one-time-code"
                                     onChange={(e) => setEmail(e.target.value)}
                                 />
                                 <label>이메일</label>
@@ -355,7 +355,7 @@ const Login = forwardRef((props, ref) => {
                                 <input
                                     type="email"
                                     required
-                                    autocomplete="one-time-code"
+                                    autoComplete="one-time-code"
                                     onChange={(e) => setEmail(e.target.value)}
                                 />
                                 <label>이메일</label>

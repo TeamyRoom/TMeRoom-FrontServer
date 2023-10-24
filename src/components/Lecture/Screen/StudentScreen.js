@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, forwardRef, useImperativeHandle } f
 import io from 'socket.io-client';
 import Video from './Video';
 import VideoJS from './VideoJS';
-import { getAccessToken } from '../service/ApiService';
+import { getAccessToken } from '../../../service/ApiService';
 
 const SFU_SERVER_URL = process.env.REACT_APP_SFU_SERVER_URL;
 

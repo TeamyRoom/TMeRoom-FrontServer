@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import NewQuestionForm from "./NewQuestionForm";
 import TeacherQuestionDetail from "./TeacherQuestionDetail";
-import "../css/File.css";
-import { call, getAccessToken } from "../service/ApiService"
+import "../../../css/File.css";
 
 function TeacherQuestion(props) {
 

@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react"
-import { call } from "../service/ApiService";
+import { call } from "../../../service/ApiService";
 import axios from 'axios';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
-import "../css/Question.css";
+import "../../../css/Question.css";
 
 const customStyles = {
     content: {

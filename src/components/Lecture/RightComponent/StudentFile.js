@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from "axios";
-import {call} from '../service/ApiService';
+import {call} from '../../../service/ApiService';
 import FileDetail from './StudentFileDetail';
 
 function StudentFile(props) {

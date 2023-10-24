@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import "../../css/MyLecture.css";
-import { call } from "../../service/ApiService";
 import LectureAsStudent from "./LectureAsStudent";
 import LectureAsTeacher from "./LectureAsTeacher";
 import LectureAsManager from "./LectureAsManager";

@@ -1,14 +1,14 @@
-import TeacherScreen from "./TeacherScreen";
-import StudentScreen from "./StudentScreen";
-import Chatting from "./Chatting";
-import "../css/Lecture.css"
+import TeacherScreen from "./Screen/TeacherScreen";
+import StudentScreen from "./Screen/StudentScreen";
+import Chatting from "./RightComponent/Chatting";
+import "../../css/Lecture.css"
 import { useRef, useState } from "react";
-import TeacherQuestion from "./TeacherQuestion";
-import StudentQuestion from "./StudentQuestion";
-import TeacherFile from "./TeacherFile";
-import StudentFile from "./StudentFile";
-import { call } from "../service/ApiService";
-import Management from "./Management";
+import TeacherQuestion from "./RightComponent/TeacherQuestion";
+import StudentQuestion from "./RightComponent/StudentQuestion";
+import TeacherFile from "./RightComponent/TeacherFile";
+import StudentFile from "./RightComponent/StudentFile";
+import { call } from "../../service/ApiService";
+import Management from "./RightComponent/Management";
 
 function Lecture(props) {
     const [lectureName, setLecturename] = useState(props.lecturename);

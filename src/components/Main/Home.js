@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 
-import "../css/Home.css";
-import { getAccessToken, signOut } from "../service/ApiService.js";
-import Login from "./Login.js";
+import "../../css/Home.css";
+import { getAccessToken, signOut } from "../../service/ApiService.js";
+import Login from "../SinglePage/Login.js";
 import Main from "./Main";
-import MyLecture from "./MyLecturePage/MyLecture";
+import MyLecture from "../MyLecturePage/MyLecture";
 
 function Home() {
 

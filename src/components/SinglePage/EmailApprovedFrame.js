@@ -1,7 +1,7 @@
-import { confirmEmail } from "../service/ApiService";
+import { confirmEmail } from "../../service/ApiService";
 import { useParams } from "react-router-dom";
 import React, { useState, useEffect } from 'react';
-import "../css/ConfirmPage.css";
+import "../../css/ConfirmPage.css";
 
 
 function EmailApprovedFrame() {
