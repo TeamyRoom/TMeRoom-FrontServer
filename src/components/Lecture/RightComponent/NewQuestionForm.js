@@ -9,7 +9,7 @@ function NewQuestionForm(props) {
 
 
     
-    const uploadQuestion = async () => {
+    const uploadQuestion =  () => {
         const questionData = {
             title : questionTitle,
             content : questionContent,
@@ -17,7 +17,7 @@ function NewQuestionForm(props) {
         };
 
 
-        await call(`/lecture/${props.lecturecode}/question`,"POST",questionData);
+       call(`/lecture/${props.lecturecode}/question`,"POST",questionData);
       }
 
 
