@@ -4,6 +4,7 @@ import Home from './components/Main/Home'
 import LectureFrame from './components/Lecture/LectureFrame';
 import EmailApprovedFrame from './components/SinglePage/EmailApprovedFrame';
 import PasswordResetFrame from './components/SinglePage/PasswordResetFrame';
+import TeacherAccept from './components/SinglePage/TeacherAccept';
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
         <Route path="/lecture/:lecturecode" element={<LectureFrame />}>  </Route>
         <Route path="/email-confirm/:confirmcode" element={<EmailApprovedFrame />}> </Route>
         <Route path="/pw-reset/:resetcode" element={<PasswordResetFrame />}> </Route>
+        <Route path="/teacher-accept/:lecturecode/:answer" element={<TeacherAccept />}> </Route>
       </Routes>
     </BrowserRouter>
   );
