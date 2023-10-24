@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axios, { all } from "axios";
 import NewQuestionForm from "./NewQuestionForm";
 import TeacherQuestionDetail from "./TeacherQuestionDetail";
-import "../../../css/File.css";
+import "../../../css/Question.css";
+import { call, getAccessToken } from "../../../service/ApiService"
 
 function TeacherQuestion(props) {
 
     const [questionDetail, setQuestionDetail] = useState("");
     const [questionList, setQuestionList] = useState([]);
-    const [showQuestion, setShowQuestion] = useState("list");
+    const [showQeustionList, setShowQuestionList] = useState(true);
+    const [showQeustionDetail, setShowQuestionDetail] = useState(false);
+    const [showQeustionNew, setShowQuestionNew] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     
@@ -21,38 +24,42 @@ function TeacherQuestion(props) {
     
     const renderQuestionList = () => {
 
-      axios.get(`http://localhost:8080/api/v1/lecture/${props.lecturecode}/questions/permitted-only`, 
-      {withCredentials:true, 
-        params: {
-        page: currentPage, // 페이지 번호를 매개변수로 전달
-        size: totalPages
-      }})
-      .then((response) => {
-          setQuestionList(response.data);
-          setTotalPages(response.data.totalPages);
-      })
-      .catch((error) => {
-          console.log("질문리스트 불러오기 실패",error);
-      })
+      const params = {
+        page: currentPage-1
+      }
+
+      call(`/lecture/${props.lecturecode}/questions`, "GET", params)
+        .then((response) => {
+            setQuestionList(response.result.content);
+            console.log("resp" , response);
+            setTotalPages(response.result.totalPages);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
     }
 
     const clickQuestion = (questionId) => {
-      axios.get(`http://localhost:8080/api/v1/lecture/${props.lecturecode}/question/${questionId}`)
-      .then((response) => {
-        setQuestionDetail(response.data);
-        setShowQuestion('detail');
-      })
-      .catch((error) => {
-        console.log("질문 읽기 실패", error);
-      })
+
+      console.log("showquestion은 ", questionId);
+
+      call(`/lecture/${props.lecturecode}/question/${questionId}`, "GET")
+        .then((response) => {
+          console.log("hey", response);
+            setQuestionDetail(response.result);
+            allClose();
+            setShowQuestionDetail(true);
+        });
     }
 
     const clickCreateQuestion = () => {
-      setShowQuestion('create');
+      allClose();
+      setShowQuestionNew(true);
     }
 
     const clickBackward = () => {
-      setShowQuestion('list');
+      allClose();
+      setShowQuestionList(true);
       renderQuestionList();
     }
 
@@ -63,42 +70,55 @@ function TeacherQuestion(props) {
       renderQuestionList();
     }
 
+    const allClose = () => {
+      setShowQuestionDetail(false);
+      setShowQuestionList(false);
+      setShowQuestionNew(false);
+
+    }
     
 
 
     return(
 <div className="chat_area">
-            <main className="msger_chat">
-                <p className="Resource">Q&A</p>
+            <main className="msger_chat-qna-main">
+                <p className="Resource-qna-main">Q&A</p>
   
                 <div className="search-container">
                 </div>
-                <div className="msg_bubble">
+                <div className="msg_bubble-qna-main">
                 {
-              showQuestion === 'list' ? (
-                questionList.map((data, index) => {
-                  <a href="#" onClick={clickQuestion(data.questionId)} className="question" key={index}>{`Q${index + 1}) ${data.questionTitle}`}</a>
-                })
-              ) : showQuestion === 'detail' ? (
-                <TeacherQuestionDetail {...questionDetail} lecturecode={props.lecturecode} />
-              ) : (
-                <NewQuestionForm {...questionDetail} lecturecode={props.lecturecode}/>
+              showQeustionList && (
+                questionList.map((data, index) => (
+                  <button onClick={() => {clickQuestion(data.questionId)}} className="question" key={index}>{`Q${index + 1}) ${data.questionTitle}`}</button>
+                ))
+              ) }
+              {showQeustionDetail && (
+                <TeacherQuestionDetail 
+                questionId={questionDetail.questionId} 
+                authorNickname={questionDetail.authorNickname} 
+                createdAt={questionDetail.createdAt}
+                title={questionDetail.questionTitle}
+                content={questionDetail.questionContent}
+                lecturecode={props.lecturecode} />
+              ) } 
+              {showQeustionNew && (
+                <NewQuestionForm lecturecode={props.lecturecode}/>
               )
-            }  
-                <div className="msg_text">
+              }  
+                <div className="msg_text-qna-main">
                 </div>
             </div>           
-            { showQuestion === 'list' && (
-              <div className="page-number">
-              {Array.from({length: totalPages},(_,index) => {
+            { showQeustionList && (
+              <div className="page-number-qna-main">
+              {Array.from({length: totalPages},(_,index) => (
                 <button key={index} onClick={() => handlePageChange(index+1)} className={currentPage === index+1 ? "active" : ""}>
                   {index+1}
                 </button>
-              })}
+              ))}
             </div>
             )}
             </main>
-            <div className="msger_inputarea"><button onClick={clickCreateQuestion}>질문하기</button></div>  
                 
         </div>
 

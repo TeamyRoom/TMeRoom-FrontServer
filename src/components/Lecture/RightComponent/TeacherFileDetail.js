@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 
 function TeacherFileDetail(props) {
-    const { fileId, fileLink, fileName, fileUploaderNickName } = props;    
+    const { fileId, fileLink, fileName, fileUploaderNickname } = props;    
 
     function handleDeleteFile() {
 
@@ -18,9 +18,9 @@ function TeacherFileDetail(props) {
     return (
         <div>
             <p>{fileName}</p>
-            <p>{fileUploaderNickName}</p>
-            <a href={fileLink} target='_blank' rel='noreferrer'><img src='./assets/download.png' >download</img></a>
-            <img src='./assets/delete.png' onClick={handleDeleteFile}>Delete</img>
+            <p>{fileUploaderNickname}</p>
+            <a href={fileLink} target='_blank' rel='noreferrer'><img src='./assets/download.png' className='download-button-Library'></img></a>
+            <img src='./assets/delete.png' className='delete-button-Library' onClick={handleDeleteFile}></img>
         </div>
     );
 };

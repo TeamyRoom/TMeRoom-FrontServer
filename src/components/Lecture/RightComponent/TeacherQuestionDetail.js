@@ -1,12 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
+import "../../../css/QuestionDetail.css";
+import {call} from '../../../service/ApiService';
 
 function TeacherQuestionDetail(props) {
-    const { questionId, authorNickname, createdAt } = props;    
+    const { questionId, authorNickname, createdAt, content, title } = props;    
     const [viewEditQuestion, setViewEditQuestion] = useState("false");
-    const [questionTitle, setQuestionTitle] = useState(props.title);
-    const [questionContent, setQuestionContent] = useState(props.content);
-    const [questionVisibility, setQuestionVisibility] = useState(props.isPublic ? "public" : "private");
+    const [questionTitle, setQuestionTitle] = useState(title);
+    const [questionContent, setQuestionContent] = useState(content);
+    const [questionVisibility, setQuestionVisibility] = useState("");
     const [commentList, setCommentList] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
@@ -20,14 +22,19 @@ function TeacherQuestionDetail(props) {
 
   
     const renderCommentList = () => {
-      axios.get(`/api/v1/lecture/${props.lecturecode}/questions/${questionId}/comments`, currentPage)
-      .then((response) => {
-          setCommentList(response.data);
-          setTotalPages(response.data.totalPages);
-      })
-      .catch((error) => {
-          console.log("답변리스트 불러오기 실패",error);
-      })
+      const params = {
+        page: currentPage-1,
+      };
+
+      call(`/lecture/${props.lecturecode}/question/${questionId}/comments`, "GET", params)
+        .then((response) => {
+            setCommentList(response.result.content);
+            console.log("댓글명단이요" , response);
+            setTotalPages(response.result.totalPages);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
 
     const editButtonClcik = () => {
@@ -41,58 +48,65 @@ function TeacherQuestionDetail(props) {
         isPublic : questionVisibility==='public' ? true : false
       };
 
-      const editQuestion = JSON.stringify(editQuestionData);
-
-      axios.put(`/api/v1/lecture/${props.lecturecode}/question/${questionId}`,editQuestion)
-      .then((response) => {
+      call(`/lecture/${props.lecturecode}/questions/${questionId}`, "PUT", editQuestionData)
+        .then((response) => {
         console.log("질문 수정 성공", response);
-      })
-      .catch((error) => {
-        console.log("질문 수정 실패", error);
-      })
-
-      setViewEditQuestion(false);
+        setViewEditQuestion(false);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      
     }
   
     const deleteQuestion = () => {
-        axios.delete(`/api/v1/lecture/${props.lecturecode}/question/${questionId}`)
+
+      call(`/lecture/${props.lecturecode}/questions/${questionId}`, "DELETE")
         .then((response) => {
-            console.log("질문 삭제 성공", response);
+        console.log("질문 삭제 성공", response);
         })
         .catch((error) => {
-            console.log("질문 삭제 실패", error);
-        })
+          console.log(error);
+        });
     }
 
-    const editQustionVisibility = (questionId) => {
-        axios.put(`/api/v1/lecture/${props.lecturecode}/question/${questionId}/public`)
+    const editQustionVisibility = () => {
+
+      call(`/lecture/${props.lecturecode}/questions/${questionId}/public`, "PUT")
         .then((response) => {
-          console.log("질문 공개 수정 성공", response);
+        console.log("질문 공개 수정 성공", response);
         })
         .catch((error) => {
-          console.log("질문 공개 수정 실패", error);
-        })
+          console.log(error);
+        });
     }
 
     const postComment = () => {
-        axios.post(`/api/v1/lecture/${props.lecturecode}/question/${questionId}/comment`, comment)
-        .then((response) => {
-          console.log("댓글 업로드 성공", response);
-        })
-        .catch((error) => {
-          console.log("댓글 업로드 실패", error);
-        })
-        renderCommentList();
+      const postcomment = {
+        content : comment
+      }
+
+      call(`/lecture/${props.lecturecode}/question/${questionId}/comment`, "POST", postcomment)
+      .then((response) => {
+      console.log("댓글 등록 성공", response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+      renderCommentList();
     }
 
     const deleteComment = (commentId) => {
-      axios.delete(`/api/v1/lecture/${props.lecturecode}/question/${questionId}/comment/${commentId}`)
+
+      call(`/lecture/${props.lecturecode}/question/${questionId}/comment/${commentId}`, "DELETE")
       .then((response) => {
-        console.log("댓글 삭제 성공", response);
+      console.log("댓글 삭제 성공", response);
       })
       .catch((error) => {
-        console.log("댓글 삭제 실패", error);
-      })
+        console.log(error);
+      });
+
       renderCommentList();
     }
 
@@ -118,22 +132,19 @@ function TeacherQuestionDetail(props) {
     }
 
     return (
-      <div className="chat_area">
-        <main className="msger_chat">
-          <p className="Resource">Q&A</p>
-          <div className="body"></div>
-          <button className="icon-button">
+      <div>
+          <button className="icon-button-qna">
             <img src="image/alarm-bell-symbol.png" alt="아이콘 이미지" />
           </button>
-          <div className="msg_bubble_wrap">
+          <div className="msg_bubble_wrap-qna">
               {viewEditQuestion === true ? (
-              <div className="msg_bubble">
-                <input onChange={handleChangeQuestionTitle} className="different-title">{questionTitle}</input>
-                <input onChange={handleChangeQuestionContent} className="different-detail">{questionContent}</input>
-                <div className="different-footer">
-                  <p><span className="different-nickname">{authorNickname}</span></p>
-                  <button class="different-nickname" onClick={editQustion}>확인</button>
-                  <p><span className="different-time">{createdAt}</span></p>
+              <div className="msg_bubble-qna">
+                <input onChange={handleChangeQuestionTitle} className="different-title-qna">{questionTitle}</input>
+                <input onChange={handleChangeQuestionContent} className="different-detail-qna">{questionContent}</input>
+                <div className="different-footer-qna">
+                  <p><span className="different-nickname-qna">{authorNickname}</span></p>
+                  <button class="different-nickname-qna" onClick={editQustion}>확인</button>
+                  <p><span className="different-time-qna">{createdAt}</span></p>
                   <div className="msger_input_container">
                     <div className="dropdown">
                       <button className="dropbtn">공개 여부</button>
@@ -168,34 +179,32 @@ function TeacherQuestionDetail(props) {
               <div className="icon-button" >
                 <img src="./assets/back.png"/>
               </div>
-              <div className="msg_bubble">
-                <p><span className="different-title">{questionTitle}</span></p>
-                <p><span className="different-detail">{questionContent}</span></p>
-                <div className="different-footer">
-                  <p><span className="different-nickname">{authorNickname}</span></p>
-                  <button class="different-nickname" onClick={editButtonClcik}>수정</button>
-                  <button class="different-nickname" onClick={deleteQuestion}>삭제</button>
-                  <p><span className="different-time">{createdAt}</span></p>
+              <div className="msg_bubble-qna">
+                <p><span className="different-title-qna">{questionTitle}</span></p>
+                <p><span className="different-detail-qna">{questionContent}</span></p>
+                <div className="different-footer-qna">
+                  <p><span className="different-nickname-qna">{authorNickname}</span></p>
+                  <button class="different-nickname-qna" onClick={editButtonClcik}>수정</button>
+                  <button class="different-nickname-qna" onClick={deleteQuestion}>삭제</button>
+                  <p><span className="different-time-qna">{createdAt}</span></p>
                 </div>
               </div>
               <div className="msg_bubble">
-                {commentList.map((data, index) => {
-                  <p key={index}>{data.commenterNickname} | {data.content} | {data.createdAt}<button onClick={deleteComment(data.commentId)}>DELETE</button></p>
-                })}
-                {Array.from({length:totalPages},(_,index) => {
+                {commentList.map((data, index) => (
+                  <p key={index}>{data.commenterNickname} | {data.content} | {data.createdAt}</p>
+                ))}
+                {Array.from({length:totalPages},(_,index) => (
                   <button key={index} onClick={() => {handlePageChange(index+1)}} className={currentPage === index+1 ? 'active' :''}>
                     {index+1}
                   </button>
-                } )}
+                ) )}
                 <input onChange={handleCommentChange}></input><button onClick={postComment}>게시</button>
               </div>
             </div>
                 )}
-              
+              </div>
+              </div>
             
-          </div>
-        </main>
-      </div>
     );
 };
 
