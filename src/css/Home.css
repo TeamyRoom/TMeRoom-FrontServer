@@ -204,7 +204,7 @@ header {
 }
 
 .input-box input {
-    width: 100%;
+    width: 80%;
     height: 100%;
     background: transparent;
     border: none;
@@ -261,6 +261,23 @@ header {
     font-size: 1em;
     color: #fff;
     font-weight: 500;
+}
+
+.duplicateBtn {
+    width: 20%;
+    height: 30px;
+    background: #162938;
+    border: none;
+    outline: none;
+    border-radius: 6px;
+    font-size: 0.8em;
+    color: #fff;
+    font-weight: 500;
+}
+
+.duplicateBtn:disabled {
+    cursor: default;
+    background: grey;
 }
 
 .login-register {

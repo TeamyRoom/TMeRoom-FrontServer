@@ -113,6 +113,14 @@ export function signUp(webDTO) {
     return call("/member", "POST", webDTO);
 }
 
+export function idDuplicateCheck(id) {
+    return call(`/member/id/duplicate/${id}`, "GET");
+}
+
+export function emailDuplicateCheck(email) {
+    return call(`/member/email/duplicate/${email}`, "GET");
+}
+
 export function findId(webDTO){
     return call("/member/id/lost", "GET", webDTO);
 }
