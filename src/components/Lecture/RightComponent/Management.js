@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { call, dismissTeacher as dismissTeacherAPI, rejectStudent, acceptStudent } from "../../../service/ApiService";
 import React from 'react';
 import Modal from 'react-modal';
-import "../../../css/Question.css";
+import "../../../css/Management.css";
 
 const customStyles = {
     content: {
@@ -72,73 +72,73 @@ export default function Management(props) {
             page: teacherCurrentPage // 현재 페이지 번호 (예: 1)
         }
         call(`/lecture/${props.lecturecode}/members`, "GET", reqDto)
-        .then((response) => {
-            if(response.resultCode === "SUCCESS"){
-                setSearchedTeachers(response.result.members.content);
-            }
-        })
-        .catch((error) => {
-            console.log("멤버 탐색 실패.", error);
-        });
+            .then((response) => {
+                if (response.resultCode === "SUCCESS") {
+                    setSearchedTeachers(response.result.members.content);
+                }
+            })
+            .catch((error) => {
+                console.log("멤버 탐색 실패.", error);
+            });
     }
 
-    const suggestTeacher = (teacherId) =>{
-        call(`/lecture/${props.lecturecode}/teacher`, "POST", {teacherId : teacherId})
-        .then((response) => {
-            if(response.resultCode === "SUCCESS"){
-                alert("초청 성공");
-                setReload(!reload);
-            }else{
+    const suggestTeacher = (teacherId) => {
+        call(`/lecture/${props.lecturecode}/teacher`, "POST", { teacherId: teacherId })
+            .then((response) => {
+                if (response.resultCode === "SUCCESS") {
+                    alert("초청 성공");
+                    setReload(!reload);
+                } else {
+                    alert("초청 실패");
+                }
+            })
+            .catch((error) => {
                 alert("초청 실패");
-            }
-        })
-        .catch((error) => {
-            alert("초청 실패");
-        });
+            });
     }
 
-    const dismissTeacher = (teacherId) =>{
+    const dismissTeacher = (teacherId) => {
         dismissTeacherAPI(props.lecturecode, teacherId)
-        .then((response) => {
-            if(response.resultCode === "SUCCESS"){
-                alert("요청 성공");
-            }else{
+            .then((response) => {
+                if (response.resultCode === "SUCCESS") {
+                    alert("요청 성공");
+                } else {
+                    alert("요청 실패");
+                }
+            })
+            .catch((error) => {
                 alert("요청 실패");
-            }
-        })
-        .catch((error) => {
-            alert("요청 실패");
-        });
+            });
     }
 
-    const acceptApplicant = (teacherId) =>{
+    const acceptApplicant = (teacherId) => {
         acceptStudent(props.lecturecode, teacherId)
-        .then((response) => {
-            if(response.resultCode === "SUCCESS"){
-                alert("요청 성공");
-                setReload(!reload);
-            }else{
+            .then((response) => {
+                if (response.resultCode === "SUCCESS") {
+                    alert("요청 성공");
+                    setReload(!reload);
+                } else {
+                    alert("요청 실패");
+                }
+            })
+            .catch((error) => {
                 alert("요청 실패");
-            }
-        })
-        .catch((error) => {
-            alert("요청 실패");
-        });
+            });
     }
 
-    const rejectApplicant = (teacherId) =>{
+    const rejectApplicant = (teacherId) => {
         rejectStudent(props.lecturecode, teacherId)
-        .then((response) => {
-            if(response.resultCode === "SUCCESS"){
-                alert("요청 성공");
-                setReload(!reload);
-            }else{
+            .then((response) => {
+                if (response.resultCode === "SUCCESS") {
+                    alert("요청 성공");
+                    setReload(!reload);
+                } else {
+                    alert("요청 실패");
+                }
+            })
+            .catch((error) => {
                 alert("요청 실패");
-            }
-        })
-        .catch((error) => {
-            alert("요청 실패");
-        });
+            });
     }
 
     useEffect(() => {
@@ -146,7 +146,7 @@ export default function Management(props) {
             .then((response) => {
                 setApplications(response.result.content);
             });
-            call(`/lecture/${props.lecturecode}/teachers?page=0`, "GET")
+        call(`/lecture/${props.lecturecode}/teachers?page=0`, "GET")
             .then((response) => {
                 setTeachers(response.result.content);
             });
@@ -157,79 +157,91 @@ export default function Management(props) {
         <div className="chat_area">
             <main className="msger_chat">
                 <h2>인원 관리</h2>
-
-                <h3>강사 관리</h3>
-                <button onClick={openModal}>초대</button>
-                <Modal
-                    isOpen={modalIsOpen}
-                    onAfterOpen={afterOpenModal}
-                    onRequestClose={closeModal}
-                    style={customStyles}
-                    contentLabel="Example Modal">
-                    <h2 ref={(_subtitle) => (subtitle = _subtitle)}>강사 초청</h2>
-                    <button onClick={closeModal}>close</button>
-                    <select
-                        id="searchType"
-                        className="search-teacher-type-dropdown"
-                        value={searchMemberType}
-                        onChange={handleSearchTeacherTypeChange}
-                    >
-                        <option value="ID">ID</option>
-                        <option value="EMAIL">Email</option>
-                    </select>
-                    <input
-                        type="text"
-                        id="searchBox"
-                        className="search-input"
-                        placeholder="검색어를 입력하세요"
-                        value={searchTeacherText}
-                        onChange={handleSearchTeacherTextChange}
-                    />
-                    <button className="search-button" onClick={searchTeacher}>검색</button>
-                    {searchedTeachers.map((person, index) => (
-                        <div key={index}>
-                            <span>{person.memberId} / {person.nickname} </span>
-                            <button onClick={()=>{suggestTeacher(person.memberId)}}>초청</button>
+                <div class="msg_bubble_wrap">
+                    <div class="msg_bubble-manage">
+                        <div class="wrap">
+                            <span class="different-title-course-management">강사</span>
+                            <button onClick={openModal} class="invite-course-management-button">초대</button>
                         </div>
-                    ))}
-                </Modal>
-                {teachers.map((person, index) => (
-                    <div key={index}>
-                        <span>{person.id} / {person.nickName} </span>
-                        <button onClick={()=>{dismissTeacher(person.memberId)}}>{
-                            (person.acceptedAt == null) ? "취소" : "해임"
-                        }</button>
-                    </div>
-                ))}
-                <div className='page-number'>
-                    {Array.from({ length: teacherTotalPages }, (_, index) => {
-                        <button key={index} onClick={() => handleTeacherPageChange(index + 1)} className={teacherCurrentPage === index + 1 ? 'active' : ''}>
-                            {index + 1}
-                        </button>
-                    })}
-                </div>
 
-                <h3>학생 관리</h3>
-                {applications.map((person, index) => (
-                    <div key={index}>
-                        <span>{person.id} / {person.nickName}</span>
-                        {
-                            (person.acceptedAt == null) ?
-                                <div>
-                                    <button onClick={()=>{acceptApplicant(person.id)}}>승인</button>
-                                    <button onClick={()=>{rejectApplicant(person.id)}}>반려</button>
+                        <Modal
+                            isOpen={modalIsOpen}
+                            onAfterOpen={afterOpenModal}
+                            onRequestClose={closeModal}
+                            style={customStyles}
+                            contentLabel="Example Modal">
+                            <h2 ref={(_subtitle) => (subtitle = _subtitle)}>강사 초청</h2>
+                            <button onClick={closeModal}>close</button>
+                            <select
+                                id="searchType"
+                                className="search-teacher-type-dropdown"
+                                value={searchMemberType}
+                                onChange={handleSearchTeacherTypeChange}
+                            >
+                                <option value="ID">ID</option>
+                                <option value="EMAIL">Email</option>
+                            </select>
+                            <input
+                                type="text"
+                                id="searchBox"
+                                className="search-input"
+                                placeholder="검색어를 입력하세요"
+                                value={searchTeacherText}
+                                onChange={handleSearchTeacherTextChange}
+                            />
+                            <button className="search-button" onClick={searchTeacher}>검색</button>
+                            {searchedTeachers.map((person, index) => (
+                                <div key={index}>
+                                    <span>{person.memberId} / {person.nickname} </span>
+                                    <button onClick={() => { suggestTeacher(person.memberId) }}>초청</button>
                                 </div>
-                                : <button onClick={()=>{rejectApplicant(person.id)}}>퇴출</button>
-                        }
-
+                            ))}
+                        </Modal>
+                        <div class="different-course-management-footer">
+                            {teachers.map((person, index) => (
+                                <div class="wrap">
+                                    <div key={index}>
+                                        <span>{person.id} / {person.nickName} </span>
+                                        <button onClick={() => { dismissTeacher(person.memberId) }}>{
+                                            (person.acceptedAt == null) ? "취소" : "해임"
+                                        }</button>
+                                    </div>
+                                </div>
+                            ))}
+                            <div className='page-number'>
+                                {Array.from({ length: teacherTotalPages }, (_, index) => {
+                                    <button key={index} onClick={() => handleTeacherPageChange(index + 1)} className={teacherCurrentPage === index + 1 ? 'active' : ''}>
+                                        {index + 1}
+                                    </button>
+                                })}
+                            </div>
+                        </div>
                     </div>
-                ))}
-                <div className='page-number'>
-                    {Array.from({ length: studentTotalPages }, (_, index) => {
-                        <button key={index} onClick={() => handleStudentPageChange(index + 1)} className={studentCurrentPage === index + 1 ? 'active' : ''}>
-                            {index + 1}
-                        </button>
-                    })}
+                    <div class="msg_bubble-manage-second">
+                        <h3>학생 관리</h3>
+                        {applications.map((person, index) => (
+                            <div key={index}>
+                                <span>{person.id} / {person.nickName}</span>
+                                {
+                                    (person.acceptedAt == null) ?
+                                        <div>
+                                            <button onClick={() => { acceptApplicant(person.id) }}>승인</button>
+                                            <button onClick={() => { rejectApplicant(person.id) }}>반려</button>
+                                        </div>
+                                        : <button onClick={() => { rejectApplicant(person.id) }}>퇴출</button>
+                                }
+
+                            </div>
+                        ))}
+                        <div className='page-number'>
+                            {Array.from({ length: studentTotalPages }, (_, index) => {
+                                <button key={index} onClick={() => handleStudentPageChange(index + 1)} className={studentCurrentPage === index + 1 ? 'active' : ''}>
+                                    {index + 1}
+                                </button>
+                            })}
+                        </div>
+                    </div>
+
                 </div>
             </main>
         </div>
