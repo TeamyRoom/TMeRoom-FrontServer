@@ -5,6 +5,25 @@ import VideoJS from './VideoJS';
 import { getAccessToken } from '../../../service/ApiService';
 
 const SFU_SERVER_URL = process.env.REACT_APP_SFU_SERVER_URL;
+const { STUNNER_HOST, STUNNER_PORT, STUNNER_USERNAME, STUNNER_PASSWORD } = process.env
+const iceConfig = Object.freeze({
+    iceServers: [
+        {
+            urls: 'turn:' + STUNNER_HOST + ':' + STUNNER_PORT + '?transport=udp',
+            username: STUNNER_USERNAME, // TURN 서버 사용자명
+            credential: STUNNER_PASSWORD, // TURN 서버 비밀번호
+        },
+        {
+            urls: [
+                'stun:stun.l.google.com:19302',
+                'stun:stun1.l.google.com:19302',
+                'stun:stun2.l.google.com:19302',
+                'stun:stun3.l.google.com:19302',
+                'stun:stun4.l.google.com:19302',
+            ],
+        },
+    ]
+})
 
 let socket = null;
 let myPeerConnection = null;
@@ -109,24 +128,7 @@ const StudentScreen = forwardRef((props, ref) => {
 
   async function makeConnection() {
     try {
-      myPeerConnection = new RTCPeerConnection({
-        iceServers: [
-          {
-            urls: [
-              "stun:stun.l.google.com:19302",
-              "stun:stun1.l.google.com:19302",
-              "stun:stun2.l.google.com:19302",
-              "stun:stun3.l.google.com:19302",
-              "stun:stun4.l.google.com:19302",
-            ]
-          },
-          {
-            urls: "turn:13.209.13.37:3478",
-            username: "your-username", // TURN 서버 사용자명
-            credential: "your-password" // TURN 서버 비밀번호
-          }
-        ]
-      });
+      myPeerConnection = new RTCPeerConnection(iceConfig);
       myPeerConnection.addEventListener("icecandidate", handleIce);
       myPeerConnection.addEventListener("track", handleAddTrack);
 
