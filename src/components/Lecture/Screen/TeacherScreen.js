@@ -6,13 +6,13 @@ import Popup from "./Popup"
 
 const HLS_SERVER_URL = process.env.REACT_APP_HLS_SERVER_URL;
 const SFU_SERVER_URL = process.env.REACT_APP_SFU_SERVER_URL;
-const { STUNNER_HOST, STUNNER_PORT, STUNNER_USERNAME, STUNNER_PASSWORD } = process.env
+const {REACT_APP_STUNNER_USERNAME, REACT_APP_STUNNER_PASSWORD, REACT_APP_STUNNER_PORT, REACT_APP_STUNNER_HOST} = process.env;
 const iceConfig = Object.freeze({
     iceServers: [
         {
-            urls: 'turn:' + STUNNER_HOST + ':' + STUNNER_PORT + '?transport=udp',
-            username: STUNNER_USERNAME, // TURN 서버 사용자명
-            credential: STUNNER_PASSWORD, // TURN 서버 비밀번호
+            urls: 'turn:' + REACT_APP_STUNNER_HOST + ':' + REACT_APP_STUNNER_PORT + '?transport=udp',
+            username: REACT_APP_STUNNER_USERNAME, // TURN 서버 사용자명
+            credential: REACT_APP_STUNNER_PASSWORD, // TURN 서버 비밀번호
         },
         {
             urls: [
