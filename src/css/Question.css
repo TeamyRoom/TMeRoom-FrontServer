@@ -7,12 +7,12 @@ ol, ul, li { list-style: none;}
 
 html, body { height: 100%;}
 .msg_bubble-qna-main{
-    margin-top: 50px;}
+    margin-top: 20px;}
 .msger { display: flex; flex-flow: column wrap; justify-content: space-between; width: 100%; max-width: 867px; margin: 25px 10px; height: calc(100% - 50px); border-radius: 5px; box-shadow: 0 15px 15px -5px rgba(0, 0, 0, 0.2);}
-.msger_chat-qna-main { flex: 1; overflow-y: scroll; padding: 10px;margin-top: auto;}
+.msger_chat-qna-main { flex: 1; overflow-y: scroll; padding: 10px;margin-top: auto; height: 90vh; width: 30vw;}
 .msg { display: flex; align-items: flex-end; margin-bottom: 10px;}
 .msg_img { width: 50px; min-width: 50px; height: 50px; margin-right: 10px; background: #ddd; background-repeat: no-repeat; background-position: center; background-size: cover; border-radius: 50%;}
-.msg_bubble-qna-main { max-width: 450px; padding: 15px; border-radius: 15px; background: #ececec;}
+.msg_bubble-qna-main { max-width: 450px; height: 68vh; padding: 15px; border-radius: 15px; background: #ececec;}
 .msg_info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;}
 .msg_info_name { margin-right: 10px; font-weight: 700;}
 .msg_info_time { font-size: 0.85em;}
@@ -23,11 +23,18 @@ html, body { height: 100%;}
 .msger_input { flex: 1; background: #ddd;}
 .msger_chat-qna-main { background-color: #fcfcfe;}
 
+.Resource-qna-main {
+    font-size: 50px;
+    text-align: center;
+    font-family: 'Noto Sans', sans-serif;
+    font-weight: bold;
+}
 
 
 
 .msg_text-qna-main{
-    height: 450px;
+    height: 55vh;
+    width: 50vw;
     top: 20px;
 }
 
@@ -50,5 +57,9 @@ html, body { height: 100%;}
 
 }
 
+.question {
+    display: block;
+    font-family:'Times New Roman', Times, serif
+}
 
 

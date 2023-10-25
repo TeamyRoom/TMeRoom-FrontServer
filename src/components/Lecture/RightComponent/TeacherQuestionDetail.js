@@ -4,7 +4,7 @@ import "../../../css/QuestionDetail.css";
 import {call} from '../../../service/ApiService';
 
 function TeacherQuestionDetail(props) {
-    const { questionId, authorNickname, createdAt, content, title } = props;    
+    const { questionId, authorNickname, createdAt, content, title } = props;
     const [viewEditQuestion, setViewEditQuestion] = useState("false");
     const [questionTitle, setQuestionTitle] = useState(title);
     const [questionContent, setQuestionContent] = useState(content);
@@ -15,15 +15,22 @@ function TeacherQuestionDetail(props) {
     const [comment, setComment] = useState("");
 
     useEffect(() => {
-      if (!viewEditQuestion) {
-        renderCommentList();                
-      }
-     },[],viewEditQuestion);
+      renderCommentList();
+     },[]);
 
+     useEffect(() => {
+      renderCommentList();
+     },[currentPage]);
+
+
+     
+     
+     
   
     const renderCommentList = () => {
       const params = {
         page: currentPage-1,
+        size: 4
       };
 
       call(`/lecture/${props.lecturecode}/question/${questionId}/comments`, "GET", params)
@@ -48,9 +55,9 @@ function TeacherQuestionDetail(props) {
         isPublic : questionVisibility==='public' ? true : false
       };
 
-      call(`/lecture/${props.lecturecode}/questions/${questionId}`, "PUT", editQuestionData)
+      call(`/lecture/${props.lecturecode}/question/${questionId}`, "PUT", editQuestionData)
         .then((response) => {
-        console.log("질문 수정 성공", response);
+        console.log("질문 수정 성공", response, editQuestionData);
         setViewEditQuestion(false);
         })
         .catch((error) => {
@@ -61,9 +68,10 @@ function TeacherQuestionDetail(props) {
   
     const deleteQuestion = () => {
 
-      call(`/lecture/${props.lecturecode}/questions/${questionId}`, "DELETE")
+      call(`/lecture/${props.lecturecode}/question/${questionId}`, "DELETE")
         .then((response) => {
-        console.log("질문 삭제 성공", response);
+        alert("삭제되었습니다.");
+        renderCommentList();
         })
         .catch((error) => {
           console.log(error);
@@ -88,13 +96,16 @@ function TeacherQuestionDetail(props) {
 
       call(`/lecture/${props.lecturecode}/question/${questionId}/comment`, "POST", postcomment)
       .then((response) => {
-      console.log("댓글 등록 성공", response);
+        console.log("댓글 등록 성공", response);
+        renderCommentList();
       })
       .catch((error) => {
         console.log(error);
       });
 
-      renderCommentList();
+      setComment('');
+
+
     }
 
     const deleteComment = (commentId) => {
@@ -107,7 +118,6 @@ function TeacherQuestionDetail(props) {
         console.log(error);
       });
 
-      renderCommentList();
     }
 
     const handleChangeQuestionTitle = (e) => {
@@ -122,9 +132,11 @@ function TeacherQuestionDetail(props) {
       setQuestionVisibility(e.target.value);
     }
 
+ 
+
     const handlePageChange = (page) => {
       setCurrentPage(page);
-      renderCommentList();
+
     }
 
     const handleCommentChange = (e) => {
@@ -133,14 +145,11 @@ function TeacherQuestionDetail(props) {
 
     return (
       <div>
-          <button className="icon-button-qna">
-            <img src="image/alarm-bell-symbol.png" alt="아이콘 이미지" />
-          </button>
           <div className="msg_bubble_wrap-qna">
               {viewEditQuestion === true ? (
               <div className="msg_bubble-qna">
-                <input onChange={handleChangeQuestionTitle} className="different-title-qna">{questionTitle}</input>
-                <input onChange={handleChangeQuestionContent} className="different-detail-qna">{questionContent}</input>
+                <input maxLength='15' onChange={handleChangeQuestionTitle} className="different-title-qna" value={questionTitle}></input>
+                <textarea onChange={handleChangeQuestionContent} className="different-detail-qna" value={questionContent}></textarea>
                 <div className="different-footer-qna">
                   <p><span className="different-nickname-qna">{authorNickname}</span></p>
                   <button class="different-nickname-qna" onClick={editQustion}>확인</button>
@@ -176,29 +185,30 @@ function TeacherQuestionDetail(props) {
               </div>
                 ) : (
             <div>
-              <div className="icon-button" >
-                <img src="./assets/back.png"/>
-              </div>
               <div className="msg_bubble-qna">
                 <p><span className="different-title-qna">{questionTitle}</span></p>
-                <p><span className="different-detail-qna">{questionContent}</span></p>
                 <div className="different-footer-qna">
                   <p><span className="different-nickname-qna">{authorNickname}</span></p>
-                  <button class="different-nickname-qna" onClick={editButtonClcik}>수정</button>
+                  <p><span className="different-time-qna">{createdAt[0]}.{createdAt[1]}.{createdAt[2]} {createdAt[3]}:{createdAt[4]}</span></p>
+                </div>
+                <div className="different-detail-qna">{questionContent}</div>
+                <div className="different-footer-qna">
+                <button class="different-nickname-qna" onClick={editButtonClcik}>수정</button>
                   <button class="different-nickname-qna" onClick={deleteQuestion}>삭제</button>
-                  <p><span className="different-time-qna">{createdAt}</span></p>
                 </div>
               </div>
-              <div className="msg_bubble">
+              <div className='comment-area'>
                 {commentList.map((data, index) => (
-                  <p key={index}>{data.commenterNickname} | {data.content} | {data.createdAt}</p>
+                  <p key={index}>{data.commenterNickname} : {data.content}  <p className='time-type'>{data.createdAt[0]}.{data.createdAt[1]}.{data.createdAt[2]} {data.createdAt[3]}:{data.createdAt[4]}</p></p>
                 ))}
+                <div className='page-number'>
                 {Array.from({length:totalPages},(_,index) => (
-                  <button key={index} onClick={() => {handlePageChange(index+1)}} className={currentPage === index+1 ? 'active' :''}>
+                  <button key={index} onClick={() => handlePageChange(index+1)} className='page-number-button'>
                     {index+1}
                   </button>
                 ) )}
-                <input onChange={handleCommentChange}></input><button onClick={postComment}>게시</button>
+                </div>
+                <input maxLength='50' className='comment-input' value={comment} onChange={handleCommentChange}></input><button onClick={postComment}>게시</button>
               </div>
             </div>
                 )}
