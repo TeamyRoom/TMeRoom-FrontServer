@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import axios from 'axios';
 import {call} from '../../../service/ApiService'
+import '../../../css/QuestionDetail.css'
 
 function NewQuestionForm(props) {
     const [questionTitle, setQuestionTitle] = useState('');
@@ -17,7 +18,13 @@ function NewQuestionForm(props) {
         };
 
 
-       call(`/lecture/${props.lecturecode}/question`,"POST",questionData);
+       call(`/lecture/${props.lecturecode}/question`,"POST",questionData).
+       then(() => {
+        alert("질문이 등록되었습니다.");
+       });
+
+       setQuestionTitle('');
+       setQuestionContent('');
       }
 
 
@@ -36,20 +43,17 @@ function NewQuestionForm(props) {
     return (
       <div>
           <div className="body"></div>
-          <button className="icon-button">
-            <img src="image/alarm-bell-symbol.png" alt="아이콘 이미지" />
-          </button>
           <div className="msg_bubble_wrap">       
-              <div className="msg_bubble">
+              <div className="msg_bubble_new">
                 <div className="different-footer">
                 <div className="msg_bubble">
-                    <p>제목:</p><input onChange={handleChangeQuestionTitle} className="different-title"></input>
-                    <p>내용:</p><input onChange={handleChangeQuestionContent} className="different-detail"></input>
+                    <p>제목:</p><input maxLength="15" value={questionTitle} onChange={handleChangeQuestionTitle} className="different-title-new"></input>
+                    <p>내용:</p><textarea cols="100" wrap="hard" value={questionContent} onChange={handleChangeQuestionContent} className="different-detail-new"></textarea>
                         <div className="different-footer">
-                        <button class="different-nickname" onClick={uploadQuestion}>확인</button>
                         <div className="msger_input_container">
                             <div className="dropdown">
                             <button className="dropbtn">공개 여부</button>
+                        <button class="different-nickname" onClick={uploadQuestion}>질문 등록</button>
                             <div className="dropdown-content">
                                 <label>
                                 <input

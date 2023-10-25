@@ -40,6 +40,7 @@ function TeacherFile(props) {
             type : searchFileType,
             key : searchFileName,
             page: currentPage-1, 
+            size: 6
         }
         call(`/lecture/${props.lecturecode}/file`, "GET", searchfile)
         .then((response) => {
@@ -65,6 +66,10 @@ function TeacherFile(props) {
                     <option value="DOCUMENT">문서</option>
                     <option value="IMAGE">사진</option>
                     <option value="VIDEO">영상</option>
+                    <option value="AUDIO">음성</option>
+                    <option value="ARCHIVE">압축</option>
+                    <option value="CODE">코드</option>
+                    <option value="EXE">실행</option>
                     <option value="ETC">기타</option>
                 </select>
                 <input
@@ -80,7 +85,7 @@ function TeacherFile(props) {
                 <div className="msg_bubble-Library">
                 <div className="msg_text-Library">
                     <div className="file-info-Library">
-                    파일명 | 업로더 | 업로드 날짜
+                    파일명           |            업로더
                     {searchedFiles.map((data, index) => (
                         <FileDetail 
                         key={index} 
@@ -97,7 +102,8 @@ function TeacherFile(props) {
             </div>
             <div className='page-number'>
                 {Array.from({length:totalPages},(_,index) => (
-                    <button key={index} onClick={() => handlePageChange(index+1)} className={currentPage === index+1 ? "active" : ""}>
+                    <button className='page-number-button' 
+                    key={index} onClick={() => handlePageChange(index+1)} >
                         {index+1}   
                     </button>
                 ))}

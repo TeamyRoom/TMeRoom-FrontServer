@@ -87,8 +87,7 @@ function TeacherQuestion(props) {
                 <div className="search-container">
                 </div>
                 <div className="msg_bubble-qna-main">
-                {
-              showQeustionList && (
+                {showQeustionList && (
                 questionList.map((data, index) => (
                   <button onClick={() => {clickQuestion(data.questionId)}} className="question" key={index}>{`Q${index + 1}) ${data.questionTitle}`}</button>
                 ))
@@ -106,8 +105,7 @@ function TeacherQuestion(props) {
                 <NewQuestionForm lecturecode={props.lecturecode}/>
               )
               }  
-                <div className="msg_text-qna-main">
-                </div>
+                
             </div>           
             { showQeustionList && (
               <div className="page-number-qna-main">
@@ -118,6 +116,12 @@ function TeacherQuestion(props) {
               ))}
             </div>
             )}
+            <button onClick={clickCreateQuestion}>
+              질문하기
+            </button>
+            <button onClick={clickBackward} className="to-main">
+              메인으로
+            </button>
             </main>
                 
         </div>
