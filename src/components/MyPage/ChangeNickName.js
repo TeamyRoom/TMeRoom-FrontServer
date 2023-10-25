@@ -5,11 +5,22 @@ import "../../css/MyPage.css";
 
 export default function ChangeEmail({handlePage}) {
 
-    const emailRef = useRef();
+    const nicknameRef = useRef('');
 
     const submit = () => {
-        alert('아직 구현되지 않음');
-        handlePage(0);
+        if(nicknameRef.current.value === '') {
+            alert('변경 할 닉네임을 입력해주세요.');
+            return;
+        }
+        call("/member", "PUT", {nickname: nicknameRef.current.value})
+        .then((response) => {
+            if(response.resultCode === "SUCCESS") {
+                alert("변경되었습니다.");
+                handlePage(0);
+            }
+            else alert("변경에 실패했습니다.");
+        })
+        .catch((e) => {alert(e)});
     }
 
     return (
@@ -18,7 +29,7 @@ export default function ChangeEmail({handlePage}) {
                 <div id="my-page-container">
                     <h3 id="my-page-head">닉네임 변경</h3>
                         <label className="my-page-label">변경 할 닉네임</label>
-                        <input className="my-page-input" type="text" ref={emailRef}/>
+                        <input className="my-page-input" type="text" ref={nicknameRef}/>
                         <Button variant="contained" onClick={submit}>수정</Button>
                 </div>
             </div>
