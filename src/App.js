@@ -12,7 +12,9 @@ function App() {
     <BrowserRouter>
       <script src="https://kit.fontawesome.com/a076d05399.js"></script>
       <Routes>
-        <Route path="/" element={<Home/>} >  </Route>
+        <Route path="/" element={<Home page={0}/>} >  </Route>
+        <Route path="/mypage" element={<Home page={1}/>} >  </Route>
+        <Route path="/lecturelist" element={<Home page={2}/>} >  </Route>
         <Route path="/lecture/:lecturecode" element={<LectureFrame />}>  </Route>
         <Route path="/email-confirm/:confirmcode" element={<EmailApprovedFrame />}> </Route>
         <Route path="/pw-reset/:resetcode" element={<PasswordResetFrame />}> </Route>
