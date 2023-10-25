@@ -22,10 +22,30 @@ html, body { height: 100%;}
 .lecture_footer { height: 100px;}
 
 .msger { display: flex; flex-flow: column wrap; justify-content: space-between; width: 100%; max-width: 867px; margin: 25px 10px; height: calc(100% - 50px); border-radius: 5px; box-shadow: 0 15px 15px -5px rgba(0, 0, 0, 0.2);}
-.msger_chat { display: flex; flex: 1; flex-direction: column; flex: 1; padding: 10px; background-color: #fcfcfe;}
+.msger_chat-course-management { display: flex; flex: 1; flex-direction: column; flex: 1; padding: 10px; background-color: #fcfcfe;}
 .msg { display: flex; align-items: flex-end; margin-bottom: 10px;}
 .msg_img { width: 50px; min-width: 50px; height: 50px; margin-right: 10px; background: #ddd; background-repeat: no-repeat; background-position: center; background-size: cover; border-radius: 50%;}
-.msg_bubble-manage { display: flex; flex-direction: column; max-width: 450px; padding: 15px; border-radius: 15px; background: #ececec; margin-top:20px;}
+.msg_bubble-manage {
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    padding: 15px;
+    border-radius: 15px;
+    background: #ececec;
+    margin-top: 30px;
+    height: 50%; /* 부모 요소 높이의 50%로 설정 */
+}
+.msg_bubble-manage-second {
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    padding: 15px;
+    border-radius: 15px;
+    background: #ececec;
+    margin-top:0;
+    height: 50%; /* 부모 요소 높이의 50%로 설정 */
+}
+
 .msg_bubble:nth-child(2) { flex: 1;}
 .msg_info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;}
 .msg_info_name { margin-right: 10px; font-weight: 700;}
@@ -62,15 +82,6 @@ html, body { height: 100%;}
 
 
 
-.msg_text{
-    height: 450px;
-    top: 20px;
-}
-.file-info{
-    font-size:20px;
-    text-align: left;
-}
-
 
 
 
@@ -81,11 +92,7 @@ html, body { height: 100%;}
     flex: 1;
 }
 
-.msger_send_btn{
-    height: auto;
-    width: auto;
-    margin-right:auto;
-}
+
 
 .msger_input{
     font-size: 12px;
@@ -142,33 +149,21 @@ form * {
     height: 30px;
     margin-left: auto; /* 오른쪽 정렬을 위해 왼쪽 마진을 auto로 설정 */
     margin-top: -30px;
-    background: #0000FF;
-    border: 1px solid #000; /* 테두리 스타일을 파란색(#0000ff)으로 설정 */
+    background: none;
+    border: 1px solid blue; /* 테두리 스타일을 파란색(#0000ff)으로 설정 */
     padding: 5px 10px; /* 버튼 내용과 테두리 사이의 간격 설정 */
     border-radius: 5px; /* 테두리의 모서리를 둥글게 만듭니다. */
     cursor: pointer; /* 마우스 커서를 손가락 모양으로 변경하여 버튼을 클릭할 수 있음을 나타냅니다. */
-    color: #fff;
+    color: #000;
 }
 
 /* 초대 버튼 호버 스타일 */
 .invite-course-management-button:hover {
-    background: white; /* 호버 시 배경색 변경 */
-    color:black;
+    background: blue; /* 호버 시 배경색 변경 */
+    color:white;
 }
 
-.cancle-button-manage {
-    font-size: 15px;
-    width: 70px;
-    height: 30px;
-    background: green;
-    border: 1px solid #000;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    color: #fff;
-    position: relative; /* 상대 위치 지정 */
-    left: -40px; /* 왼쪽으로 40px 이동 */
-}
+
 .cancle-button-manage-two {
     font-size: 15px;
     width: 70px;
@@ -178,33 +173,31 @@ form * {
     padding: 5px 10px;
     border-radius: 5px;
     cursor: pointer;
-    color: #fff;
+    color: black;
     position: relative; /* 상대 위치 지정 */
-    top:-25px;
-    left:102px;
+    top:-15px;
+    left:110px;
 }
 .cancle-button-manage-two:hover {
-    background: white; /* 호버 시 배경색 변경 */
-    color:black;
+    background: blue; /* 호버 시 배경색 변경 */
+    color:white;
 }
 .fire-button-manage-two {
     font-size: 15px;
     width: 70px;
     height: 30px;
-    background: red;
-    border: 1px solid #000;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    color: #fff;
-    position: relative; /* 상대 위치 지정 */
-    top:-45px;
-    left:102px;
+    background: none;
+    border: 1px solid red; /* 원하는 테두리 스타일 및 색상 설정 */
+    padding: 5px 10px; /* 버튼 내용과 테두리 사이의 간격 설정 */
+    border-radius: 5px; /* 테두리의 모서리를 둥글게 만듭니다. */
+    cursor: pointer; /* 마우스 커서를 손가락 모양으로 변경하여 버튼을 클릭할 수 있음을 나타냅니다. */
+    margin-left:110px;
+    margin-top:-35px;
 }
 
 .fire-button-manage-two:hover{
-    background: white; /* 호버 시 배경색 변경 */
-    color:black;
+    background: red; /* 호버 시 배경색 변경 */
+    color:white;
 }
 .cancle-button-manage:hover {
     background: white; /* 호버 시 배경색 변경 */
@@ -214,42 +207,45 @@ form * {
 .different-id-nickname {
     display: block; /* 블록 레벨 요소로 설정 */
     margin-top: 5px;
+    font-family: 'Noto Sans', sans-serif;
+
 }
 
 .different-id-nickname-two {
     display: block; /* 블록 레벨 요소로 설정 */
     margin-top:20px;
+    font-family: 'Noto Sans', sans-serif;
 }
 .different-id-nickname-three {
     display: block; /* 블록 레벨 요소로 설정 */
-    margin-top:-40px;
+    margin-top:-30px;
+    font-family: 'Noto Sans', sans-serif;
 }
 .nickname-manage {
     font-size: 16px;
     display: flex;
     margin-top: 30px;
-    margin-left: -255px; /* 왼쪽으로 40px 이동 */
+    margin-left: -245px; /* 왼쪽으로 40px 이동 */
     justify-content: flex-start; /* 내부 컨텐츠를 왼쪽으로 정렬 */
+    font-family: 'Noto Sans', sans-serif;
 }
 
 .fire-button-manage{
     font-size: 15px;
     width: 70px;
     height: 30px;
-    background: red;
-    border: 1px solid #000;
+    border: 1px solid red; /* 원하는 테두리 스타일 및 색상 설정 */
     padding: 5px 10px;
     border-radius: 5px;
     cursor: pointer;
-    color: #fff;
     position: relative; /* 상대 위치 지정 */
     top:45px;
     left:-193px;
 }
 
 .fire-button-manage:hover {
-    background: white; /* 호버 시 배경색 변경 */
-    color:black;
+    background: red; /* 마우스 호버 시 배경 색상 설정 */
+    color: #fff; /* 버튼 텍스트 색상 설정 */
 }
 
 .fire-button-manage-second{
@@ -261,25 +257,56 @@ form * {
     padding: 5px 10px;
     border-radius: 5px;
     cursor: pointer;
-    color: #fff;
+    color: black;
     position: relative; /* 상대 위치 지정 */
-    top:-55px;
-    left:180px;
-}
-.fire-button-manage-second:hover{
-    background: white; /* 호버 시 배경색 변경 */
-    color:black;
+    top:-45px;
+    left:185px;
 }
 
-
-.different-title-course-management{
-    font-size: 20px;
+.fire-button-manage-second:hover {
+    background: red; /* 호버 시 배경 색상을 빨간색으로 변경 */
+    color: #fff; /* 버튼 텍스트 색상 설정 */
+}
+.different-title-course-management {
+    font-size: 25px;
     font-weight: bold;
+    margin-top:30px;
 }
+
 .different-title-course-management-two{
-    font-size: 20px;
+    font-size: 25px;
     font-weight: bold;
 }
+.wrap {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cancle-button-manage {
+    font-size: 15px;
+    width: 70px;
+    height: 30px;
+    background: none;
+    border: 1px solid green; /* 원하는 테두리 스타일 및 색상 설정 */
+    padding: 5px 10px; /* 버튼 내용과 테두리 사이의 간격 설정 */
+    border-radius: 5px; /* 테두리의 모서리를 둥글게 만듭니다. */
+    cursor: pointer; /* 마우스 커서를 손가락 모양으로 변경하여 버튼을 클릭할 수 있음을 나타냅니다. */
+    margin-left:-50px;
+    margin-top:-40px;
+  }
+ 
+.cancle-button-manage:hover {
+    background: green; /* 마우스 호버 시 배경 색상 설정 */
+    color: #fff; /* 버튼 텍스트 색상 설정 */
+}
+
+.differenttwo-id-nickname {
+    position: relative; /* 요소의 위치를 상대 위치로 설정 */
+    top: 10px; /* 원하는 위치로 이동 (여기서는 30px 아래로 이동) */
+}
+
     </style>
 </head>
 <body>
@@ -292,26 +319,26 @@ form * {
                 </video>
             </div>
             <div class="chat_area-course-management">
-                <main class="msger_chat">
+                <main class="msger_chat-course-management">
                     <p class="Resource-manage">강의관리</p>
                     <body></body>
                     <div class="msg_bubble_wrap">
                         <div class="msg_bubble-manage">
-                            <p><span class="different-title-course-management">강사</span></p>
-                            <button class="invite-course-management-button">초대</button>
+                            <p><span class="different-title-course-management">강사</span></p>   <button class="invite-course-management-button">초대</button>
                             <div class="different-course-management-footer">
                                 <p><span class="different-id-nickname">아이디 닉네임</span></p>
-                                <button class="cancle-button-manage">취소</button>
+                                <div class="wrap">
+                                    <button class="cancle-button-manage">취소</button>
+                                  </div>
                                 <p><span class="nickname-manage"><br>아이디 닉네임</span></p>
                                 <button class="fire-button-manage">해임</button>
                             </div>
                         </div>
-                        <div class="msg_bubble-manage">
+                        <div class="msg_bubble-manage-second">
                             <p><span class="different-title-course-management-two">학생</span></p>
-                                <p><span class="different-id-nickname-two">아이디 닉네임</span></p>
+                                <p><span class="differenttwo-id-nickname">아이디 닉네임</span></p>
                                     <button class="cancle-button-manage-two">승인</button><button class="fire-button-manage-second">반려</button>
-                                    <p><span class="different-id-nickname-three">아이디 닉네임</span></p>
-                                    <button class="fire-button-manage-two">반려</button>                             
+                                    <p><span class="different-id-nickname-three">아이디 닉네임</span></p><button class="fire-button-manage-two">퇴출</button>                            
                         </div>
                     </div>
                     </div>
@@ -377,22 +404,5 @@ form * {
 </body>
 <script>
  
-    const fileTypeDropdown = document.getElementById("fileTypeDropdown");
-        const selectedFileType = document.getElementById("selectedFileType");
-        const searchBox = document.getElementById("searchBox");
-        const searchButton = document.getElementById("searchButton");
-
-        fileTypeDropdown.addEventListener("change", () => {
-            const selectedOption = fileTypeDropdown.value;
-            selectedFileType.textContent = `선택된 파일 타입: ${selectedOption}`;
-        });
-
-        searchButton.addEventListener("click", () => {
-            const selectedFileTypeText = selectedFileType.textContent;
-            const searchText = searchBox.value;
-           
-            alert(`선택된 파일 타입: ${selectedFileTypeText}\n검색어: ${searchText}`);
-            // 실제 검색 기능을 실행하려면 이 부분을 원하는 동작으로 수정하세요.
-        })
 </script>
 </html>
