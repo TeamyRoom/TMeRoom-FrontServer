@@ -1,6 +1,6 @@
 import { forwardRef, useEffect, useState, useImperativeHandle } from "react";
 import { gsap } from 'gsap/index.js';
-import { signUp, signIn, signOut, findId, findPw } from "../../service/ApiService.js";
+import { signUp, signIn, signOut, findId, findPw, idDuplicateCheck, emailDuplicateCheck } from "../../service/ApiService.js";
 
 const Login = forwardRef((props, ref) => {
 
@@ -8,6 +8,8 @@ const Login = forwardRef((props, ref) => {
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
     const [nickname, setNickname] = useState("");
+    const [idDuplicate, setIdDuplicate] = useState(false);
+    const [emailDuplicate, setEmailDuplicate] = useState(false);
 
     var wrapperModal;
     var wrapper;
@@ -154,12 +156,58 @@ const Login = forwardRef((props, ref) => {
         }, 500);
     }
 
+    function handleIdCheck(){
+        if (memberId === "") {
+            alert("ID를 기입해주세요.");
+            return;
+        }
+        idDuplicateCheck(memberId).then(
+            (response) => {
+                if (response.resultCode === "SUCCESS") {
+                    setIdDuplicate(!response.result);
+                    if(response.result) alert("중복된 ID 입니다.");
+                }
+            }
+        ).catch((e) => {console.log(e)});
+    }
+
+    function handleEmailCheck(){
+        if (email === "") {
+            alert("Email을 기입해주세요.");
+            return;
+        }
+        emailDuplicateCheck(email).then(
+            (response) => {
+                if (response.resultCode === "SUCCESS") {
+                    setEmailDuplicate(!response.result);
+                    if(response.result) alert("중복된 Email 입니다.");
+                }
+            }
+        ).catch((e) => {console.log(e)});
+    }
+
+    function Button({ handleOnclick, isDisable }) {
+        return (
+          <button className="duplicateBtn" onClick={handleOnclick} disabled={isDisable}>
+            {isDisable ? "✔" : "중복 체크"}
+          </button>
+        );
+      }
+
     function handleSignUp() {
-        console.log("handleSignUp");
         if (memberId === "" || password === "" || nickname === "" || email === "") {
             alert("모든 입력란을 기입해주세요.");
             return;
         }
+        if(!idDuplicate){
+            alert("ID 중복체크를 완료해주세요.");
+            return;
+        }
+        if(!emailDuplicate){
+            alert("Email 중복체크를 완료해주세요.");
+            return;
+        }
+
         signUp({ memberId: memberId, password: password, nickname: nickname, email: email }).then(
             (response) => {
                 if (response.resultCode === "SUCCESS") {
@@ -262,9 +310,16 @@ const Login = forwardRef((props, ref) => {
                                 type="text"
                                 required
                                 autoComplete="one-time-code"
-                                onChange={(e) => setMemberId(e.target.value)}
+                                onChange={(e) => {
+                                    setMemberId(e.target.value);
+                                    setIdDuplicate(false);
+                                }
+                            }
                             />
                             <label>ID</label>
+                            <Button handleOnclick={handleIdCheck} 
+                                isDisable={idDuplicate} 
+                            />
                         </div>
                         <div className="input-box">
                             <span className="icon">
@@ -286,9 +341,15 @@ const Login = forwardRef((props, ref) => {
                                 type="email"
                                 required
                                 autoComplete="one-time-code"
-                                onChange={(e) => setEmail(e.target.value)}
+                                onChange={(e) =>{
+                                    setEmail(e.target.value);
+                                    setEmailDuplicate(false);
+                                }}
                             />
                             <label>이메일</label>
+                            <Button handleOnclick={handleEmailCheck} 
+                                isDisable={emailDuplicate} 
+                            />
                         </div>
                         <div className="input-box">
                             <span className="icon">
