@@ -5,6 +5,7 @@ import { getAccessToken, signOut } from "../../service/ApiService.js";
 import Login from "../SinglePage/Login.js";
 import Main from "./Main";
 import MyLecture from "../MyLecturePage/MyLecture";
+import MyPageFrame from "../MyPage/MyPageFrame";
 
 function Home() {
 
@@ -25,7 +26,8 @@ function Home() {
     function renderMainComponent() {
         switch (mainComponent) {
             case 0: return <Main />;
-            case 1: return <MyLecture />;
+            case 1: return <MyPageFrame />;
+            case 2: return <MyLecture />;
             default: return;
         }
     }
@@ -39,7 +41,8 @@ function Home() {
                 <header>
                     <h2 className="logo" onClick={() => {window.location.reload();}}>TMEROOM</h2>
                     <nav className="navigation">
-                        <a className="lecture-list" onClick={() => setMainComponent(1)}>내 강의 목록 </a>
+                        <a className="lecture-list" onClick={() => setMainComponent(1)}>마이 페이지 </a>
+                        <a className="lecture-list" onClick={() => setMainComponent(2)}>내 강의 목록 </a>
                         {isLogined ? (
                             // 로그인 상태일 때 버튼 렌더링
                             <button className="btnLogout" onClick={handleSignOut}>Logout</button>

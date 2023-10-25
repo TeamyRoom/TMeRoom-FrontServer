@@ -1,0 +1,53 @@
+#form-container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#form-inner-container {
+    background-color: white;
+    max-width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 0 20px gainsboro;
+}
+
+#my-page-container {
+    padding: 60px 80px;
+    width: 25rem;
+    display: inline-block;
+}
+
+.my-page-input {
+    display: grid;
+    margin-bottom: 20px;
+    border: 1px solid #E5E9F5;
+    background-color: #F6F7FA;
+    padding: 20px;
+    margin-top: 10px;
+    border-radius: 10px;
+    width: 100%;
+    position: relative;
+}
+
+#form-controls {
+    margin-bottom: 20px;
+}
+
+
+#my-page-head {
+    color: red;
+    font-size: 150%;
+    font-weight: 500;
+}
+
+.my-page-label {
+    color: #7369AB;
+}
+
+.my-page-img {
+    max-height: 3rem;
+    position: absolute;
+    top: 0.3rem;
+    right: 0px;
+}
