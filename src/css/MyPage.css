@@ -18,6 +18,12 @@
     display: inline-block;
 }
 
+#my-page-container-email {
+    padding: 60px 80px;
+    width: 30rem;
+    display: inline-block;
+}
+
 .my-page-input {
     display: grid;
     margin-bottom: 20px;
@@ -28,6 +34,13 @@
     border-radius: 10px;
     width: 100%;
     position: relative;
+}
+
+.my-page-wrapper{
+    display: flex;
+    flex-direction: row;
+    align-items: top;
+    top: auto;
 }
 
 #form-controls {
@@ -50,6 +63,7 @@
     position: absolute;
     top: 0.3rem;
     right: 0px;
+    cursor: pointer;
 }
 
 .button-withdrawal {

@@ -156,7 +156,7 @@ const Login = forwardRef((props, ref) => {
         }, 500);
     }
 
-    function handleIdCheck(){
+    function handleIdCheck() {
         if (memberId === "") {
             alert("ID를 기입해주세요.");
             return;
@@ -165,13 +165,13 @@ const Login = forwardRef((props, ref) => {
             (response) => {
                 if (response.resultCode === "SUCCESS") {
                     setIdDuplicate(!response.result);
-                    if(response.result) alert("중복된 ID 입니다.");
+                    if (response.result) alert("중복된 ID 입니다.");
                 }
             }
-        ).catch((e) => {console.log(e)});
+        ).catch((e) => { console.log(e) });
     }
 
-    function handleEmailCheck(){
+    function handleEmailCheck() {
         if (email === "") {
             alert("Email을 기입해주세요.");
             return;
@@ -180,30 +180,30 @@ const Login = forwardRef((props, ref) => {
             (response) => {
                 if (response.resultCode === "SUCCESS") {
                     setEmailDuplicate(!response.result);
-                    if(response.result) alert("중복된 Email 입니다.");
+                    if (response.result) alert("중복된 Email 입니다.");
                 }
             }
-        ).catch((e) => {console.log(e)});
+        ).catch((e) => { console.log(e) });
     }
 
     function Button({ handleOnclick, isDisable }) {
         return (
-          <button className="duplicateBtn" onClick={handleOnclick} disabled={isDisable}>
-            {isDisable ? "✔" : "중복 체크"}
-          </button>
+            <button className="duplicateBtn" onClick={handleOnclick} disabled={isDisable}>
+                {isDisable ? "✔" : "중복 체크"}
+            </button>
         );
-      }
+    }
 
     function handleSignUp() {
         if (memberId === "" || password === "" || nickname === "" || email === "") {
             alert("모든 입력란을 기입해주세요.");
             return;
         }
-        if(!idDuplicate){
+        if (!idDuplicate) {
             alert("ID 중복체크를 완료해주세요.");
             return;
         }
-        if(!emailDuplicate){
+        if (!emailDuplicate) {
             alert("Email 중복체크를 완료해주세요.");
             return;
         }
@@ -314,11 +314,11 @@ const Login = forwardRef((props, ref) => {
                                     setMemberId(e.target.value);
                                     setIdDuplicate(false);
                                 }
-                            }
+                                }
                             />
                             <label>ID</label>
-                            <Button handleOnclick={handleIdCheck} 
-                                isDisable={idDuplicate} 
+                            <Button handleOnclick={handleIdCheck}
+                                isDisable={idDuplicate}
                             />
                         </div>
                         <div className="input-box">
@@ -341,14 +341,14 @@ const Login = forwardRef((props, ref) => {
                                 type="email"
                                 required
                                 autoComplete="one-time-code"
-                                onChange={(e) =>{
+                                onChange={(e) => {
                                     setEmail(e.target.value);
                                     setEmailDuplicate(false);
                                 }}
                             />
                             <label>이메일</label>
-                            <Button handleOnclick={handleEmailCheck} 
-                                isDisable={emailDuplicate} 
+                            <Button handleOnclick={handleEmailCheck}
+                                isDisable={emailDuplicate}
                             />
                         </div>
                         <div className="input-box">
@@ -379,10 +379,10 @@ const Login = forwardRef((props, ref) => {
                                     <ion-icon name="person"></ion-icon>
                                 </span>
                                 <input
-                                type="text"
-                                required
-                                autoComplete="one-time-code"
-                                onChange={(e) => setMemberId(e.target.value)}
+                                    type="text"
+                                    required
+                                    autoComplete="one-time-code"
+                                    onChange={(e) => setMemberId(e.target.value)}
                                 />
                                 <label>ID</label>
                             </div>
