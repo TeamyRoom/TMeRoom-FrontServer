@@ -32,7 +32,7 @@ export default function MyPage({ handlePage }) {
 
                     <label className="my-page-label">이메일</label>
                     <span className="my-page-input" type="password" name="password" id="password">{myInfo.email}
-                        {/* <img className="my-page-img" src="/images/pencil.png" onClick={() => handlePage(2)} /> */}
+                        <img className="my-page-img" src="/images/pencil.png" onClick={() => handlePage(2)} />
                     </span>
 
                     <Button variant="contained" color="success" onClick={() => handlePage(3)}>
