@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import "../../css/Home.css";
 import { getAccessToken, signOut } from "../../service/ApiService.js";
@@ -12,6 +12,7 @@ function Home(props) {
 
     const [isLogined, setLogined] = useState(false);
     const navigate = useNavigate();
+    const loginRef = useRef({});
 
     useEffect(() => {
         if (getAccessToken()) setLogined(true)
@@ -42,15 +43,25 @@ function Home(props) {
                 <header>
                     <h2 className="logo" onClick={() => {navigate('/')}}>TMEROOM</h2>
                     <nav className="navigation">
-                        <a className="lecture-list" onClick={() => {navigate('/mypage')}}>마이 페이지 </a>
-                        <a className="lecture-list" onClick={() => {navigate('/lecturelist')}}>내 강의 목록 </a>
+                        <a className="lecture-list" onClick={() => {
+                            if(isLogined) {
+                                navigate('/mypage')
+                            }
+                            else loginRef.current.modalOpen();
+                            }}>마이 페이지 </a>
+                        <a className="lecture-list" onClick={() => {
+                            if(isLogined) {
+                                navigate('/lecturelist')
+                            }
+                            else loginRef.current.modalOpen();
+                            }}>내 강의 목록 </a>
                         {isLogined ? (
                             // 로그인 상태일 때 버튼 렌더링
                             <button className="btnLogout" onClick={handleSignOut}>Logout</button>
                         ) : <button className="btnLogin-popup">Login</button>}
                     </nav>
                 </header>
-                <Login />
+                <Login ref={loginRef} />
             </div>
 
             <section className="text-gray-600body-font">
