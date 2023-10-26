@@ -13,16 +13,7 @@ const iceConfig = Object.freeze({
             url: 'turn:' + REACT_APP_STUNNER_HOST + ':' + REACT_APP_STUNNER_PORT + '?transport=udp',
             username: REACT_APP_STUNNER_USERNAME, // TURN 서버 사용자명
             credential: REACT_APP_STUNNER_PASSWORD, // TURN 서버 비밀번호
-        },
-        {
-            urls: [
-                'stun:stun.l.google.com:19302',
-                'stun:stun1.l.google.com:19302',
-                'stun:stun2.l.google.com:19302',
-                'stun:stun3.l.google.com:19302',
-                'stun:stun4.l.google.com:19302',
-            ],
-        },
+        }
     ]
 })
 
@@ -107,7 +98,7 @@ const TeacherScreen = forwardRef((props, ref) => {
     if (myPeerConnection) {
       const accessToken = getAccessToken();
 
-      socket = io(SFU_SERVER_URL, { query: `accessToken=${accessToken}&lecturecode=${props.lecturecode}` });
+      socket = io(SFU_SERVER_URL, { query: `accessToken=${accessToken}&lecturecode=${props.lecturecode}`, path: "/sfu/socket.io/" });
 
       socket.on("welcome", async () => {
         const offer = await myPeerConnection.createOffer();
