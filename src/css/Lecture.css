@@ -276,3 +276,11 @@ body {
     font-size: xxx-large;
     font-family: cursive;
 }
+
+.lecture_name {
+    display: contents;
+}
+
+.change-img {
+    height: 3rem;
+}

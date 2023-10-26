@@ -3,6 +3,9 @@ import { call, getResultCodeCall } from "../../service/ApiService";
 import { useNavigate } from "react-router-dom";
 import { Pagination } from "@mui/material";
 
+import Button from '@mui/material/Button';
+import DeleteIcon from '@mui/icons-material/Delete';
+import SendIcon from '@mui/icons-material/Send';
 
 export default function LectureAsStudent() {
 
@@ -67,11 +70,17 @@ export default function LectureAsStudent() {
                         </div>
                         <div className="table-cell last-cell">
                             {lecture.acceptedAt ?
-                                <button className="apply" onClick={() => { goLecture(lecture.lectureCode) }}>강의실 입장</button>
+                                <Button variant="contained" endIcon={<SendIcon />} onClick={() => { goLecture(lecture.lectureCode) }}>
+                                    입장
+                                </Button>
                                 :
-                                <button className="apply">수락 대기중</button>
+                                <Button variant="contained" disabled>
+                                    수락대기중
+                                </Button>
                             }
-                            <button className="apply" onClick={() => { deleteLecture(lecture.lectureCode) }}>강의 탈퇴</button>
+                            <Button variant="outlined" startIcon={<DeleteIcon />} onClick={() => { deleteLecture(lecture.lectureCode) }}>
+                                탈퇴
+                            </Button>
                         </div>
                     </div>
                 ))

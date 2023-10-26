@@ -9,6 +9,7 @@ import TeacherFile from "./RightComponent/TeacherFile";
 import StudentFile from "./RightComponent/StudentFile";
 import { call } from "../../service/ApiService";
 import Management from "./RightComponent/Management";
+import TextField from '@mui/material/TextField';
 
 function Lecture(props) {
     const [lectureName, setLecturename] = useState(props.lecturename);
@@ -134,12 +135,14 @@ function Lecture(props) {
             <div className="lecture_footer">
                 <div className="lecture_name">
                     {toggleName ?
-                        <input type="text" ref={nameRef} placeholder={lectureName} />
+                        <TextField id="filled-basic" label="강의명 변경" variant="filled" inputRef={nameRef} />
                         : <span className="txt">{lectureName}</span>
                     }
 
                     {props.role === 'manager' &&
-                        <button className="btnChangeLectureName" onClick={handleChangeLectureName}>연필</button>
+                        <button className="btnChangeLectureName" onClick={handleChangeLectureName}>
+                            <img className="change-img" src="/images/pencil.png" />
+                        </button>
                     }
                 </div>
                 <div className="ico_area">
