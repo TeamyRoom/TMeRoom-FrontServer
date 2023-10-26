@@ -3,6 +3,9 @@ import { call, getResultCodeCall } from "../../service/ApiService";
 import { useNavigate } from "react-router-dom";
 import { Pagination } from "@mui/material";
 
+import Button from '@mui/material/Button';
+import DeleteIcon from '@mui/icons-material/Delete';
+import SendIcon from '@mui/icons-material/Send';
 
 export default function LectureAsStudent() {
 
@@ -27,7 +30,7 @@ export default function LectureAsStudent() {
     }
 
     const goLecture = (lectureCode) => {
-        navigate(`lecture/${lectureCode}`);
+        navigate(`/lecture/${lectureCode}`);
     }
 
     const deleteLecture = (lectureCode) => {
@@ -44,8 +47,6 @@ export default function LectureAsStudent() {
 
     return (
         <>
-            <h1 className="Title">수강 중인 강의 목록</h1>
-
             <div className="table-row table-head">
                 <div className="table-cell first-cell">
                     <p>강좌명</p>
@@ -69,11 +70,17 @@ export default function LectureAsStudent() {
                         </div>
                         <div className="table-cell last-cell">
                             {lecture.acceptedAt ?
-                                <button className="apply" onClick={() => { goLecture(lecture.lectureCode) }}>강의실 입장</button>
+                                <Button variant="contained" endIcon={<SendIcon />} onClick={() => { goLecture(lecture.lectureCode) }}>
+                                    입장
+                                </Button>
                                 :
-                                <button className="apply">수락 대기중</button>
+                                <Button variant="contained" disabled>
+                                    수락대기중
+                                </Button>
                             }
-                            <button className="apply" onClick={() => { deleteLecture(lecture.lectureCode) }}>강의 탈퇴</button>
+                            <Button variant="outlined" startIcon={<DeleteIcon />} onClick={() => { deleteLecture(lecture.lectureCode) }}>
+                                탈퇴
+                            </Button>
                         </div>
                     </div>
                 ))

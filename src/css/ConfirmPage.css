@@ -5,7 +5,7 @@
 body {
   font-family: "Poppins", sans-serif; /* "Poppins" 글꼴 사용 */
   font-size: 14px; /* 글꼴 크기 */
-  background: #f2f2f2; /* 배경색 설정 */
+  background: white; /* 배경색 설정 */
 }
 
 /* 폼 컨테이너 스타일 */

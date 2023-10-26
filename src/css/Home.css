@@ -27,6 +27,7 @@ header {
     color: black;
     user-select: none;
     background: url('../../public/images/logo.png') no-repeat;
+    cursor: pointer;
 }
 
 .navigation a {
@@ -324,4 +325,12 @@ header {
 .MuiPaginationItem-page {
     display: flex;
     align-items: center;
+}
+
+.css-mmst5v {
+    margin-top: 5rem;
+}
+
+.lecture-list {
+    cursor: pointer;
 }

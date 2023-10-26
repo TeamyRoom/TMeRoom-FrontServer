@@ -3,6 +3,9 @@ import { call, getResultCodeCall } from "../../service/ApiService";
 import { useNavigate } from "react-router-dom";
 import { Pagination } from "@mui/material";
 
+import Button from '@mui/material/Button';
+import DeleteIcon from '@mui/icons-material/Delete';
+import SendIcon from '@mui/icons-material/Send';
 
 export default function LectureAsTeacher() {
 
@@ -27,7 +30,7 @@ export default function LectureAsTeacher() {
     }
 
     const goLecture = (lectureCode) => {
-        navigate(`lecture/${lectureCode}`);
+        navigate(`/lecture/${lectureCode}`);
     }
 
     const acceptLecture = (lectureCode) => {
@@ -52,8 +55,6 @@ export default function LectureAsTeacher() {
 
     return (
         <>
-            <h1 className="Title">수업 중인 강의 목록</h1>
-
             <div className="table-row table-head">
                 <div className="table-cell first-cell">
                     <p>강좌명</p>
@@ -77,11 +78,17 @@ export default function LectureAsTeacher() {
                         </div>
                         <div className="table-cell last-cell">
                             {lecture.acceptedAt ?
-                                <button className="apply" onClick={() => { goLecture(lecture.lectureCode) }}>강의실 입장</button>
+                                <Button variant="contained" endIcon={<SendIcon />} onClick={() => { goLecture(lecture.lectureCode) }}>
+                                    입장
+                                </Button>
                                 :
-                                <button className="apply" onClick={() => { acceptLecture(lecture.lectureCode) }}>수락</button>
+                                <Button variant="contained" color="success" onClick={() => {acceptLecture(lecture.lectureCode)}}>
+                                    수락
+                                </Button>
                             }
-                            <button className="apply" onClick={() => { deleteLecture(lecture.lectureCode) }}>강의 탈퇴</button>
+                            <Button variant="outlined" startIcon={<DeleteIcon />} onClick={() => { deleteLecture(lecture.lectureCode) }}>
+                                탈퇴
+                            </Button>
                         </div>
                     </div>
                 ))

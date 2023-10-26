@@ -3,6 +3,10 @@ import { call, getResultCodeCall } from "../../service/ApiService";
 import { useNavigate } from "react-router-dom";
 import { Pagination } from "@mui/material";
 
+import Button from '@mui/material/Button';
+import DeleteIcon from '@mui/icons-material/Delete';
+import SendIcon from '@mui/icons-material/Send';
+
 
 export default function LectureAsManager() {
 
@@ -27,7 +31,7 @@ export default function LectureAsManager() {
     }
 
     const goLecture = (lectureCode) => {
-        navigate(`lecture/${lectureCode}`);
+        navigate(`/lecture/${lectureCode}`);
     }
 
     const deleteLecture = (lectureCode) => {
@@ -44,8 +48,6 @@ export default function LectureAsManager() {
 
     return (
         <>
-            <h1 className="Title">관리 중인 강의 목록</h1>
-
             <div className="table-row table-head">
                 <div className="table-cell first-cell">
                     <p>강좌명</p>
@@ -68,8 +70,12 @@ export default function LectureAsManager() {
                             <p>{lecture.lectureCode}</p>
                         </div>
                         <div className="table-cell last-cell">
-                            <button className="apply" onClick={() => { goLecture(lecture.lectureCode) }}>강의실 입장</button>
-                            <button className="apply" onClick={() => { deleteLecture(lecture.lectureCode) }}>강의 삭제</button>
+                            <Button variant="contained" endIcon={<SendIcon />} onClick={() => { goLecture(lecture.lectureCode) }}>
+                                입장
+                            </Button>
+                            <Button variant="outlined" startIcon={<DeleteIcon />} onClick={() => { deleteLecture(lecture.lectureCode) }}>
+                                삭제
+                            </Button>
                         </div>
                     </div>
                 ))

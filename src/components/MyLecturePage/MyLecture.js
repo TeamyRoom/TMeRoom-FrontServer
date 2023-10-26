@@ -4,17 +4,13 @@ import LectureAsStudent from "./LectureAsStudent";
 import LectureAsTeacher from "./LectureAsTeacher";
 import LectureAsManager from "./LectureAsManager";
 
+import Box from '@mui/material/Box';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+
 export default function MyLecture() {
 
-
-
-    const [lectures_manager, setLectures_manager] = useState([]);
     const [tabNow, setTabNow] = useState(0);
-
-    useEffect(() => {
-
-
-    }, []);
 
     const tabComponent = () => {
         switch (tabNow) {
@@ -25,19 +21,20 @@ export default function MyLecture() {
         }
     }
 
+    const handleChange = (event, newValue) => {
+        setTabNow(newValue);
+    };
+
     return (
-        <div className="table-box">
-
-            <ul className="tabs">
-                <li className={tabNow === 0 ? "tab-link current" : "tab-link"} onClick={() => { setTabNow(0) }}>학생</li>
-                <li className={tabNow === 1 ? "tab-link current" : "tab-link"} onClick={() => { setTabNow(1) }}>선생</li>
-                <li className={tabNow === 2 ? "tab-link current" : "tab-link"} onClick={() => { setTabNow(2) }}>관리자</li>
-            </ul>
-
-            {
-                tabComponent()
-            }
-
-        </div>
+        <>
+            <Box sx={{ width: '100%', bgcolor: 'background.paper' }}>
+                <Tabs value={tabNow} onChange={handleChange} centered>
+                    <Tab label="학생" value={0}/>
+                    <Tab label="강사" value={1}/>
+                    <Tab label="관리" value={2}/>
+                </Tabs>
+            </Box>
+            {tabComponent()}
+        </>
     )
 }

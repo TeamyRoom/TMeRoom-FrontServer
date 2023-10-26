@@ -43,10 +43,6 @@ export default function Main() {
 
                 <p className="md:ml-4 mt-2.5 text-gray-500 font-semibold cursor-pointer text-[17px]" onClick={goLecture}>입장</p>
             </div>
-            <a href="https://support.google.com/accounts/answer/27441?hl=en" className="mt-10 font-medium id-find-btn">
-                아이디가 있으신가요?
-                <span className="text-blue-500 cursor-pointer">아이디를 만들어보세요</span>
-            </a>
         </div>
         <div className="md:max-w-lg md:w-full md:w-1/2 w-5/6 first-image-parent">
             <img src="./images/image1.webp" alt="first image" id="first-image"
