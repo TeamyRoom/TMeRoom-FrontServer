@@ -27,7 +27,7 @@ export default function LectureAsTeacher() {
     }
 
     const goLecture = (lectureCode) => {
-        navigate(`lecture/${lectureCode}`);
+        navigate(`/lecture/${lectureCode}`);
     }
 
     const acceptLecture = (lectureCode) => {
@@ -52,8 +52,6 @@ export default function LectureAsTeacher() {
 
     return (
         <>
-            <h1 className="Title">수업 중인 강의 목록</h1>
-
             <div className="table-row table-head">
                 <div className="table-cell first-cell">
                     <p>강좌명</p>

@@ -27,7 +27,7 @@ export default function LectureAsManager() {
     }
 
     const goLecture = (lectureCode) => {
-        navigate(`lecture/${lectureCode}`);
+        navigate(`/lecture/${lectureCode}`);
     }
 
     const deleteLecture = (lectureCode) => {
@@ -44,8 +44,6 @@ export default function LectureAsManager() {
 
     return (
         <>
-            <h1 className="Title">관리 중인 강의 목록</h1>
-
             <div className="table-row table-head">
                 <div className="table-cell first-cell">
                     <p>강좌명</p>
