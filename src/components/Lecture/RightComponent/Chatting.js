@@ -20,7 +20,7 @@ function Chatting(props) {
     }, [])
 
     function init() {
-        socket = io(CHATTING_SERVER_URL);
+        socket = io(CHATTING_SERVER_URL, {path: "/chat/socket.io/"});
         socket.on("welcome", (user) => {
             addMessage(`${user} 님이 입장했습니다.`);
         });
