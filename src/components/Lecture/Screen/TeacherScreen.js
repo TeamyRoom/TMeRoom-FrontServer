@@ -6,15 +6,15 @@ import Popup from "./Popup"
 
 const HLS_SERVER_URL = process.env.REACT_APP_HLS_SERVER_URL;
 const SFU_SERVER_URL = process.env.REACT_APP_SFU_SERVER_URL;
-const {REACT_APP_STUNNER_USERNAME, REACT_APP_STUNNER_PASSWORD, REACT_APP_STUNNER_PORT, REACT_APP_STUNNER_HOST} = process.env;
+const { REACT_APP_STUNNER_USERNAME, REACT_APP_STUNNER_PASSWORD, REACT_APP_STUNNER_PORT, REACT_APP_STUNNER_HOST } = process.env;
 const iceConfig = Object.freeze({
-    iceServers: [
-        {
-            url: 'turn:' + REACT_APP_STUNNER_HOST + ':' + REACT_APP_STUNNER_PORT + '?transport=udp',
-            username: REACT_APP_STUNNER_USERNAME, // TURN 서버 사용자명
-            credential: REACT_APP_STUNNER_PASSWORD, // TURN 서버 비밀번호
-        }
-    ]
+  iceServers: [
+    {
+      url: 'turn:' + REACT_APP_STUNNER_HOST + ':' + REACT_APP_STUNNER_PORT + '?transport=udp',
+      username: REACT_APP_STUNNER_USERNAME, // TURN 서버 사용자명
+      credential: REACT_APP_STUNNER_PASSWORD, // TURN 서버 비밀번호
+    }
+  ]
 })
 
 class SocketQueue {
@@ -121,6 +121,8 @@ const TeacherScreen = forwardRef((props, ref) => {
         alert("이미 강의가 진행 중입니다.");
         window.history.back();
       })
+
+      joinRoom();
     }
 
     return () => {
@@ -185,9 +187,8 @@ const TeacherScreen = forwardRef((props, ref) => {
       const audioStream = await navigator.mediaDevices.getUserMedia({
         audio: { echoCancellation: true, noiseSuppression: true }
       });
-
+      console.log("오디오스트림 : ", audioStream);
       myStream.addTrack(audioStream.getAudioTracks()[0]);
-
       myStream.getAudioTracks().forEach((track) => (track.enabled = false));
 
       setMyStream(myStream);
@@ -494,9 +495,6 @@ const TeacherScreen = forwardRef((props, ref) => {
       )}
       <div className="video-wrap">
         <video ref={videoRef} className="video-play" autoPlay muted playsInline></video>
-        {buttonVisible && (
-          <button className='video-start-button' onClick={joinRoom}>강의를 시작하려면 클릭하세요.</button>
-        )}
       </div>
     </div>
   );
