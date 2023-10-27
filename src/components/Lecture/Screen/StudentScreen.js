@@ -5,15 +5,15 @@ import VideoJS from './VideoJS';
 import { getAccessToken } from '../../../service/ApiService';
 
 const SFU_SERVER_URL = process.env.REACT_APP_SFU_SERVER_URL;
-const {REACT_APP_STUNNER_USERNAME, REACT_APP_STUNNER_PASSWORD, REACT_APP_STUNNER_PORT, REACT_APP_STUNNER_HOST} = process.env;
+const { REACT_APP_STUNNER_USERNAME, REACT_APP_STUNNER_PASSWORD, REACT_APP_STUNNER_PORT, REACT_APP_STUNNER_HOST } = process.env;
 const iceConfig = Object.freeze({
-    iceServers: [
-        {
-            url: 'turn:' + REACT_APP_STUNNER_HOST + ':' + REACT_APP_STUNNER_PORT + '?transport=udp',
-            username: REACT_APP_STUNNER_USERNAME, // TURN 서버 사용자명
-            credential: REACT_APP_STUNNER_PASSWORD, // TURN 서버 비밀번호
-        }
-    ]
+  iceServers: [
+    {
+      url: 'turn:' + REACT_APP_STUNNER_HOST + ':' + REACT_APP_STUNNER_PORT + '?transport=udp',
+      username: REACT_APP_STUNNER_USERNAME, // TURN 서버 사용자명
+      credential: REACT_APP_STUNNER_PASSWORD, // TURN 서버 비밀번호
+    }
+  ]
 })
 
 let socket = null;
@@ -25,9 +25,10 @@ const StudentScreen = forwardRef((props, ref) => {
 
   const videoRef = useRef(null);
   const playerRef = React.useRef(null);
+  const audioRef = useRef({});
   const [showHls, setShowHls] = useState(false);
   const [showRTC, setShowRTC] = useState(false);
-  const [audioOn, setAudioOn] = useState(false);
+  const [toggleBreak, setToggleBreak] = useState(true);
 
   useEffect(() => {
     init();
@@ -35,11 +36,11 @@ const StudentScreen = forwardRef((props, ref) => {
       () => {
         if (socket) {
           socket.disconnect();
-          socket = null;
-          myPeerConnection = null;
-          joined = 0;
-          videoJsOptions = null;
         }
+        socket = null;
+        myPeerConnection = null;
+        joined = 0;
+        videoJsOptions = null;
       }
     )
   }, [])
@@ -76,7 +77,7 @@ const StudentScreen = forwardRef((props, ref) => {
     if (myPeerConnection && socket === null) {
       const accessToken = getAccessToken();
 
-      socket = io(SFU_SERVER_URL, { query: `accessToken=${accessToken}&lecturecode=${props.lecturecode}`, path: "/sfu/socket.io/" });
+      socket = io(SFU_SERVER_URL, { query: `accessToken=${accessToken}&lecturecode=${props.lecturecode}` });
 
       socket.on("welcome", () => {
         console.log("i got welcome");
@@ -113,6 +114,10 @@ const StudentScreen = forwardRef((props, ref) => {
         console.log("비디오옵션은", hlsOption);
       });
 
+      socket.on("turn-video", (toggle) => {
+        setToggleBreak(toggle);
+      })
+
       socket.emit("join_roomstudent", props.lecturecode);
     }
   }
@@ -133,9 +138,9 @@ const StudentScreen = forwardRef((props, ref) => {
   }
 
   function handleAddTrack(data) {
+    setToggleBreak(false);
     if (videoRef.current) {
       videoRef.current.srcObject = data.streams[0];
-      videoRef.muted = true;
     }
   }
 
@@ -156,18 +161,20 @@ const StudentScreen = forwardRef((props, ref) => {
   };
 
   const handleAudio = () => {
-    setAudioOn(!audioOn);
-    console.log("하위 컴포넌트의 핸들오디오");
+    audioRef.current.handleAudio();
   }
-
-
 
   //-----view----------view----------view----------view----------view----------view----------view-----
 
   return (
     <div className='screen-view '>
       <div className="video-wrap" style={{ display: showRTC ? 'block' : 'none' }}>
-        <Video videoref={videoRef} className="video-play" hlsButtonClicked={handleReplayClick} />
+
+        <img className="break-img" src="/images/breaktime.png" style={{ display: toggleBreak ? 'block' : 'none' }}/>
+        <div style={{ display: toggleBreak ? 'none' : 'block' }}>
+        <Video videoref={videoRef} className="video-play" hlsButtonClicked={handleReplayClick} ref={audioRef}/>
+        </div>
+
       </div>
       <div>
         {showHls && <VideoJS options={videoJsOptions} onReady={handlePlayerReady} />}
