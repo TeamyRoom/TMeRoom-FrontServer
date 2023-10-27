@@ -20,6 +20,7 @@ header {
     justify-content: space-between;
     align-items: center;
     z-index: 99;
+    background-color: #62A5FE;
 }
 
 .logo {
@@ -333,4 +334,10 @@ header {
 
 .lecture-list {
     cursor: pointer;
+}
+
+.logo-image {
+    height: 2.7rem;
+    position: relative;
+    display: inline;
 }

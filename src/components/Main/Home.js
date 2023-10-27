@@ -41,20 +41,23 @@ function Home(props) {
 
             <div className="mainbody">
                 <header>
-                    <h2 className="logo" onClick={() => {navigate('/')}}>TMEROOM</h2>
+                    <h2 className="logo" onClick={() => { navigate('/') }}>
+                        <img className="logo-image" src="./favicon.png" />
+                        TMEROOM
+                    </h2>
                     <nav className="navigation">
                         <a className="lecture-list" onClick={() => {
-                            if(isLogined) {
+                            if (isLogined) {
                                 navigate('/mypage')
                             }
                             else loginRef.current.modalOpen();
-                            }}>마이 페이지 </a>
+                        }}>마이 페이지 </a>
                         <a className="lecture-list" onClick={() => {
-                            if(isLogined) {
+                            if (isLogined) {
                                 navigate('/lecturelist')
                             }
                             else loginRef.current.modalOpen();
-                            }}>내 강의 목록 </a>
+                        }}>내 강의 목록 </a>
                         {isLogined ? (
                             // 로그인 상태일 때 버튼 렌더링
                             <button className="btnLogout" onClick={handleSignOut}>Logout</button>
