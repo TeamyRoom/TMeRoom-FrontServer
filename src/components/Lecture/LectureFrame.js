@@ -23,16 +23,22 @@ function LectureFrame() {
             accessLecture(lecturecode)
                 .then((response) => {
                     if (response.resultCode !== "SUCCESS") {
-                        var application = window.confirm("해당 강의에 수강신청 하시겠습니까?");
-                        if(application) {
-                            call(`/lecture/${lecturecode}/application`, "POST")
-                                .then(() => alert("수강신청 되었습니다."))
-                                .then(() =>  {window.location.href = "/";});
-                        }
-                        else{
+                        if(response.resultCode === "INVALID_LECTURE_CODE") {
+                            alert(response.result);
                             window.location.href = "/";
-                            return false;
                         }
+                        else if(response.resultCode === "INVALID_ACCESS_PERMISSION") {
+                            var application = window.confirm("해당 강의에 수강신청 하시겠습니까?");
+                            if(application) {
+                                call(`/lecture/${lecturecode}/application`, "POST")
+                                    .then(() => alert("수강신청 되었습니다."))
+                                    .then(() =>  {window.location.href = "/";});
+                            }
+                            else{
+                                window.location.href = "/";
+                                return false;
+                            }
+                        }   
                     }
                     else {
                         setLecturename(response.result.lectureName);
