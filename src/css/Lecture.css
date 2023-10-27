@@ -245,6 +245,13 @@ body {
     object-fit: contain;
 }
 
+.break-img {
+    height: 90vh;
+    min-width: 100%;
+    object-fit: scale-down;
+    position: absolute;
+}
+
 .video-wrap {
     position: relative;
     width: 100%;

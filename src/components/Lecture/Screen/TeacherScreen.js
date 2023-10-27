@@ -67,6 +67,7 @@ const TeacherScreen = forwardRef((props, ref) => {
   const [myStream, setMyStream] = useState(null);
   const videoRef = useRef(null);
   const [buttonVisible, setButtonVisible] = useState(true);
+  const [toggleBreak, setToggleBreak] = useState(false);
   let browserRef = useRef(null);
   const [isSafari, setIsSafari] = useState(false);
 
@@ -146,6 +147,10 @@ const TeacherScreen = forwardRef((props, ref) => {
 
   const handleCamera = () => {
     myStream.getVideoTracks().forEach((track) => (track.enabled = !track.enabled));
+    if(socket) {
+      socket.emit("turn-video", !toggleBreak, props.lecturecode);
+    }
+    setToggleBreak(!toggleBreak);
   }
 
   const handleAudio = () => {
@@ -494,7 +499,8 @@ const TeacherScreen = forwardRef((props, ref) => {
         </Popup>
       )}
       <div className="video-wrap">
-        <video ref={videoRef} className="video-play" autoPlay muted playsInline></video>
+        <img className="break-img" src="/images/breaktime.png" style={{ display: toggleBreak ? 'block' : 'none' }} />
+        <video ref={videoRef} className="video-play" autoPlay muted playsInline style={{ display: toggleBreak ? 'none' : 'block' }}></video>
       </div>
     </div>
   );

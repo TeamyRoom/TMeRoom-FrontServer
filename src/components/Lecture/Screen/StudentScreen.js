@@ -28,6 +28,7 @@ const StudentScreen = forwardRef((props, ref) => {
   const audioRef = useRef({});
   const [showHls, setShowHls] = useState(false);
   const [showRTC, setShowRTC] = useState(false);
+  const [toggleBreak, setToggleBreak] = useState(true);
 
   useEffect(() => {
     init();
@@ -113,6 +114,10 @@ const StudentScreen = forwardRef((props, ref) => {
         console.log("비디오옵션은", hlsOption);
       });
 
+      socket.on("turn-video", (toggle) => {
+        setToggleBreak(toggle);
+      })
+
       socket.emit("join_roomstudent", props.lecturecode);
     }
   }
@@ -133,10 +138,8 @@ const StudentScreen = forwardRef((props, ref) => {
   }
 
   function handleAddTrack(data) {
+    setToggleBreak(false);
     if (videoRef.current) {
-      console.log("data : ", data);
-      console.log("data.streams : ", data.streams);
-      console.log("data.streams[0] : ", data.streams[0]);
       videoRef.current.srcObject = data.streams[0];
     }
   }
@@ -166,7 +169,12 @@ const StudentScreen = forwardRef((props, ref) => {
   return (
     <div className='screen-view '>
       <div className="video-wrap" style={{ display: showRTC ? 'block' : 'none' }}>
+
+        <img className="break-img" src="/images/breaktime.png" style={{ display: toggleBreak ? 'block' : 'none' }}/>
+        <div style={{ display: toggleBreak ? 'none' : 'block' }}>
         <Video videoref={videoRef} className="video-play" hlsButtonClicked={handleReplayClick} ref={audioRef}/>
+        </div>
+
       </div>
       <div>
         {showHls && <VideoJS options={videoJsOptions} onReady={handlePlayerReady} />}
