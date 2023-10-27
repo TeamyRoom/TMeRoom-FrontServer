@@ -62,4 +62,15 @@ html, body { height: 100%;}
     font-family:'Times New Roman', Times, serif
 }
 
+.to-main {
+    margin-left: 18vw !important;
+}
 
+.to-main-arrow {
+    display: inline;
+}
+
+.different-nickname-new {
+    margin-left: 14.5vw !important ;
+    justify-content: center !important;
+}

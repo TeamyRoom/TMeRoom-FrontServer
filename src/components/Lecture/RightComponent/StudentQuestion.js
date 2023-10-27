@@ -1,96 +1,152 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axios, { all } from "axios";
 import NewQuestionForm from "./NewQuestionForm";
 import StudentQuestionDetail from "./StudentQuestionDetail";
+import "../../../css/Question.css";
+import { call, getAccessToken } from "../../../service/ApiService"
+import SendIcon from '@mui/icons-material/Send';
+import { List, ListItem, ListItemText, Divider, Button, TextField} from "@mui/material";
 
 function StudentQuestion(props) {
 
     const [questionDetail, setQuestionDetail] = useState("");
     const [questionList, setQuestionList] = useState([]);
-    const [showQuestion, setShowQuestion] = useState("list");
+    const [showQeustionList, setShowQuestionList] = useState(true);
+    const [showQeustionDetail, setShowQuestionDetail] = useState(false);
+    const [showQeustionNew, setShowQuestionNew] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-    
+    const [toMain, setToMain] = useState(false);
 
 
     useEffect(() => {
         renderQuestionList();        
     },[])
 
+    useEffect(() => {
+      renderQuestionList();
+     },[currentPage]);
+
+    useEffect(() => {
+      renderQuestionList();
+    },[showQeustionList]);
+
     
     const renderQuestionList = () => {
-        axios.get(`/api/v1/lecture/${props.lecturecode}/questions/permitted-only`, currentPage)
+
+      const params = {
+        page: currentPage-1,
+        size: '9'
+      }
+
+      call(`/lecture/${props.lecturecode}/questions`, "GET", params)
         .then((response) => {
-            setQuestionList(response.data);
-            setTotalPages(response.data.totalPages);
+            setQuestionList(response.result.content);
+            console.log("resp" , response);
+            setTotalPages(response.result.totalPages);
         })
         .catch((error) => {
-            console.log("질문리스트 불러오기 실패",error);
+          console.log(error);
         })
-
     }
 
     const clickQuestion = (questionId) => {
-      axios.get(`/api/v1/lecture/${props.lecturecode}/question/${questionId}`)
-      .then((response) => {
-        setQuestionDetail(response.data);
-        setShowQuestion('detail');
-      })
-      .catch((error) => {
-        console.log("질문 읽기 실패", error);
-      })
+
+      console.log("showquestion은 ", questionId);
+
+      call(`/lecture/${props.lecturecode}/question/${questionId}`, "GET")
+        .then((response) => {
+          console.log("hey", response);
+            setQuestionDetail(response.result);
+            allClose();
+            setShowQuestionDetail(true);
+        });
+    }
+
+    const clickCreateQuestion = () => {
+      allClose();
+      setShowQuestionNew(true);
     }
 
     const clickBackward = () => {
-      setShowQuestion('list')
+      allClose();
+      setShowQuestionList(true);
       renderQuestionList();
+      setCurrentPage(1);
     }
 
 
 
     const handlePageChange = (page) => {
       setCurrentPage(page);
-      renderQuestionList();
     }
 
+    const allClose = () => {
+      setShowQuestionDetail(false);
+      setShowQuestionList(false);
+      setShowQuestionNew(false);
+
+    }
+
+    const handleQuestionDetail = () => {
+      allClose();
+      setShowQuestionList(true);
+    }
     
 
 
     return(
-      <div className="chat_area">
-        <main className="msger_chat">
-          <p className="Resource">Q&A</p>
-          <button className="icon-button" >
-            <img src="image/alarm-bell-symbol.png" alt="아이콘 이미지" />
-          </button>
-          <div className="msg left_msg">
-          {
-              showQuestion === 'list' ? (
-                questionList.map((data, index) => {
-                  <a href="#" onClick={clickQuestion(data.questionId)} className="question" key={index}>{`Q${index + 1}) ${data.questionTitle}`}</a>
-                })
-              ) : showQuestion === 'detail' ? (
-                <StudentQuestionDetail {...questionDetail} lecturecode={props.lecturecode} />
-              ) : (
-                <NewQuestionForm {...questionDetail} lecturecode={props.lecturecode}/>
+<div className="chat_area">
+            <main className="msger_chat-qna-main">
+                <p className="Resource-qna-main">Q&A</p>
+  
+                <div className="search-container">
+                </div>
+                <div className="msg_bubble-qna-main">
+                  <List>
+                {showQeustionList && (
+                questionList.map((data, index) => (
+                  <ListItem button divider onClick={() => {clickQuestion(data.questionId)}} className="question" key={index}><ListItemText primary={`Q) ${data.questionTitle}`}/></ListItem>
+                ))
+              ) }
+              {showQeustionDetail && (
+                <TeacherQuestionDetail 
+                questionId={questionDetail.questionId} 
+                authorNickname={questionDetail.authorNickname} 
+                createdAt={questionDetail.createdAt}
+                title={questionDetail.questionTitle}
+                content={questionDetail.questionContent}
+                lecturecode={props.lecturecode}
+                deleteQuestion={handleQuestionDetail} />
+              ) } 
+              {showQeustionNew && (
+                <NewQuestionForm lecturecode={props.lecturecode} addQuestion={handleQuestionDetail}/>
               )
-            }   
-          </div>       
-          <div className="msg_bubble">
-            <div className="msg_info"></div>
-            { showQuestion === 'list' && (
-              <div className="page-number">
-              {Array.from({length: totalPages},(_,index) => {
-                <button key={index} onClick={() => handlePageChange(index+1)} className={currentPage === index+1 ? "active" : ""}>
+              } 
+                </List>
+            </div>           
+            { showQeustionList && (
+              <div className="page-number-qna-main">
+              {Array.from({length: totalPages},(_,index) => (
+                <button key={index} onClick={() => handlePageChange(index+1)} className='page-number-button'>
                   {index+1}
                 </button>
-              })}
+              ))}
             </div>
             )}
-          </div>
-        </main>
-      </div>
+            <Button variant="contained" onClick={clickCreateQuestion}>
+              질문하기
+            </Button>
+            <Button onClick={clickBackward} className="to-main">
+              메인으로
+            </Button>
+            </main>
+                
+        </div>
+
+      
     );
 }
 
 export default StudentQuestion;
+
