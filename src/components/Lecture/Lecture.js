@@ -141,7 +141,7 @@ function Lecture(props) {
 
                     {props.role === 'manager' &&
                         <button className="btnChangeLectureName" onClick={handleChangeLectureName}>
-                            <img className="change-img" src="/images/pencil.png" />
+                            <img className="change-img" src="/images/pencil.png" alt="변경"/>
                         </button>
                     }
                 </div>

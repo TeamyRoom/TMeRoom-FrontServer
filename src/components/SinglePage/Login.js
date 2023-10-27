@@ -1,6 +1,6 @@
 import { forwardRef, useEffect, useState, useImperativeHandle } from "react";
 import { gsap } from 'gsap/index.js';
-import { signUp, signIn, signOut, findId, findPw, idDuplicateCheck, emailDuplicateCheck } from "../../service/ApiService.js";
+import { signUp, signIn, findId, findPw, idDuplicateCheck, emailDuplicateCheck } from "../../service/ApiService.js";
 
 const Login = forwardRef((props, ref) => {
 

@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import "../../css/ConfirmPage.css";
 import { decisionTeacher } from "../../service/ApiService";
 

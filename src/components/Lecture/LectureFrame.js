@@ -1,11 +1,10 @@
 import { accessLecture, call, getAccessToken } from "../../service/ApiService";
 import Lecture from "./Lecture";
 import { useEffect, useState, useRef } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Login from "../SinglePage/Login";
 
 function LectureFrame() {
-    const navigate = useNavigate();
     const { lecturecode } = useParams();
     const [lecturename, setLecturename] = useState('');
     const [nickname, setNickname] = useState('');

@@ -1,4 +1,4 @@
-import { useRef, useState } from "react"
+import { useState } from "react"
 import Button from '@mui/material/Button';
 import { call, emailDuplicateCheck } from "../../service/ApiService";
 import "../../css/MyPage.css";
@@ -60,7 +60,7 @@ export default function ChangeEmail({handlePage}) {
             alert("변경 할 이메일을 입력해주세요.");
             return;
         }
-        if(emailDuplicate == false){
+        if(emailDuplicate === false){
             alert("이메일 중복체크를 진행해주세요.");
             return;
         }
