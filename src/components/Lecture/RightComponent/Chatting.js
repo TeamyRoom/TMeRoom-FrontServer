@@ -84,7 +84,7 @@ function Chatting(props) {
                                 <div className="msg_info_name">{message.nickname}</div>
                                 <div className="msg_info_time">{message.time}</div>
                             </div>
-                            <div className="msg_text">
+                            <div className="msg_text-chat">
                                 {message.msg}
                             </div>
                         </div>

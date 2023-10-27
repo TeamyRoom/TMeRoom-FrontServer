@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import FileDetail from './TeacherFileDetail';
 import "../../../css/File.css";
@@ -12,6 +12,18 @@ function TeacherFile(props) {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
 
+    useEffect(() => {
+        searchFile();
+    },[currentPage]);
+
+    useEffect(() => {
+        searchFile();
+    },[]);
+
+    useEffect(() => {
+
+    },[searchedFiles]);
+
     const handleSearchFileTypeChange = (e) => {
         setSearchFileType(e.target.value);
     };
@@ -21,7 +33,11 @@ function TeacherFile(props) {
     };
 
     const handleFileUpload = () => {
-         call(`/lecture/${props.lecturecode}/file`, "POST", uploadFile, "file");         
+         call(`/lecture/${props.lecturecode}/file`, "POST", uploadFile, "file")
+         .then((response) => {
+            alert("파일이 저장되었습니다.")
+            handleFileDetail();
+         });         
     };
 
     const handleUploadFileChange = (e) => {
@@ -31,7 +47,6 @@ function TeacherFile(props) {
 
     const handlePageChange = (page) => {
         setCurrentPage(page);
-        searchFile();
     }
 
 
@@ -40,7 +55,7 @@ function TeacherFile(props) {
             type : searchFileType,
             key : searchFileName,
             page: currentPage-1, 
-            size: 6
+            size: 8
         }
         call(`/lecture/${props.lecturecode}/file`, "GET", searchfile)
         .then((response) => {
@@ -48,6 +63,11 @@ function TeacherFile(props) {
             setSearchedFiles(response.result.content);
             setTotalPages(response.result.totalPages);
         });
+    }
+
+    const handleFileDetail = () => {
+        searchFile();
+        setCurrentPage(1);
     }
     
 
@@ -93,7 +113,8 @@ function TeacherFile(props) {
                         fileLink={data.fileLink} 
                         fileName={data.fileName} 
                         fileUploaderNickname={data.fileUploaderNickname} 
-                        lecturecode={props.lecturecode} />
+                        lecturecode={props.lecturecode}
+                        deleteFile={handleFileDetail} />
                     ))
                     }
                     

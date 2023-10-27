@@ -4,6 +4,8 @@ import NewQuestionForm from "./NewQuestionForm";
 import TeacherQuestionDetail from "./TeacherQuestionDetail";
 import "../../../css/Question.css";
 import { call, getAccessToken } from "../../../service/ApiService"
+import SendIcon from '@mui/icons-material/Send';
+import { List, ListItem, ListItemText, Divider, Button, TextField} from "@mui/material";
 
 function TeacherQuestion(props) {
 
@@ -14,18 +16,27 @@ function TeacherQuestion(props) {
     const [showQeustionNew, setShowQuestionNew] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-    
+    const [toMain, setToMain] = useState(false);
 
 
     useEffect(() => {
         renderQuestionList();        
     },[])
 
+    useEffect(() => {
+      renderQuestionList();
+     },[currentPage]);
+
+    useEffect(() => {
+      renderQuestionList();
+    },[showQeustionList]);
+
     
     const renderQuestionList = () => {
 
       const params = {
-        page: currentPage-1
+        page: currentPage-1,
+        size: '9'
       }
 
       call(`/lecture/${props.lecturecode}/questions`, "GET", params)
@@ -61,13 +72,13 @@ function TeacherQuestion(props) {
       allClose();
       setShowQuestionList(true);
       renderQuestionList();
+      setCurrentPage(1);
     }
 
 
 
     const handlePageChange = (page) => {
       setCurrentPage(page);
-      renderQuestionList();
     }
 
     const allClose = () => {
@@ -75,6 +86,11 @@ function TeacherQuestion(props) {
       setShowQuestionList(false);
       setShowQuestionNew(false);
 
+    }
+
+    const handleQuestionDetail = () => {
+      allClose();
+      setShowQuestionList(true);
     }
     
 
@@ -87,9 +103,10 @@ function TeacherQuestion(props) {
                 <div className="search-container">
                 </div>
                 <div className="msg_bubble-qna-main">
+                  <List>
                 {showQeustionList && (
                 questionList.map((data, index) => (
-                  <button onClick={() => {clickQuestion(data.questionId)}} className="question" key={index}>{`Q${index + 1}) ${data.questionTitle}`}</button>
+                  <ListItem button divider onClick={() => {clickQuestion(data.questionId)}} className="question" key={index}><ListItemText primary={`Q) ${data.questionTitle}`}/></ListItem>
                 ))
               ) }
               {showQeustionDetail && (
@@ -99,29 +116,30 @@ function TeacherQuestion(props) {
                 createdAt={questionDetail.createdAt}
                 title={questionDetail.questionTitle}
                 content={questionDetail.questionContent}
-                lecturecode={props.lecturecode} />
+                lecturecode={props.lecturecode}
+                deleteQuestion={handleQuestionDetail} />
               ) } 
               {showQeustionNew && (
-                <NewQuestionForm lecturecode={props.lecturecode}/>
+                <NewQuestionForm lecturecode={props.lecturecode} addQuestion={handleQuestionDetail}/>
               )
-              }  
-                
+              } 
+                </List>
             </div>           
             { showQeustionList && (
               <div className="page-number-qna-main">
               {Array.from({length: totalPages},(_,index) => (
-                <button key={index} onClick={() => handlePageChange(index+1)} className={currentPage === index+1 ? "active" : ""}>
+                <button key={index} onClick={() => handlePageChange(index+1)} className='page-number-button'>
                   {index+1}
                 </button>
               ))}
             </div>
             )}
-            <button onClick={clickCreateQuestion}>
+            <Button variant="contained" onClick={clickCreateQuestion}>
               질문하기
-            </button>
-            <button onClick={clickBackward} className="to-main">
+            </Button>
+            <Button onClick={clickBackward} className="to-main">
               메인으로
-            </button>
+            </Button>
             </main>
                 
         </div>

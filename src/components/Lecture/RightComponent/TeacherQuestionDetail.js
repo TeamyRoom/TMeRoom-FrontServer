@@ -2,13 +2,15 @@ import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import "../../../css/QuestionDetail.css";
 import {call} from '../../../service/ApiService';
+import {Button, Divider} from '@mui/material';
+import SendIcon from '@mui/icons-material/Send';
 
 function TeacherQuestionDetail(props) {
     const { questionId, authorNickname, createdAt, content, title } = props;
     const [viewEditQuestion, setViewEditQuestion] = useState("false");
     const [questionTitle, setQuestionTitle] = useState(title);
     const [questionContent, setQuestionContent] = useState(content);
-    const [questionVisibility, setQuestionVisibility] = useState("");
+    const [questionVisibility, setQuestionVisibility] = useState("public");
     const [commentList, setCommentList] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
@@ -71,7 +73,7 @@ function TeacherQuestionDetail(props) {
       call(`/lecture/${props.lecturecode}/question/${questionId}`, "DELETE")
         .then((response) => {
         alert("삭제되었습니다.");
-        renderCommentList();
+        props.deleteQuestion();
         })
         .catch((error) => {
           console.log(error);
@@ -98,13 +100,12 @@ function TeacherQuestionDetail(props) {
       .then((response) => {
         console.log("댓글 등록 성공", response);
         renderCommentList();
+        setComment('');
+        setCurrentPage(1);
       })
       .catch((error) => {
         console.log(error);
       });
-
-      setComment('');
-
 
     }
 
@@ -143,20 +144,30 @@ function TeacherQuestionDetail(props) {
       setComment(e.target.value);
     }
 
+    function handleKeyUp(event) {
+      if (event.key === 'Enter' ) {
+        if (event.nativeEvent.isComposing === false) {
+          event.preventDefault();
+          postComment();
+        }
+      }
+  }
+
     return (
       <div>
           <div className="msg_bubble_wrap-qna">
               {viewEditQuestion === true ? (
               <div className="msg_bubble-qna">
                 <input maxLength='15' onChange={handleChangeQuestionTitle} className="different-title-qna" value={questionTitle}></input>
+                <div className="different-footer-qna">
+                 <p><span className="different-nickname-qna">{authorNickname}</span></p>
+                  <p><span className="different-time-qna">{createdAt[0]}.{createdAt[1]}.{createdAt[2]} {createdAt[3]}:{createdAt[4]}</span></p>
+                </div>
                 <textarea onChange={handleChangeQuestionContent} className="different-detail-qna" value={questionContent}></textarea>
                 <div className="different-footer-qna">
-                  <p><span className="different-nickname-qna">{authorNickname}</span></p>
-                  <button class="different-nickname-qna" onClick={editQustion}>확인</button>
-                  <p><span className="different-time-qna">{createdAt}</span></p>
-                  <div className="msger_input_container">
+                <div className="msger_input_container">
                     <div className="dropdown">
-                      <button className="dropbtn">공개 여부</button>
+                      <Button className="dropbtn">공개 여부</Button>
                       <div className="dropdown-content">
                         <label>
                           <input
@@ -181,25 +192,29 @@ function TeacherQuestionDetail(props) {
                       </div>
                     </div>
                   </div>
+                  
+                  <Button variant="contained" className="different-nickname-qna-edit" onClick={editQustion}>수정</Button>
+
                 </div>
               </div>
                 ) : (
             <div>
               <div className="msg_bubble-qna">
                 <p><span className="different-title-qna">{questionTitle}</span></p>
+                <Divider/>
                 <div className="different-footer-qna">
                   <p><span className="different-nickname-qna">{authorNickname}</span></p>
                   <p><span className="different-time-qna">{createdAt[0]}.{createdAt[1]}.{createdAt[2]} {createdAt[3]}:{createdAt[4]}</span></p>
                 </div>
                 <div className="different-detail-qna">{questionContent}</div>
                 <div className="different-footer-qna">
-                <button class="different-nickname-qna" onClick={editButtonClcik}>수정</button>
-                  <button class="different-nickname-qna" onClick={deleteQuestion}>삭제</button>
+                <Button className="different-nickname-qna" onClick={editButtonClcik}>수정</Button>
+                  <Button className="different-nickname-qna" onClick={deleteQuestion}>삭제</Button>
                 </div>
               </div>
               <div className='comment-area'>
                 {commentList.map((data, index) => (
-                  <p key={index}>{data.commenterNickname} : {data.content}  <p className='time-type'>{data.createdAt[0]}.{data.createdAt[1]}.{data.createdAt[2]} {data.createdAt[3]}:{data.createdAt[4]}</p></p>
+                  <p key={index}>{data.commenterNickname} : {data.content}  <p className='time-type'>{data.createdAt[0]}.{data.createdAt[1]}.{data.createdAt[2]} {data.createdAt[3]}:{data.createdAt[4]}</p><Divider light/></p>
                 ))}
                 <div className='page-number'>
                 {Array.from({length:totalPages},(_,index) => (
@@ -208,7 +223,7 @@ function TeacherQuestionDetail(props) {
                   </button>
                 ) )}
                 </div>
-                <input maxLength='50' className='comment-input' value={comment} onChange={handleCommentChange}></input><button onClick={postComment}>게시</button>
+                <input placeholder=" 댓글을 남겨주세요." onKeyDown={handleKeyUp} maxLength='50' className='comment-input' value={comment} onChange={handleCommentChange}></input><button className='comment-enter' onClick={postComment}>작성</button>
               </div>
             </div>
                 )}

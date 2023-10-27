@@ -70,8 +70,8 @@
 .download-button-Library{
     width:20px;
     height:20px;
-   margin-left:280px;
-   margin-top:-30px;
+   margin-left:20vw;
+   margin-top:-3vh;
    cursor: pointer;
    display: inline;
 }
@@ -79,7 +79,7 @@
 .delete-button-Library{
     width:20px;
     height:20px;
-    margin-top:-30px;
+    margin-top:-3vh;
     cursor: pointer;
     display: inline;
 }
@@ -87,14 +87,19 @@
 .file-name-Library{
     font-size:10px;
     font-weight: bold;
-    text-align: left;
+    display: inline;
 }
 
 .file-uploader-Library{
     font-size:10px;
-    text-align: left;
+    display: inline;
 }
 
 .page-number-button{
     margin-right: 10px;
 }
+
+.file-list {
+    line-height: 18px ;
+}
+
