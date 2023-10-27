@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import "../../css/MyLecture.css";
 import LectureAsStudent from "./LectureAsStudent";
 import LectureAsTeacher from "./LectureAsTeacher";
