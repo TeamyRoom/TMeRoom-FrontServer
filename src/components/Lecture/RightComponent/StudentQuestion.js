@@ -110,7 +110,7 @@ function StudentQuestion(props) {
                 ))
               ) }
               {showQeustionDetail && (
-                <TeacherQuestionDetail 
+                <StudentQuestionDetail 
                 questionId={questionDetail.questionId} 
                 authorNickname={questionDetail.authorNickname} 
                 createdAt={questionDetail.createdAt}
