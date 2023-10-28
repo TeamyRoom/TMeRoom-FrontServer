@@ -25,7 +25,7 @@
     "sass": "^1.69.3",
     "socket.io-client": "^4.7.2",
     "tailwind": "^4.0.0",
-    "video.js": "^8.5.2",
+    "video.js": "^7.21.5",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
