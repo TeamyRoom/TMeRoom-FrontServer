@@ -91,9 +91,10 @@ const TeacherScreen = forwardRef((props, ref) => {
     )
   }, [])
 
-  useEffect(() => {
-    if (myStream) init();
-  }, [myStream])
+  // 피어 생성 전에 sessionId 를 읽어가려고 해서 Peer 생성 후에 호출하도록 변경
+  // useEffect(() => {
+  //   if (myStream) init();
+  // }, [myStream])
 
   useEffect(() => {
     if (myPeerConnection) {
@@ -278,6 +279,7 @@ const TeacherScreen = forwardRef((props, ref) => {
       await device.load({ routerRtpCapabilities });
 
       peer = new Peer(sessionId, device);
+      init();
 
       createTransport();
     } catch (error) {
