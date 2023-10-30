@@ -21,13 +21,15 @@ function Chatting(props) {
 
     function init() {
         let path = CHATTING_SERVER_URL.split('/');
+        let url = path.slice(0, 3);
+        url = url.join("/");
         if(path.length > 3) {
           path = path.slice(3);
           path = path.join("/");
           path = path.concat('/');
         }
         else path = "";
-        socket = io(CHATTING_SERVER_URL, {path: `/${path}socket.io/`});
+        socket = io(url, {path: `/${path}socket.io/`});
         socket.on("welcome", (user) => {
             addMessage(`${user} 님이 입장했습니다.`);
         });
