@@ -100,7 +100,7 @@ const TeacherScreen = forwardRef((props, ref) => {
     if (myPeerConnection) {
       const accessToken = getAccessToken();
       let path = SFU_SERVER_URL.split('/');
-      if(path.length > 3) {
+      if (path.length > 3) {
         path = path.slice(3);
         path = path.join("/");
         path = path.concat('/');
@@ -154,7 +154,7 @@ const TeacherScreen = forwardRef((props, ref) => {
 
   const handleCamera = () => {
     myStream.getVideoTracks().forEach((track) => (track.enabled = !track.enabled));
-    if(socket) {
+    if (socket) {
       socket.emit("turn-video", !toggleBreak, props.lecturecode);
     }
     setToggleBreak(!toggleBreak);
@@ -224,16 +224,20 @@ const TeacherScreen = forwardRef((props, ref) => {
   //----record-------record-------record-------record-------record-------record-------record-------record---
 
   useEffect(() => {
-    if (myStream) {
-      if (wsocket !== null) wsocket.close();
-      wsocket = new WebSocket(HLS_SERVER_URL);
-      console.log("웹 소켓 연결 : ", wsocket);
-      wsocket.addEventListener('open', handleSocketOpen);
-      wsocket.addEventListener('message', handleSocketMessage);
-      wsocket.addEventListener('error', handleSocketError);
-      wsocket.addEventListener('close', handleSocketClose);
-    }
+      hlsInit();
   }, [myStream]);
+
+  const hlsInit = () => {
+    if (myStream) {
+        if (wsocket !== null) wsocket.close();
+        wsocket = new WebSocket(HLS_SERVER_URL);
+        console.log("웹 소켓 연결 : ", wsocket);
+        wsocket.addEventListener('open', handleSocketOpen);
+        wsocket.addEventListener('message', handleSocketMessage);
+        wsocket.addEventListener('error', handleSocketError);
+        wsocket.addEventListener('close', handleSocketClose);
+    }
+  }
 
   const handleSocketOpen = async () => {
     console.log('handleSocketOpen()');
@@ -254,6 +258,9 @@ const TeacherScreen = forwardRef((props, ref) => {
 
   const handleSocketError = error => {
     console.error('handleSocketError() [error:%o]', error);
+    if(myPeerConnection === null) {
+      init();
+    }
   };
 
   const handleJsonMessage = async (jsonMessage) => {
