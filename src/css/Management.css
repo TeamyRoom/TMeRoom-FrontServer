@@ -1,3 +1,14 @@
+.Resource-manage {
+    font-size: 50px;
+    text-align: center;
+    font-family: 'Noto Sans', sans-serif;
+    font-weight: bold;
+}
+
+.msger_chat-manage {
+    background-color: #fcfcfe; height: 90vh; width: 25vw;
+}
+
 .lecture_area-course-management {
     display: flex;
     flex-direction: column;
@@ -25,8 +36,9 @@
 }
 
 .invite-course-management-button{
-    display: flex;
-    float: right;
+    display: flex !important;
+    float: right !important;
+    margin: -0.6vw !important;
 }
 
 .msger {
@@ -69,8 +81,8 @@
     padding: 15px;
     border-radius: 15px;
     background: #ececec;
-    margin-top: 30px;
-    height: 20%;
+    margin: 2vw;
+    height: 30vh;
 }
 
 .msg_bubble-manage-second {
@@ -80,6 +92,32 @@
     padding: 15px;
     border-radius: 15px;
     background: #ececec;
-    margin-top: 0;
+    margin : 2vw;
     flex: 1;
+    height: 30vh;
 }
+
+.modal-name {
+    text-align: center;
+    color : #55be63 !important;
+    font-size: large;
+}
+
+
+.teacher-search-close {
+    background-color: rgb(198, 35, 35) !important;
+    margin-left: 1vw !important;
+    width: 1vw;
+}
+
+.ask-accept {
+    font-size: 12px !important;
+    padding-right: 0px;
+    
+}
+
+.ask-cancel {
+    color : rgb(198, 35, 35) !important;
+    font-size: 12px !important;
+}
+

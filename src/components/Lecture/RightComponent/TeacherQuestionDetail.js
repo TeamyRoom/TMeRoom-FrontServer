@@ -1,9 +1,7 @@
 import React, {useState, useEffect} from 'react';
-import axios from 'axios';
 import "../../../css/QuestionDetail.css";
 import {call} from '../../../service/ApiService';
 import {Button, Divider} from '@mui/material';
-import SendIcon from '@mui/icons-material/Send';
 
 function TeacherQuestionDetail(props) {
     const { questionId, authorNickname, createdAt, content, title } = props;
@@ -15,14 +13,12 @@ function TeacherQuestionDetail(props) {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [comment, setComment] = useState("");
+    const [reload, setReload] = useState(true);
 
     useEffect(() => {
       renderCommentList();
-     },[]);
+     },[,currentPage,reload]);
 
-     useEffect(() => {
-      renderCommentList();
-     },[currentPage]);
 
 
      
@@ -38,7 +34,6 @@ function TeacherQuestionDetail(props) {
       call(`/lecture/${props.lecturecode}/question/${questionId}/comments`, "GET", params)
         .then((response) => {
             setCommentList(response.result.content);
-            console.log("댓글명단이요" , response);
             setTotalPages(response.result.totalPages);
         })
         .catch((error) => {
@@ -59,7 +54,6 @@ function TeacherQuestionDetail(props) {
 
       call(`/lecture/${props.lecturecode}/question/${questionId}`, "PUT", editQuestionData)
         .then((response) => {
-        console.log("질문 수정 성공", response, editQuestionData);
         setViewEditQuestion(false);
         })
         .catch((error) => {
@@ -98,10 +92,9 @@ function TeacherQuestionDetail(props) {
 
       call(`/lecture/${props.lecturecode}/question/${questionId}/comment`, "POST", postcomment)
       .then((response) => {
-        console.log("댓글 등록 성공", response);
-        renderCommentList();
         setComment('');
         setCurrentPage(1);
+        setReload(!reload);
       })
       .catch((error) => {
         console.log(error);
@@ -113,7 +106,7 @@ function TeacherQuestionDetail(props) {
 
       call(`/lecture/${props.lecturecode}/question/${questionId}/comment/${commentId}`, "DELETE")
       .then((response) => {
-      console.log("댓글 삭제 성공", response);
+        setReload(!reload);
       })
       .catch((error) => {
         console.log(error);
@@ -209,12 +202,12 @@ function TeacherQuestionDetail(props) {
                 <div className="different-detail-qna">{questionContent}</div>
                 <div className="different-footer-qna">
                 <Button className="different-nickname-qna" onClick={editButtonClcik}>수정</Button>
-                  <Button className="different-nickname-qna" onClick={deleteQuestion}>삭제</Button>
+                <Button className="different-nickname-qna-close" onClick={deleteQuestion}>삭제</Button>
                 </div>
               </div>
               <div className='comment-area'>
                 {commentList.map((data, index) => (
-                  <p key={index}>{data.commenterNickname} : {data.content}  <p className='time-type'>{data.createdAt[0]}.{data.createdAt[1]}.{data.createdAt[2]} {data.createdAt[3]}:{data.createdAt[4]}</p><Divider light/></p>
+                  <p key={index}>{data.commenterNickname} : {data.content}  <p className='time-type'>{data.createdAt[0]}.{data.createdAt[1]}.{data.createdAt[2]} {data.createdAt[3]}:{data.createdAt[4]}</p><img src='/images/delete.png' className='comment-delete' onClick={() => {deleteComment(data.commentId)}}></img><Divider light/></p>
                 ))}
                 <div className='page-number'>
                 {Array.from({length:totalPages},(_,index) => (

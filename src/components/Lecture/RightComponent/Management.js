@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { call, dismissTeacher as dismissTeacherAPI, rejectStudent, acceptStudent } from "../../../service/ApiService";
 import React from 'react';
 import Modal from 'react-modal';
+import {Button, Divider} from '@mui/material';  
 import "../../../css/Management.css";
 
 const customStyles = {
@@ -88,6 +89,7 @@ export default function Management(props) {
                 if (response.resultCode === "SUCCESS") {
                     alert("초청 성공");
                     setReload(!reload);
+                    setIsOpen(false);
                 } else {
                     alert("초청 실패");
                 }
@@ -98,16 +100,13 @@ export default function Management(props) {
     }
 
     const dismissTeacher = (teacherId) => {
-        dismissTeacherAPI(props.lecturecode, teacherId)
+        call(`/lecture/${props.lecturecode}/teacher/${teacherId}`, "DELETE")
             .then((response) => {
-                if (response.resultCode === "SUCCESS") {
-                    alert("요청 성공");
-                } else {
-                    alert("요청 실패");
-                }
+                alert("요청 성공", response);
+                setReload(!reload);
             })
             .catch((error) => {
-                alert("요청 실패");
+                alert("요청 실패", error);
             });
     }
 
@@ -155,14 +154,15 @@ export default function Management(props) {
 
     return (
         <div className="chat_area">
-            <main className="msger_chat">
-                <h2>인원 관리</h2>
+            <main className="msger_chat-manage">
+                <p className="Resource-manage">관리</p>
                 <div class="msg_bubble_wrap">
                     <div class="msg_bubble-manage">
                         <div class="wrap">
                             <span class="different-title-course-management">강사</span>
-                            <button onClick={openModal} class="invite-course-management-button">초대</button>
+                            <Button onClick={openModal} className="invite-course-management-button">초대</Button>
                         </div>
+                        <Divider/>
 
                         <Modal
                             isOpen={modalIsOpen}
@@ -170,8 +170,7 @@ export default function Management(props) {
                             onRequestClose={closeModal}
                             style={customStyles}
                             contentLabel="Example Modal">
-                            <h2 ref={(_subtitle) => (subtitle = _subtitle)}>강사 초청</h2>
-                            <button onClick={closeModal}>close</button>
+                            <h2 className="modal-name" ref={(_subtitle) => (subtitle = _subtitle)}>강사 초청</h2>
                             <select
                                 id="searchType"
                                 className="search-teacher-type-dropdown"
@@ -189,11 +188,13 @@ export default function Management(props) {
                                 value={searchTeacherText}
                                 onChange={handleSearchTeacherTextChange}
                             />
-                            <button className="search-button" onClick={searchTeacher}>검색</button>
+                            <Button variant="contained" className="teacher-search" onClick={searchTeacher}>검색</Button>
+                            <Button variant="contained" className="teacher-search-close"  onClick={closeModal}>close</Button>
                             {searchedTeachers.map((person, index) => (
                                 <div key={index}>
                                     <span>{person.memberId} / {person.nickname} </span>
-                                    <button onClick={() => { suggestTeacher(person.memberId) }}>초청</button>
+                                    <Button className="teacher-invite" onClick={() => { suggestTeacher(person.memberId) }}>초청</Button>
+                                    <Divider/>
                                 </div>
                             ))}
                         </Modal>
@@ -202,9 +203,9 @@ export default function Management(props) {
                                 <div class="wrap">
                                     <div key={index}>
                                         <span>{person.id} / {person.nickName} </span>
-                                        <button onClick={() => { dismissTeacher(person.memberId) }}>{
+                                        <Button className="ask-cancel" onClick={() => { dismissTeacher(person.id) }}>{
                                             (person.acceptedAt == null) ? "취소" : "해임"
-                                        }</button>
+                                        }</Button>
                                     </div>
                                 </div>
                             ))}
@@ -217,18 +218,19 @@ export default function Management(props) {
                             </div>
                         </div>
                     </div>
-                    <div class="msg_bubble-manage-second">
-                        <h3>학생 관리</h3>
+                    <div class="msg_bubble-manage">
+                        <h3>학생</h3>
+                        <Divider/>
                         {applications.map((person, index) => (
                             <div key={index}>
                                 <span>{person.id} / {person.nickName}</span>
                                 {
                                     (person.acceptedAt == null) ?
-                                        <div>
-                                            <button onClick={() => { acceptApplicant(person.id) }}>승인</button>
-                                            <button onClick={() => { rejectApplicant(person.id) }}>반려</button>
-                                        </div>
-                                        : <button onClick={() => { rejectApplicant(person.id) }}>퇴출</button>
+                                        <span>
+                                            <Button className="ask-accept" onClick={() => { acceptApplicant(person.id) }}>승인</Button>
+                                            <Button className="ask-cancel" onClick={() => { rejectApplicant(person.id) }}>반려</Button>
+                                        </span>
+                                        : <Button className="ask-cancel" onClick={() => { rejectApplicant(person.id) }}>퇴출</Button>
                                 }
 
                             </div>

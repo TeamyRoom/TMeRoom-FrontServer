@@ -14,15 +14,8 @@ function TeacherFile(props) {
 
     useEffect(() => {
         searchFile();
-    },[currentPage]);
+    },[,currentPage]);
 
-    useEffect(() => {
-        searchFile();
-    },[]);
-
-    useEffect(() => {
-
-    },[searchedFiles]);
 
     const handleSearchFileTypeChange = (e) => {
         setSearchFileType(e.target.value);
@@ -42,7 +35,6 @@ function TeacherFile(props) {
 
     const handleUploadFileChange = (e) => {
         setUploadFile(e.target.files[0]);
-        console.log("이 파일이야?", e.target.files[0]);
     }
 
     const handlePageChange = (page) => {
@@ -129,18 +121,18 @@ function TeacherFile(props) {
                     </button>
                 ))}
             </div>
-            </main>
-            <div className="msger_inputarea">
+            <div className="msger_inputarea-file">
                 <input
                 type="file"
                 className="msger_input"
                 placeholder="파일 업로드"
                 onChange={handleUploadFileChange}
                 />
-                <button className="msger_send_btn" onClick={handleFileUpload}>
+                <button className="msger_send_btn-file" onClick={handleFileUpload}>
                 업로드
                 </button>
             </div>
+            </main>
         </div>
     );
 };
