@@ -341,3 +341,14 @@ header {
     position: relative;
     display: inline;
 }
+
+.v-line {
+    border-left: solid #62A5FE;
+    height: 50px;
+    margin-left: 2rem;
+    margin-right: 2rem;
+}
+
+.md\:ml-2 {
+    margin-right: 0.5rem;
+}
