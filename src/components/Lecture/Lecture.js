@@ -98,7 +98,7 @@ function Lecture(props) {
         <div className="lecture_area">
             <div className="lecture_body">
                 {isBroadCast ?
-                    <TeacherScreen lecturecode={props.lecturecode} ref={teacherRef} />
+                    <TeacherScreen broadCast={setBroadCast} lecturecode={props.lecturecode} ref={teacherRef} />
                     :
                     <StudentScreen lecturecode={props.lecturecode} ref={studentRef} />
                 }

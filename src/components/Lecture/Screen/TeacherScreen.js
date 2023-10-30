@@ -196,6 +196,9 @@ const TeacherScreen = forwardRef((props, ref) => {
           video: { cursor: 'always' },
           audio: { echoCancellation: true, noiseSuppression: true },
         });
+      myStream.getVideoTracks()[0].onended = function () {
+        props.broadCast(false);
+      }
       console.log("마이스트림 : ", myStream);
 
       try {
