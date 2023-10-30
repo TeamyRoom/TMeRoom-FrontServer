@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
-import axios, { all } from "axios";
 import NewQuestionForm from "./NewQuestionForm";
 import TeacherQuestionDetail from "./TeacherQuestionDetail";
 import "../../../css/Question.css";
 import { call, getAccessToken } from "../../../service/ApiService"
-import SendIcon from '@mui/icons-material/Send';
 import { List, ListItem, ListItemText, Divider, Button, TextField} from "@mui/material";
 
 function TeacherQuestion(props) {

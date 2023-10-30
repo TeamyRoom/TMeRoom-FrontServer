@@ -1,9 +1,7 @@
 import React, {useState, useEffect} from 'react';
-import axios from 'axios';
 import "../../../css/QuestionDetail.css";
 import {call} from '../../../service/ApiService';
 import {Button, Divider} from '@mui/material';
-import SendIcon from '@mui/icons-material/Send';
 
 function TeacherQuestionDetail(props) {
     const { questionId, authorNickname, createdAt, content, title } = props;
