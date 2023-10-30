@@ -285,9 +285,34 @@ body {
 }
 
 .lecture_name {
-    display: contents;
+    display: inline-block;
+    width: 15rem;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.lecture-text {
+    display: inline-block;
+    animation: slideText 5s linear infinite;
+    font-size: 2rem;
+}
+
+.lecture-text-unslide {
+    display: inline-block;
+    font-size: 2rem;
+}
+
+@keyframes slideText {
+    0% {
+        transform: translateX(100%);
+    }
+
+    100% {
+        transform: translateX(-100%);
+    }
 }
 
 .change-img {
     height: 3rem;
+    min-width: 3rem;
 }
