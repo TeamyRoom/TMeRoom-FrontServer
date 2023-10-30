@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
-import axios, { all } from "axios";
 import NewQuestionForm from "./NewQuestionForm";
 import StudentQuestionDetail from "./StudentQuestionDetail";
 import "../../../css/Question.css";
 import { call, getAccessToken } from "../../../service/ApiService"
-import SendIcon from '@mui/icons-material/Send';
 import { List, ListItem, ListItemText, Divider, Button, TextField} from "@mui/material";
 
 function StudentQuestion(props) {
@@ -21,15 +19,8 @@ function StudentQuestion(props) {
 
     useEffect(() => {
         renderQuestionList();        
-    },[])
+    },[,currentPage,showQeustionList])
 
-    useEffect(() => {
-      renderQuestionList();
-     },[currentPage]);
-
-    useEffect(() => {
-      renderQuestionList();
-    },[showQeustionList]);
 
     
     const renderQuestionList = () => {
@@ -42,7 +33,6 @@ function StudentQuestion(props) {
       call(`/lecture/${props.lecturecode}/questions`, "GET", params)
         .then((response) => {
             setQuestionList(response.result.content);
-            console.log("resp" , response);
             setTotalPages(response.result.totalPages);
         })
         .catch((error) => {
@@ -52,11 +42,8 @@ function StudentQuestion(props) {
 
     const clickQuestion = (questionId) => {
 
-      console.log("showquestion은 ", questionId);
-
       call(`/lecture/${props.lecturecode}/question/${questionId}`, "GET")
         .then((response) => {
-          console.log("hey", response);
             setQuestionDetail(response.result);
             allClose();
             setShowQuestionDetail(true);

@@ -21,15 +21,8 @@ function TeacherQuestion(props) {
 
     useEffect(() => {
         renderQuestionList();        
-    },[])
+    },[,currentPage,showQeustionList])
 
-    useEffect(() => {
-      renderQuestionList();
-     },[currentPage]);
-
-    useEffect(() => {
-      renderQuestionList();
-    },[showQeustionList]);
 
     
     const renderQuestionList = () => {
@@ -42,7 +35,6 @@ function TeacherQuestion(props) {
       call(`/lecture/${props.lecturecode}/questions`, "GET", params)
         .then((response) => {
             setQuestionList(response.result.content);
-            console.log("resp" , response);
             setTotalPages(response.result.totalPages);
         })
         .catch((error) => {
@@ -52,11 +44,8 @@ function TeacherQuestion(props) {
 
     const clickQuestion = (questionId) => {
 
-      console.log("showquestion은 ", questionId);
-
       call(`/lecture/${props.lecturecode}/question/${questionId}`, "GET")
         .then((response) => {
-          console.log("hey", response);
             setQuestionDetail(response.result);
             allClose();
             setShowQuestionDetail(true);
