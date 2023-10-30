@@ -1,8 +1,5 @@
 
 
-.msger_send_btn-qna:hover { background: rgb(0, 180, 50);}
-
-
 
 .file-type-label{
     font-size: 20px;
@@ -92,6 +89,14 @@
     font-size: 13px !important;
     display: flex !important;
     margin-top: 5px !important;
+}
+
+.different-nickname-qna-close {
+    font-size: 13px !important;
+    display: flex !important;
+    margin-top: 5px !important;
+    color: #be322d !important;
+
 }
 
 
@@ -221,15 +226,34 @@
 }
 
 .comment-input {
-    width: 24vw;
+    width: 23.5vw;
 
 }
 
 .comment-enter {
+    font-size: 12px !important;
     margin-left: 10px;
     display: inline;
+    background-color: #a6afb5;
+    color: white;
+    border-radius: 5px;
+    border-color: black;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+.comment-enter:hover {
+    background-color: #555a5e;
 }
 
 .msger_input_container {
+    display: inline;
+}
+
+.comment-delete {
+    margin-top: 0.7vh;
+    margin-left: 1vw;
+    width: 10px;
+    height: 10px;
     display: inline;
 }

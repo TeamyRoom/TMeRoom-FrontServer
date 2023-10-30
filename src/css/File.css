@@ -18,14 +18,14 @@
         .right_msg { flex-direction: row-reverse;}
         .right_msg .msg_bubble-Library { background: #579ffb; color: #fff; border-bottom-right-radius: 0;}
         .right_msg .msg_img { margin: 0 0 0 10px;}
-        .msger_inputarea { display: flex; padding: 10px; background: #eee;}
-        .msger_inputarea * { padding: 10px; border: none; border-radius: 3px; font-size: 1em;}
+        .msger_inputarea-file { display: flex; padding: 10px; background: #eee; height: 15vh;}
+        .msger_inputarea-file * { padding: 10px; border: none; border-radius: 3px; font-size: 1em;}
         .msger_input { flex: 1; background: #ddd;}
-        .msger_send_btn { margin-left: 10px; background: rgb(0, 196, 65); color: #fff; font-weight: bold; cursor: pointer; transition: background 0.23s;}
-        .msger_send_btn:hover { background: rgb(0, 180, 50);}
-        .msger_chat-Library { background-color: #fcfcfe;}
-
+        .msger_send_btn-file { margin-left: 10px; background: #2781ff; color: #fff; font-weight: bold; cursor: pointer; transition: 0.23s;}
+        .msger_send_btn-file:hover { background: #0b69ed;}
+        .msger_chat-Library { background-color: #fcfcfe; height: 90vh;}        
         
+
         .Resource-Library {
     font-size: 50px;
     text-align: center;
@@ -70,7 +70,7 @@
 .download-button-Library{
     width:20px;
     height:20px;
-   margin-left:20vw;
+   margin-left:21vw;
    margin-top:-3vh;
    cursor: pointer;
    display: inline;
