@@ -2,7 +2,7 @@ import TeacherScreen from "./Screen/TeacherScreen";
 import StudentScreen from "./Screen/StudentScreen";
 import Chatting from "./RightComponent/Chatting";
 import "../../css/Lecture.css"
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import TeacherQuestion from "./RightComponent/TeacherQuestion";
 import StudentQuestion from "./RightComponent/StudentQuestion";
 import TeacherFile from "./RightComponent/TeacherFile";
@@ -24,6 +24,28 @@ function Lecture(props) {
     const teacherRef = useRef({});
     const studentRef = useRef({});
     const nameRef = useRef(props.lecturename);
+
+    const [overText, setOverText] = useState(false);
+    const [width, setWidth] = useState(window.innerWidth);
+
+    useEffect(() => {
+        window.addEventListener("resize", handleResize);
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        }
+    }, []);
+
+    useEffect(() => {
+        toggleSlide();
+    }, [width])
+
+    useEffect(() => {
+        toggleSlide();
+    }, [lectureName]);
+
+    const handleResize = () => {
+        setWidth(window.innerWidth);
+    }
 
     const allFalse = () => {
         setChattingVisible(false);
@@ -93,6 +115,17 @@ function Lecture(props) {
         else setBroadCast(true);
     }
 
+    const toggleSlide = () => {
+        const textContainer = document.querySelector('.lecture_name');
+        const containerWidth = textContainer.offsetWidth;
+        const textWidth = textContainer.scrollWidth;
+        console.log("텍스트위드 : ", textWidth, " + 컨테이너위드 : ", containerWidth);
+        if (textWidth > containerWidth) {
+            setOverText(true);
+        }
+        else setOverText(false);
+    }
+
     return (
 
         <div className="lecture_area">
@@ -136,15 +169,16 @@ function Lecture(props) {
                 <div className="lecture_name">
                     {toggleName ?
                         <TextField id="filled-basic" label="강의명 변경" variant="filled" inputRef={nameRef} />
-                        : <span className="txt">{lectureName}</span>
-                    }
-
-                    {props.role === 'manager' &&
-                        <button className="btnChangeLectureName" onClick={handleChangeLectureName}>
-                            <img className="change-img" src="/images/pencil.png" alt="변경"/>
-                        </button>
+                        : <div className={overText ? "lecture-text" : "lecture-text-unslide"} >
+                            {lectureName}
+                        </div>
                     }
                 </div>
+                {props.role === 'manager' &&
+                    <button className="btnChangeLectureName" onClick={handleChangeLectureName}>
+                        <img className="change-img" src="/images/pencil.png" alt="변경" />
+                    </button>
+                }
                 <div className="ico_area">
                     <div className="ico_list bdr_raius">
                         <a className="ico_btn" href="#">
@@ -155,27 +189,11 @@ function Lecture(props) {
                                 <img className="ico" src={isVideoOn ? "/images/videoon.png" : "/images/videooff.png"} onClick={toggleCamera} />
                             </a>
                         }
-                        <a className="ico_btn" href="#">
-                            <img className="ico" src="/images/sub.png" />
-                        </a>
-                        <a className="ico_btn" href="#">
-                            <img className="ico" src="/images/imoji.png" />
-                        </a>
                         {props.role !== "student" &&
                             <a className="ico_btn" href="#">
                                 <img className="ico" src="/images/screenshare.png" onClick={handleBroadCast} />
                             </a>
                         }
-
-                        <a className="ico_btn" href="#">
-                            <img className="ico" src="/images/hands-up.png" />
-                        </a>
-                        <a className="ico_btn" href="#">
-                            <img className="ico" src="/images/3dot.png" />
-                        </a>
-                        <a className="ico_btn" href="#">
-                            <img className="ico" src="/images/call.png" />
-                        </a>
                     </div>
                 </div>
                 <div className="etc_area">

@@ -13,7 +13,7 @@ export default function Main() {
     }
 
     function handleCreateLecture() {
-        createLecture({ lectureName: "임시 강의명" });
+        createLecture({ lectureName: "새로운 강의" });
     }
 
     return (
