@@ -99,8 +99,14 @@ const TeacherScreen = forwardRef((props, ref) => {
   useEffect(() => {
     if (myPeerConnection) {
       const accessToken = getAccessToken();
-
-      socket = io(SFU_SERVER_URL, { query: `accessToken=${accessToken}&lecturecode=${props.lecturecode}`, path: "/sfu/socket.io/" });
+      let path = SFU_SERVER_URL.split('/');
+      if(path.length > 3) {
+        path = path.slice(3);
+        path = path.join("/");
+        path = path.concat('/');
+      }
+      else path = "";
+      socket = io(SFU_SERVER_URL, { query: `accessToken=${accessToken}&lecturecode=${props.lecturecode}`, path: `/${path}socket.io/` });
 
       socket.on("welcome", async () => {
         const offer = await myPeerConnection.createOffer();
@@ -190,12 +196,16 @@ const TeacherScreen = forwardRef((props, ref) => {
         });
       console.log("마이스트림 : ", myStream);
 
-      const audioStream = await navigator.mediaDevices.getUserMedia({
-        audio: { echoCancellation: true, noiseSuppression: true }
-      });
-      console.log("오디오스트림 : ", audioStream);
-      myStream.addTrack(audioStream.getAudioTracks()[0]);
-      myStream.getAudioTracks().forEach((track) => (track.enabled = false));
+      try {
+        const audioStream = await navigator.mediaDevices.getUserMedia({
+          audio: { echoCancellation: true, noiseSuppression: true }
+        });
+        console.log("오디오스트림 : ", audioStream);
+        myStream.addTrack(audioStream.getAudioTracks()[0]);
+        myStream.getAudioTracks().forEach((track) => (track.enabled = false));
+      } catch (e) {
+        console.log("마이크 없음");
+      }
 
       setMyStream(myStream);
       if (videoRef.current) {
