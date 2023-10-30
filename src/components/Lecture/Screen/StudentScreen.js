@@ -77,7 +77,14 @@ const StudentScreen = forwardRef((props, ref) => {
     if (myPeerConnection && socket === null) {
       const accessToken = getAccessToken();
 
-      socket = io(SFU_SERVER_URL, { query: `accessToken=${accessToken}&lecturecode=${props.lecturecode}`, path: "/sfu/socket.io/" });
+      let path = SFU_SERVER_URL.split('/');
+      if(path.length > 3) {
+        path = path.slice(3);
+        path = path.join("/");
+        path = path.concat('/');
+      }
+      else path = "";
+      socket = io(SFU_SERVER_URL, { query: `accessToken=${accessToken}&lecturecode=${props.lecturecode}`, path: `/${path}socket.io/` });
 
       socket.on("welcome", () => {
         console.log("i got welcome");
