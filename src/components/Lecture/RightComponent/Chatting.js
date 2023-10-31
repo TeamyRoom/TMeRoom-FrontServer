@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import io from "socket.io-client";
+import ChattingPopover from "./ChattingPopover";
 const CHATTING_SERVER_URL = process.env.REACT_APP_CHATTING_SERVER_URL;
 
 let socket = null;
@@ -8,6 +9,7 @@ function Chatting(props) {
 
     const [messages, setMessages] = useState([]);
     const [message, setMessage] = useState('');
+    const [members, setMembers] = useState([props.nickname]);
 
     useEffect(() => {
         init();
@@ -23,22 +25,31 @@ function Chatting(props) {
         let path = CHATTING_SERVER_URL.split('/');
         let url = path.slice(0, 3);
         url = url.join("/");
-        if(path.length > 3) {
-          path = path.slice(3);
-          path = path.join("/");
-          path = path.concat('/');
+        if (path.length > 3) {
+            path = path.slice(3);
+            path = path.join("/");
+            path = path.concat('/');
         }
         else path = "";
-        socket = io(url, {path: `/${path}socket.io/`});
-        socket.on("welcome", (user) => {
+        socket = io(url, { path: `/${path}socket.io/` });
+        socket.on("welcome", (user, members) => {
             addMessage(`${user} 님이 입장했습니다.`);
+            console.log(members);
+            setMembers(members);
         });
 
-        socket.on("bye", (user) => {
+        socket.on("bye", (user, members) => {
             addMessage(`${user} 님이 퇴장했습니다.`);
+            console.log(members);
+            setMembers(members);
         });
 
         socket.on("new_message", addMessage);
+
+        socket.on("members", (members) => {
+            console.log("멤버스 : ", members);
+            setMembers(members);
+        });
     }
 
     function addMessage(nickname, msg, time) {
@@ -84,6 +95,9 @@ function Chatting(props) {
 
     return (
         <div className="chat_area">
+            <div className="member_area">
+                <ChattingPopover members={members}/>
+            </div>
             <div className="msger_chat">
 
                 {messages.map((message, index) => (

@@ -119,7 +119,6 @@ function Lecture(props) {
         const textContainer = document.querySelector('.lecture_name');
         const containerWidth = textContainer.offsetWidth;
         const textWidth = textContainer.scrollWidth;
-        console.log("텍스트위드 : ", textWidth, " + 컨테이너위드 : ", containerWidth);
         if (textWidth > containerWidth) {
             setOverText(true);
         }
