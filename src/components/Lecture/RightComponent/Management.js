@@ -141,10 +141,12 @@ export default function Management(props) {
             .then((response) => {
                 setApplications(response.result.content);
             });
-        call(`/lecture/${props.lecturecode}/teachers?page=0`, "GET")
-            .then((response) => {
-                setTeachers(response.result.content);
-            });
+        if (props.role === "manager") {
+            call(`/lecture/${props.lecturecode}/teachers?page=0`, "GET")
+                .then((response) => {
+                    setTeachers(response.result.content);
+                });
+        }
     }, [reload]);
 
     function handleKeyDown(e) {
@@ -162,7 +164,8 @@ export default function Management(props) {
             <main className="msger_chat-manage">
                 <p className="Resource-manage">관리</p>
                 <div class="msg_bubble_wrap">
-                    <div class="msg_bubble-manage">
+                    {props.role === "manager" &&
+                        <div class="msg_bubble-manage">
                         <div class="wrap">
                             <span class="different-title-course-management">강사</span>
                             <Button onClick={openModal} className="invite-course-management-button">초대</Button>
@@ -224,6 +227,7 @@ export default function Management(props) {
                             </div>
                         </div>
                     </div>
+                    }
                     <div class="msg_bubble-manage">
                         <h3>학생</h3>
                         <Divider/>
