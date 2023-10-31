@@ -158,9 +158,9 @@ function Lecture(props) {
                         <StudentFile lecturecode={props.lecturecode} nickname={props.nickname} />
                     </div>
                 }
-                {isManagementVisible &&
+                {isManagementVisible && props.role !== 'student' &&
                     <div className="right-component">
-                        <Management lecturecode={props.lecturecode} />
+                        <Management role={props.role} lecturecode={props.lecturecode} />
                     </div>
                 }
             </div>
@@ -207,7 +207,7 @@ function Lecture(props) {
                         <a className="etc_btn" href="#">
                             <img className="ico" src="/images/chat.png" onClick={toggleChatting} />
                         </a>
-                        {props.role === "manager" &&
+                        {props.role !== "student" && 
                             <a className="etc_btn" href="#">
                                 <img className="ico" src="/images/lock.png" onClick={toggleManagement} />
                             </a>
