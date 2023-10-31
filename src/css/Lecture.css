@@ -316,3 +316,21 @@ body {
     height: 3rem;
     min-width: 3rem;
 }
+
+.member_area {
+    position: absolute;
+}
+
+.member-header {
+    background-color: #3498db;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+}
+
+.member-body {
+    flex: 1;
+    border: 1px solid #ccc;
+    padding: 10px;
+    overflow-y: auto;
+}
