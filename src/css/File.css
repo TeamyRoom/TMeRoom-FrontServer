@@ -10,7 +10,7 @@
         .msger_chat-Library { flex: 1; overflow-y: scroll; padding: 10px;}
         .msg { display: flex; align-items: flex-end; margin-bottom: 10px;}
         .msg_img { width: 50px; min-width: 50px; height: 50px; margin-right: 10px; background: #ddd; background-repeat: no-repeat; background-position: center; background-size: cover; border-radius: 50%;}
-        .msg_bubble-Library { max-width: 450px; height: 54vh; padding: 15px; border-radius: 15px; background: #ececec;}
+        .msg_bubble-Library { max-width: 450px; height: 54vh; padding: 15px; border-radius: 15px; background: #ececec; width: 27vw;}
         .msg_info-Library { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;}
         .msg_info_name { margin-right: 10px; font-weight: 700;}
         .msg_info_time { font-size: 0.85em;}
