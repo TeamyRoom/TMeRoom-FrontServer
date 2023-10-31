@@ -83,6 +83,7 @@
     background: #ececec;
     margin: 2vw;
     height: 30vh;
+    overflow-y: scroll;
 }
 
 .msg_bubble-manage-second {

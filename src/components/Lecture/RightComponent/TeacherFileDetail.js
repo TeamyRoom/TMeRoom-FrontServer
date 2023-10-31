@@ -13,7 +13,6 @@ function TeacherFileDetail(props) {
             alert("해당 파일이 삭제되었습니다.");
             props.deleteFile();
         });
-
     }
 
     return (

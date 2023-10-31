@@ -19,12 +19,6 @@ function TeacherQuestionDetail(props) {
       renderCommentList();
      },[,currentPage,reload]);
 
-
-
-     
-     
-     
-  
     const renderCommentList = () => {
       const params = {
         page: currentPage-1,
@@ -59,11 +53,9 @@ function TeacherQuestionDetail(props) {
         .catch((error) => {
           console.log(error);
         });
-      
     }
   
     const deleteQuestion = () => {
-
       call(`/lecture/${props.lecturecode}/question/${questionId}`, "DELETE")
         .then((response) => {
         alert("삭제되었습니다.");
@@ -75,7 +67,6 @@ function TeacherQuestionDetail(props) {
     }
 
     const editQustionVisibility = () => {
-
       call(`/lecture/${props.lecturecode}/questions/${questionId}/public`, "PUT")
         .then((response) => {
         console.log("질문 공개 수정 성공", response);
@@ -99,11 +90,9 @@ function TeacherQuestionDetail(props) {
       .catch((error) => {
         console.log(error);
       });
-
     }
 
     const deleteComment = (commentId) => {
-
       call(`/lecture/${props.lecturecode}/question/${questionId}/comment/${commentId}`, "DELETE")
       .then((response) => {
         setReload(!reload);
@@ -124,20 +113,17 @@ function TeacherQuestionDetail(props) {
 
     const handleChangeQuestionVisibility = (e) => {
       setQuestionVisibility(e.target.value);
-    }
-
- 
+    } 
 
     const handlePageChange = (page) => {
       setCurrentPage(page);
-
     }
 
     const handleCommentChange = (e) => {
       setComment(e.target.value);
     }
 
-    function handleKeyUp(event) {
+    function handleKeyDown(event) {
       if (event.key === 'Enter' ) {
         if (event.nativeEvent.isComposing === false) {
           event.preventDefault();
@@ -214,9 +200,9 @@ function TeacherQuestionDetail(props) {
                   <button key={index} onClick={() => handlePageChange(index+1)} className='page-number-button'>
                     {index+1}
                   </button>
-                ) )}
+                ))}
                 </div>
-                <input placeholder=" 댓글을 남겨주세요." onKeyDown={handleKeyUp} maxLength='50' className='comment-input' value={comment} onChange={handleCommentChange}></input><button className='comment-enter' onClick={postComment}>작성</button>
+                <input placeholder=" 댓글을 남겨주세요." onKeyDown={handleKeyDown} maxLength='50' className='comment-input' value={comment} onChange={handleCommentChange}></input><button className='comment-enter' onClick={postComment}>작성</button>
               </div>
             </div>
                 )}

@@ -18,12 +18,6 @@ function StudentQuestionDetail(props) {
     useEffect(() => {
       renderCommentList();
      },[,currentPage,reload]);
-
-
-
-     
-     
-     
   
     const renderCommentList = () => {
       const params = {
@@ -59,11 +53,9 @@ function StudentQuestionDetail(props) {
         .catch((error) => {
           console.log(error);
         });
-      
     }
   
     const deleteQuestion = () => {
-
       call(`/lecture/${props.lecturecode}/question/${questionId}`, "DELETE")
         .then((response) => {
         alert("삭제되었습니다.");
@@ -75,7 +67,6 @@ function StudentQuestionDetail(props) {
     }
 
     const editQustionVisibility = () => {
-
       call(`/lecture/${props.lecturecode}/questions/${questionId}/public`, "PUT")
         .then((response) => {
         console.log("질문 공개 수정 성공", response);
@@ -99,11 +90,9 @@ function StudentQuestionDetail(props) {
       .catch((error) => {
         console.log(error);
       });
-
     }
 
     const deleteComment = (commentId) => {
-
       call(`/lecture/${props.lecturecode}/question/${questionId}/comment/${commentId}`, "DELETE")
       .then((response) => {
         setReload(!reload);
@@ -111,8 +100,7 @@ function StudentQuestionDetail(props) {
       .catch((error) => {
         console.log(error);
       });
-
-    }
+     }
 
     const handleChangeQuestionTitle = (e) => {
       setQuestionTitle(e.target.value);
@@ -126,11 +114,8 @@ function StudentQuestionDetail(props) {
       setQuestionVisibility(e.target.value);
     }
 
- 
-
     const handlePageChange = (page) => {
       setCurrentPage(page);
-
     }
 
     const handleCommentChange = (e) => {

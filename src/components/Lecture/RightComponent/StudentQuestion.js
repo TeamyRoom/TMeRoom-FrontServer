@@ -14,14 +14,11 @@ function StudentQuestion(props) {
     const [showQeustionNew, setShowQuestionNew] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-    const [toMain, setToMain] = useState(false);
 
 
     useEffect(() => {
         renderQuestionList();        
     },[,currentPage,showQeustionList])
-
-
     
     const renderQuestionList = () => {
 
@@ -30,7 +27,7 @@ function StudentQuestion(props) {
         size: '9'
       }
 
-      call(`/lecture/${props.lecturecode}/questions`, "GET", params)
+      call(`/lecture/${props.lecturecode}/questions/permitted-only`, "GET", params)
         .then((response) => {
             setQuestionList(response.result.content);
             setTotalPages(response.result.totalPages);
@@ -62,8 +59,6 @@ function StudentQuestion(props) {
       setCurrentPage(1);
     }
 
-
-
     const handlePageChange = (page) => {
       setCurrentPage(page);
     }
@@ -80,10 +75,8 @@ function StudentQuestion(props) {
       setShowQuestionList(true);
     }
     
-
-
     return(
-<div className="chat_area">
+        <div className="chat_area">
             <main className="msger_chat-qna-main">
                 <p className="Resource-qna-main">Q&A</p>
   

@@ -199,13 +199,10 @@ function Lecture(props) {
                     <div className="etc_list bdr_raius">
 
                         <a className="etc_btn" href="#">
-                            <img className="ico" src="/images/upload.png" />
+                            <img className="ico" src="/images/upload.png" onClick={toggleFile} />
                         </a>
                         <a className="etc_btn" href="#">
-                            <img className="ico" src="/images/information.png" onClick={toggleFile} />
-                        </a>
-                        <a className="etc_btn" href="#">
-                            <img className="ico" src="/images/friends.png" onClick={toggleQuestion} />
+                            <img className="ico" src="/images/q.png" onClick={toggleQuestion} />
                         </a>
                         <a className="etc_btn" href="#">
                             <img className="ico" src="/images/chat.png" onClick={toggleChatting} />
