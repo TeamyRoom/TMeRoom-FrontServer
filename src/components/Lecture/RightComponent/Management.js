@@ -87,7 +87,6 @@ export default function Management(props) {
         call(`/lecture/${props.lecturecode}/teacher`, "POST", { teacherId: teacherId })
             .then((response) => {
                 if (response.resultCode === "SUCCESS") {
-                    alert("초청 성공");
                     setReload(!reload);
                     setIsOpen(false);
                 } else {
@@ -102,7 +101,6 @@ export default function Management(props) {
     const dismissTeacher = (teacherId) => {
         call(`/lecture/${props.lecturecode}/teacher/${teacherId}`, "DELETE")
             .then((response) => {
-                alert("요청 성공", response);
                 setReload(!reload);
             })
             .catch((error) => {
@@ -114,7 +112,6 @@ export default function Management(props) {
         acceptStudent(props.lecturecode, teacherId)
             .then((response) => {
                 if (response.resultCode === "SUCCESS") {
-                    alert("요청 성공");
                     setReload(!reload);
                 } else {
                     alert("요청 실패");
@@ -129,7 +126,6 @@ export default function Management(props) {
         rejectStudent(props.lecturecode, teacherId)
             .then((response) => {
                 if (response.resultCode === "SUCCESS") {
-                    alert("요청 성공");
                     setReload(!reload);
                 } else {
                     alert("요청 실패");
@@ -150,6 +146,15 @@ export default function Management(props) {
                 setTeachers(response.result.content);
             });
     }, [reload]);
+
+    function handleKeyDown(e) {
+        if (e.key === 'Enter') {
+            if (e.nativeEvent.isComposing === false) {
+                e.preventDefault();
+                searchTeacher();
+            }
+        }
+    }
 
 
     return (
@@ -187,6 +192,7 @@ export default function Management(props) {
                                 placeholder="검색어를 입력하세요"
                                 value={searchTeacherText}
                                 onChange={handleSearchTeacherTextChange}
+                                onKeyDown={handleKeyDown}
                             />
                             <Button variant="contained" className="teacher-search" onClick={searchTeacher}>검색</Button>
                             <Button variant="contained" className="teacher-search-close"  onClick={closeModal}>close</Button>

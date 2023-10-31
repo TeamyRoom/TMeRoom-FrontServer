@@ -32,14 +32,6 @@ function StudentFile(props) {
         setSearchFileName(e.target.value);
     };
 
-    const handleFileUpload = () => {
-         call(`/lecture/${props.lecturecode}/file`, "POST", uploadFile, "file")
-         .then((response) => {
-            alert("파일이 저장되었습니다.")
-            handleFileDetail();
-         });         
-    };
-
     const handleUploadFileChange = (e) => {
         setUploadFile(e.target.files[0]);
         console.log("이 파일이야?", e.target.files[0]);
@@ -130,17 +122,6 @@ function StudentFile(props) {
                 ))}
             </div>
             </main>
-            <div className="msger_inputarea">
-                <input
-                type="file"
-                className="msger_input"
-                placeholder="파일 업로드"
-                onChange={handleUploadFileChange}
-                />
-                <button className="msger_send_btn" onClick={handleFileUpload}>
-                업로드
-                </button>
-            </div>
         </div>
     );
 };
