@@ -22,11 +22,11 @@ export default function Main() {
         <div className="container mx-auto flex md:px-16 px-5 md:py-24 py-12 md:flex-row flex-col items-center">
             <div
                 className="lg:flex-grow md:w-1/2 md:pr-24 md:pr-16 flex flex-col md:items-start text-left mb-16 md:mb-0 items-center text-center premium_meeting">
-                <h1 className="md:title-font md:text-4xl text-2xl mb-10 font-medium text-gray-900 w-3/4 home-text">
-                    강의 중 수업이 이해가 안되거나 수업을 되돌리고싶다면 당신을 도와줄 친구 TMEROOM
+                <h1 className="md:title-font md:text-4xl text-2xl mb-10 font-medium text-gray-900">
+                    강의를 되돌리고 싶을 때 당신을 도와줄 친구 TMEROOM
                 </h1>
                 <p className="mb-8 leading-relaxed w-[90%] md:text-lg text-normal text-gray-600 font-normal">
-                    저희는 강의 중 질문과 수업 되돌리기 기능을 통하여 당신의 학습의 질을 높이는 경험을 선사합니다.
+                    다양한 강의실 기능과 되돌리기로 학습을 향상시켜보세요.
                 </p>
                 <div className="flex md:flex-row md:justify-center items-center flex-col start_meeting">
                     <Button component="label" variant="contained" onClick={handleCreateLecture} color="info">
@@ -44,7 +44,7 @@ export default function Main() {
                 </div>
             </div>
             <div className="md:max-w-lg md:w-full md:w-1/2 w-5/6 first-image-parent">
-                <img src="./images/image1.webp" alt="first image" id="first-image"
+                <img src="./images/main.png" alt="first image" id="first-image"
                     className="object-cover object-center rounded" />
 
             </div>

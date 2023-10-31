@@ -334,3 +334,13 @@ body {
     padding: 10px;
     overflow-y: auto;
 }
+
+.alert-button {
+    left:80%;
+}
+
+.reject-button {
+    left:60%;
+    color:red;
+    position:relative;
+}
