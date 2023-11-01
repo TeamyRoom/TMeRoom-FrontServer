@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { call, getResultCodeCall } from "../../service/ApiService";
+import { call } from "../../service/ApiService";
 import { useNavigate } from "react-router-dom";
 import { Pagination } from "@mui/material";
 
@@ -20,7 +20,7 @@ export default function LectureAsTeacher() {
     }, [pageNumber]);
 
     const getLectureList = () => {
-        getResultCodeCall(`/lectures/taking/teacher?page=${pageNumber}`, "GET")
+        call(`/lectures/taking/teacher?page=${pageNumber}`, "GET")
             .then((response) => {
                 if (response.resultCode === "SUCCESS") {
                     setLectures_teacher(response.result.content);

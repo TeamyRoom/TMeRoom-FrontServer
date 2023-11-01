@@ -1,9 +1,6 @@
-
 const SPRING_SERVER_URL = process.env.REACT_APP_SPRING_SERVER_URL;
 
-
 export async function call(api, method, request, type) {
-
     let header;
     let body;
     let options;
@@ -14,7 +11,7 @@ export async function call(api, method, request, type) {
         formData.append("file", request);
         body = formData;
     } else {
-        header =  new Headers({
+        header = new Headers({
             "Content-Type": "application/json",
         });
         body = request ? JSON.stringify(request) : null;
@@ -25,17 +22,17 @@ export async function call(api, method, request, type) {
             headers: header,
             url: SPRING_SERVER_URL + api,
             method: method,
-            credentials: 'include',      
+            credentials: 'include',
         };
 
         if (request) {
             options.url += '?';
             var keys = Object.keys(request);
-            for (var i=0; i<keys.length; i++) {
+            for (var i = 0; i < keys.length; i++) {
                 var key = keys[i];
                 var val = request[key];
                 options.url += `${key}=${val}`;
-                if(i !== keys.length-1) options.url +='&'; 
+                if (i !== keys.length - 1) options.url += '&';
             }
         }
     } else {
@@ -44,9 +41,9 @@ export async function call(api, method, request, type) {
             url: SPRING_SERVER_URL + api,
             method: method,
             credentials: 'include',
-            body: body        
+            body: body
         };
-    }    
+    }
 
 
     return fetch(options.url, options)
@@ -63,34 +60,15 @@ export async function call(api, method, request, type) {
                         alert(json.result);
                     }
                 }
-                return json;
-            })
-        )
-        .catch((error) => {
-            console.log(error.status);
-            Promise.reject(error);
-        });
-}
-
-
-export async function getResultCodeCall(api, method, request) {
-    let headers = new Headers({
-        "Content-Type": "application/json",
-    });
-
-    let options = {
-        headers: headers,
-        url: SPRING_SERVER_URL + api,
-        method: method,
-        credentials: 'include',
-    };
-
-    if (request) {
-        options.body = JSON.stringify(request);
-    }
-    return fetch(options.url, options)
-        .then((response) =>
-            response.json().then((json) => {
+                else if (json.resultCode === "TOKEN_INVALID") {
+                    return fetch(SPRING_SERVER_URL + `/auth/refresh`, { method: "POST" })
+                        .then(
+                            call(api, method, request, type)
+                        )
+                        .catch((error) => {
+                            console.log(error);
+                        });
+                }
                 return json;
             })
         )
@@ -121,11 +99,11 @@ export function emailDuplicateCheck(email) {
     return call(`/member/email/duplicate/${email}`, "GET");
 }
 
-export function findId(webDTO){
+export function findId(webDTO) {
     return call("/member/id/lost", "GET", webDTO);
 }
 
-export function findPw(webDTO){
+export function findPw(webDTO) {
     return call("/member/password/lost", "POST", webDTO);
 }
 
@@ -146,41 +124,45 @@ export function getAccessToken() {
 
 export function createLecture(lectureDTO) {
     return call("/lecture", "POST", lectureDTO)
-        .then((response) => {window.location.href = `lecture/${response.result.lectureCode}`;});
+        .then((response) => { window.location.href = `lecture/${response.result.lectureCode}`; });
 }
 
-export function confirmEmail(confirmCode){
-    return getResultCodeCall("/member/email/confirm/"+confirmCode, "PUT", null);
+export function confirmEmail(confirmCode) {
+    return call("/member/email/confirm/" + confirmCode, "PUT", null);
 }
 
-export function confirmResetCode(resetCode){
-    return getResultCodeCall("/member/password/checking/"+resetCode, "GET", null);
+export function confirmResetCode(resetCode) {
+    return call("/member/password/checking/" + resetCode, "GET", null);
 }
 
-export function resetPassword(webDTO){
-    return getResultCodeCall("/member/password/lost", "PUT", webDTO);
+export function resetPassword(webDTO) {
+    return call("/member/password/lost", "PUT", webDTO);
 }
 
 export function accessLecture(lectureCode) {
-    return getResultCodeCall(`/lecture/${lectureCode}`, "GET");
+    return call(`/lecture/${lectureCode}`, "GET");
 }
 
-export function dismissTeacher(lectureCode, teacherId){
-    return getResultCodeCall(`/lecture/${lectureCode}/teacher/${teacherId}`, "DELETE");
+export function suggestTeacher(lectureCode, teacherId) {
+    return call(`/lecture/${lectureCode}/teacher`, "POST", {teacherId : teacherId});
 }
 
-export function acceptStudent(lectureCode, studentId){
-    return getResultCodeCall(`/lecture/${lectureCode}/application/${studentId}`, "PUT");
+export function dismissTeacher(lectureCode, teacherId) {
+    return call(`/lecture/${lectureCode}/teacher/${teacherId}`, "DELETE");
 }
 
-export function rejectStudent(lectureCode, studentId){
-    return getResultCodeCall(`/lecture/${lectureCode}/application/${studentId}`, "DELETE");
+export function acceptStudent(lectureCode, studentId) {
+    return call(`/lecture/${lectureCode}/application/${studentId}`, "PUT");
 }
 
-export function decisionTeacher(lectureCode, answer){
-    if(answer){
-        return getResultCodeCall(`/lecture/${lectureCode}/teacher`, "PUT");
-    }else{
-        return getResultCodeCall(`/lecture/${lectureCode}/teacher`, "DELETE");
+export function rejectStudent(lectureCode, studentId) {
+    return call(`/lecture/${lectureCode}/application/${studentId}`, "DELETE");
+}
+
+export function decisionTeacher(lectureCode, answer) {
+    if (answer) {
+        return call(`/lecture/${lectureCode}/teacher`, "PUT");
+    } else {
+        return call(`/lecture/${lectureCode}/teacher`, "DELETE");
     }
 }
