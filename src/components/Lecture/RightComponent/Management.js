@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { call, dismissTeacher as dismissTeacherAPI, rejectStudent, acceptStudent } from "../../../service/ApiService";
+import { call, dismissTeacher as dismissTeacherAPI, suggestTeacher as suggestTeacherAPI, rejectStudent, acceptStudent } from "../../../service/ApiService";
 import React from 'react';
 import Modal from 'react-modal';
 import {Button, Divider} from '@mui/material';  
@@ -84,7 +84,7 @@ export default function Management(props) {
     }
 
     const suggestTeacher = (teacherId) => {
-        call(`/lecture/${props.lecturecode}/teacher`, "POST", { teacherId: teacherId })
+        suggestTeacherAPI(props.lecturecode, teacherId)
             .then((response) => {
                 if (response.resultCode === "SUCCESS") {
                     setReload(!reload);
@@ -99,7 +99,7 @@ export default function Management(props) {
     }
 
     const dismissTeacher = (teacherId) => {
-        call(`/lecture/${props.lecturecode}/teacher/${teacherId}`, "DELETE")
+        dismissTeacherAPI(props.lecturecode, teacherId)
             .then((response) => {
                 setReload(!reload);
             })
