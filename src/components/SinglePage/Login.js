@@ -111,6 +111,10 @@ const Login = forwardRef((props, ref) => {
 
     }
 
+    function isEmailValid(emailString) {
+        const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+        return emailRegex.test(emailString);
+    }
 
     function popupTo(el, du = 0.5) {
         gsap.fromTo(el, { 'xPercent': 0 }, { 'xPercent': -100, duration: du });
@@ -174,6 +178,10 @@ const Login = forwardRef((props, ref) => {
     function handleEmailCheck() {
         if (email === "") {
             alert("Email을 기입해주세요.");
+            return;
+        }
+        if(!isEmailValid(email)){
+            alert("올바른 이메일 형식이 아닙니다.");
             return;
         }
         emailDuplicateCheck(email).then(
@@ -257,9 +265,7 @@ const Login = forwardRef((props, ref) => {
         <div className="wrapper-modal">
             <div className="wrapper-center">
                 <div className="wrapper">
-                    <span className="icon-close">
-                        <ion-icon name="close"></ion-icon>
-                    </span>
+                    <div className="icon-close"/>
 
                     <div className="form-box login active">
                         <h2>로그인</h2>

@@ -18,7 +18,7 @@ export default function ChangeEmail({handlePage}) {
             return;
         }
         if (!isEmailValid(email)){
-            alert("유효한 Email 형식이 아닙니다.");
+            alert("올바른 이메일 형식이 아닙니다.");
             return;
         }
 
