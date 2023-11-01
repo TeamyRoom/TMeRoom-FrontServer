@@ -67,7 +67,7 @@ function Home(props) {
 
             <div className="mainbody">
                 <header>
-                    <h2 className="logo" onClick={() => { navigate('/') }}>
+                    <h2 className="logo" onClick={() => {window.location.href="/"}}>
                         <img className="logo-image" src="./favicon.png" />
                         TMEROOM
                     </h2>
