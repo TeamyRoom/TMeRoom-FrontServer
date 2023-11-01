@@ -43,8 +43,8 @@ export default function ChattingPopover(props) {
             >
                 <div className='member-header'>현재 인원 수 : {props.members.length}</div>
                 {
-                    props.members.map((member) => (
-                        <div class="member-body">
+                    props.members.map((member, index) => (
+                        <div key={index} className="member-body">
                             {member}
                         </div>
                     ))
