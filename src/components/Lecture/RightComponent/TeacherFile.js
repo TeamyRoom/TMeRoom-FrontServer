@@ -28,8 +28,10 @@ function TeacherFile(props) {
     const handleFileUpload = () => {
          call(`/lecture/${props.lecturecode}/file`, "POST", uploadFile, "file")
          .then((response) => {
-            alert("파일이 저장되었습니다.")
-            handleFileDetail();
+            if (response.resultCode === "SUCCESS") {
+                alert("파일이 저장되었습니다.")
+                handleFileDetail();
+            }            
          });         
     };
 

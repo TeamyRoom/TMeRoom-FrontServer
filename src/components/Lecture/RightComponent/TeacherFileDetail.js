@@ -9,9 +9,11 @@ function TeacherFileDetail(props) {
 
     function handleDeleteFile() {
         call(`/lecture/${props.lecturecode}/file/${fileId}`,"DELETE")
-        .then(() => {
-            alert("해당 파일이 삭제되었습니다.");
-            props.deleteFile();
+        .then((response) => {
+            if (response.resultCode === "SUCCESS") {
+                alert("해당 파일이 삭제되었습니다.");
+                props.deleteFile();
+            }
         });
     }
 

@@ -58,8 +58,10 @@ function StudentQuestionDetail(props) {
     const deleteQuestion = () => {
       call(`/lecture/${props.lecturecode}/question/${questionId}`, "DELETE")
         .then((response) => {
-        alert("삭제되었습니다.");
-        props.deleteQuestion();
+        if (response.resultCode === "SUCCESS") {
+          alert("삭제되었습니다.");
+          props.deleteQuestion();
+          }
         })
         .catch((error) => {
           console.log(error);

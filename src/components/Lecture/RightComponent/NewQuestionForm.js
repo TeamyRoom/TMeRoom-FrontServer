@@ -21,11 +21,13 @@ function NewQuestionForm(props) {
 
 
        call(`/lecture/${props.lecturecode}/question`,"POST",questionData).
-       then(() => {
+       then((response) => {
+        if (response.resultCode === "SUCCESS") {
             alert("질문이 등록되었습니다.");
             setQuestionTitle('');
             setQuestionContent('');
             props.addQuestion();
+        }            
        });
 
       }
