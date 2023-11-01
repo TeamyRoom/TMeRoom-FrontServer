@@ -176,7 +176,7 @@ body {
     align-items: center;
     width: 100%;
     padding: 0 20px;
-    background-color: #666666;
+    background-color: #fcfcfe;
     height: 10%;
 }
 
@@ -211,18 +211,21 @@ body {
 
 .lecture_footer .ico_list {
     display: flex;
+    background-color: #e2dbdb !important;
     gap: 10px;
     padding: 10px;
+    height: 8vh;
 }
 
 .lecture_footer .ico_btn {
     display: block;
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
 }
 
 .lecture_footer .etc_list {
     display: flex;
+    background-color: #e2dbdb !important;
     gap: 10px;
     padding: 10px;
 }
