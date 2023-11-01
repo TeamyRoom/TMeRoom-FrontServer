@@ -97,6 +97,27 @@ const TeacherScreen = forwardRef((props, ref) => {
   // }, [myStream])
 
   useEffect(() => {
+    initSFU();
+    return () => {
+      if (myPeerConnection) myPeerConnection.close();
+    }
+  }, [myPeerConnection]);
+
+  useImperativeHandle(ref, () => ({
+    handleCamera,
+    handleAudio,
+  }));
+
+  //------functions----------functions----------functions----------functions----------functions----------functions----
+
+  async function joinRoom() {
+    if (socket) {
+      socket.emit('join_room', props.lecturecode);
+      setButtonVisible(false);
+    }
+  }
+
+  const initSFU = () => {
     if (myPeerConnection) {
       const accessToken = getAccessToken();
       let path = SFU_SERVER_URL.split('/');
@@ -109,6 +130,15 @@ const TeacherScreen = forwardRef((props, ref) => {
       }
       else path = "";
       socket = io(url, { query: `accessToken=${accessToken}&lecturecode=${props.lecturecode}`, path: `/${path}socket.io/` });
+
+      socket.on('connect_error', async (error) => {
+        console.log("SFU에서 토큰 invalid : ", error);
+        
+        //소켓연결 해제하고 재연결
+        // socket.disconnect();
+        // socket = null;
+        // initSFU();
+      })
 
       socket.on("welcome", async () => {
         const offer = await myPeerConnection.createOffer();
@@ -133,24 +163,6 @@ const TeacherScreen = forwardRef((props, ref) => {
       })
 
       joinRoom();
-    }
-
-    return () => {
-      if (myPeerConnection) myPeerConnection.close();
-    }
-  }, [myPeerConnection]);
-
-  useImperativeHandle(ref, () => ({
-    handleCamera,
-    handleAudio,
-  }));
-
-  //------functions----------functions----------functions----------functions----------functions----------functions----
-
-  async function joinRoom() {
-    if (socket) {
-      socket.emit('join_room', props.lecturecode);
-      setButtonVisible(false);
     }
   }
 

@@ -47,18 +47,6 @@ function LectureFrame() {
                     if (response.resultCode !== "SUCCESS") {
                         if (response.resultCode === "INVALID_ACCESS_PERMISSION") {
                             setOpenApply(true);
-                            // var application = window.confirm("해당 강의에 수강신청 하시겠습니까?");
-                            // if (application) {
-                            //     call(`/lecture/${lecturecode}/application`, "POST")
-                            //         .then(() => {
-                            //             setMessage("수강신청 되었습니다.");
-                            //             setOpen(true);
-                            //         });
-                            // }
-                            // else {
-                            //     window.location.href = "/";
-                            //     return false;
-                            // }
                         }
                         else {
                             setMessage(response.result);

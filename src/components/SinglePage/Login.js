@@ -16,7 +16,6 @@ const Login = forwardRef((props, ref) => {
     var formBoxs;
     var loginLink;
     var registerLink;
-    var btnPopup;
     var iconClose;
     var forgotPwLink;
     var forgotIdLink;
@@ -30,7 +29,6 @@ const Login = forwardRef((props, ref) => {
         formBoxs = document.querySelectorAll('.form-box');
         loginLink = document.querySelector('.login-link');
         registerLink = document.querySelector('.register-link');
-        btnPopup = document.querySelector('.btnLogin-popup');
         iconClose = document.querySelector('.icon-close');
         forgotPwLink = document.querySelector('.remember-forgot a');
         forgotIdLink = document.querySelector('.login-idforgot a');
@@ -77,12 +75,6 @@ const Login = forwardRef((props, ref) => {
             popupFrom('.form-box.login');
             popupTo('.form-box.find-pw');
         });
-
-        if (btnPopup) {
-            btnPopup.addEventListener('click', (e) => {
-                modalOpen();
-            });
-        }
 
         iconClose.addEventListener('click', () => {
             modalClose();

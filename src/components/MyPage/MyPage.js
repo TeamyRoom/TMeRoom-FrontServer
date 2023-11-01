@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { call } from "../../service/ApiService";
+import { call, signOut } from "../../service/ApiService";
 import "../../css/MyPage.css";
 import Button from '@mui/material/Button';
 
@@ -15,6 +15,19 @@ export default function MyPage({ handlePage }) {
                 }
             })
     }, []);
+
+    const withdraw = () => {
+        const answer = window.confirm("정말로 탈퇴하시겠습니까?");
+        if(answer) {
+            call("/member", "DELETE")
+            .then((response) => {
+                if(response.resultCode === "SUCCESS") {
+                    signOut();
+                    window.location.href = "/";
+                }
+            })
+        }
+    }
 
     return (
         <div id="form-container">
@@ -38,7 +51,7 @@ export default function MyPage({ handlePage }) {
                     <Button variant="contained" color="success" onClick={() => handlePage(3)}>
                         비밀번호 변경
                     </Button>
-                    <Button className="button-withdrawal"variant="outlined" color="error">
+                    <Button className="button-withdrawal"variant="outlined" color="error" onClick={withdraw}>
                         회원탈퇴
                     </Button>
                 </div>
