@@ -45,11 +45,23 @@ export async function call(api, method, request, type) {
         };
     }
 
-
     return fetch(options.url, options)
         .then((response) =>
             response.json().then((json) => {
-                if (json.resultCode !== "SUCCESS") {
+                if (json.resultCode === "TOKEN_NOT_FOUND") {
+                    const refreshOptions = {
+                        headers: header,
+                        url: SPRING_SERVER_URL + `/auth/refresh`,
+                        method: "POST",
+                        credentials: 'include',
+                    };
+                    return fetch(refreshOptions.url, refreshOptions)
+                        .then(() => (call(api, method, request, type)))
+                        .catch((error) => {
+                            console.log(error);
+                        });
+                }
+                else if (json.resultCode !== "SUCCESS") {
                     if (json.result && Array.isArray(json.result)) {
                         // result 배열 각각에 대해 field와 message 출력
                         json.result.forEach((error) => {
@@ -59,15 +71,6 @@ export async function call(api, method, request, type) {
                         // result 하나 출력
                         alert(json.result);
                     }
-                }
-                else if (json.resultCode === "TOKEN_INVALID") {
-                    return fetch(SPRING_SERVER_URL + `/auth/refresh`, { method: "POST" })
-                        .then(
-                            call(api, method, request, type)
-                        )
-                        .catch((error) => {
-                            console.log(error);
-                        });
                 }
                 return json;
             })
@@ -144,7 +147,7 @@ export function accessLecture(lectureCode) {
 }
 
 export function suggestTeacher(lectureCode, teacherId) {
-    return call(`/lecture/${lectureCode}/teacher`, "POST", {teacherId : teacherId});
+    return call(`/lecture/${lectureCode}/teacher`, "POST", { teacherId: teacherId });
 }
 
 export function dismissTeacher(lectureCode, teacherId) {
