@@ -23,6 +23,8 @@ const style = {
     boxShadow: 24,
     p: 4,
 };
+const SPRING_SERVER_URL = process.env.REACT_APP_SPRING_SERVER_URL;
+
 
 function Home(props) {
 
@@ -32,8 +34,15 @@ function Home(props) {
     const loginRef = useRef({});
 
     useEffect(() => {
-        if (getAccessToken()) setLogined(true)
-        else setLogined(false);
+        if (!getAccessToken()){
+            fetch(SPRING_SERVER_URL + `/auth/refresh`, {method : "POST", credentials: "include"})
+            .then(()=>{
+                if (getAccessToken()) {
+                    setLogined(true)
+                }
+                else setLogined(false);
+            }).catch(setLogined(false))
+        } else setLogined(true);
     });
 
     function handleSignOut() {
