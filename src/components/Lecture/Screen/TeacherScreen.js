@@ -129,7 +129,7 @@ const TeacherScreen = forwardRef((props, ref) => {
         path = path.concat('/');
       }
       else path = "";
-      socket = io(url, { query: `accessToken=${accessToken}&lecturecode=${props.lecturecode}`, path: `/${path}socket.io/` });
+      socket = io(url, { query: `accessToken=${accessToken}`, path: `/${path}socket.io/` });
 
       socket.on('connect_error', async (error) => {
         console.log("SFU에서 토큰 invalid : ", error);
