@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 
 import "../../css/Home.css";
-import { getAccessToken, signOut } from "../../service/ApiService.js";
+import { call, getAccessToken, signOut } from "../../service/ApiService.js";
 import Login from "../SinglePage/Login.js";
 import Main from "./Main";
 import MyLecture from "../MyLecturePage/MyLecture";
@@ -42,7 +42,7 @@ function Home(props) {
     }
 
     function handleSignOutAll() {
-        //로그아웃 request 들어가야함
+        call("/auth/refresh", "DELETE");
         signOut();
         setLogined(false);
     }
