@@ -39,7 +39,9 @@ export default function Main() {
                         className="md:ml-2 pl-5 inline-flex font-normal placeholder:text-gray-500 bg-white border border-gray-300 py-2 px-2 outline-gray-500 rounded text-lg relative"
                         placeholder="코드를 입력해주세요"
                         autoComplete="one-time-code"
-                        ref={codeRef} />
+                        ref={codeRef} 
+                        onKeyUp={(e) => {if(e.key === 'Enter') goLecture()}}
+                        />
                     <Button variant="contained" endIcon={<SendIcon />} onClick={goLecture} color="info">
                         입장
                     </Button>
