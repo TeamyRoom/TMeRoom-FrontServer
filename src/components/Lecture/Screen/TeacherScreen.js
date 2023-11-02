@@ -14,7 +14,8 @@ const iceConfig = Object.freeze({
       username: REACT_APP_STUNNER_USERNAME, // TURN 서버 사용자명
       credential: REACT_APP_STUNNER_PASSWORD, // TURN 서버 비밀번호
     }
-  ]
+  ],
+  iceTransportPolicy: 'relay'
 })
 
 class SocketQueue {
