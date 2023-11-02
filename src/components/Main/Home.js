@@ -34,14 +34,14 @@ function Home(props) {
     const loginRef = useRef({});
 
     useEffect(() => {
-        if (!getAccessToken()){
-            fetch(SPRING_SERVER_URL + `/auth/refresh`, {method : "POST", credentials: "include"})
-            .then(()=>{
-                if (getAccessToken()) {
-                    setLogined(true)
-                }
-                else setLogined(false);
-            }).catch(setLogined(false))
+        if (!getAccessToken()) {
+            fetch(SPRING_SERVER_URL + `/auth/refresh`, { method: "POST", credentials: "include" })
+                .then(() => {
+                    if (getAccessToken()) {
+                        setLogined(true)
+                    }
+                    else setLogined(false);
+                }).catch((e) => { console.log(e) });
         } else setLogined(true);
     });
 
@@ -76,7 +76,7 @@ function Home(props) {
 
             <div className="mainbody">
                 <header>
-                    <h2 className="logo" onClick={() => {window.location.href="/"}}>
+                    <h2 className="logo" onClick={() => { window.location.href = "/" }}>
                         <img className="logo-image" src="./favicon.png" />
                         TMEROOM
                     </h2>
@@ -94,8 +94,8 @@ function Home(props) {
                             else loginRef.current.modalOpen();
                         }}>내 강의 목록 </a>
                         {isLogined ?
-                            <button className="btnLogout" onClick={() => {setOpen(true)}}>Logout</button>
-                            : <button className="btnLogout" onClick={() => {loginRef.current.modalOpen()}}>Login</button>}
+                            <button className="btnLogout" onClick={() => { setOpen(true) }}>Logout</button>
+                            : <button className="btnLogout" onClick={() => { loginRef.current.modalOpen() }}>Login</button>}
                     </nav>
                 </header>
                 <Login ref={loginRef} />

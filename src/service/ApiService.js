@@ -77,7 +77,6 @@ export async function call(api, method, request, type) {
         )
         .catch((error) => {
             console.log(error.status);
-            Promise.reject(error);
         });
 }
 
