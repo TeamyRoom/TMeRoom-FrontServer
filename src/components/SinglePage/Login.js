@@ -270,6 +270,7 @@ const Login = forwardRef((props, ref) => {
                                 required
                                 autoComplete="one-time-code"
                                 onChange={(e) => setMemberId(e.target.value)}
+                                onKeyUp={(e) => {if(e.key === 'Enter') handleSignIn()}}
                             />
                             <label>아이디</label>
                         </div>
@@ -282,6 +283,7 @@ const Login = forwardRef((props, ref) => {
                                 required
                                 autoComplete="one-time-code"
                                 onChange={(e) => setPassword(e.target.value)}
+                                onKeyUp={(e) => {if(e.key === 'Enter') handleSignIn()}}
                             />
                             <label>비밀번호</label>
                         </div>
