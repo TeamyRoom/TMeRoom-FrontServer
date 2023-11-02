@@ -211,6 +211,8 @@
     align-items: center; /* 수직 가운데 정렬 */
 }
 .different-detail-new{
+    resize: none;
+    white-space: pre-wrap;
     width: 25vw;
     height: 40vh;
     display: flex;
