@@ -3,6 +3,7 @@ import axios from 'axios';
 import FileDetail from './StudentFileDetail';
 import "../../../css/File.css";
 import { call, getAccessToken } from "../../../service/ApiService.js"
+import {Button} from '@mui/material';
 
 function StudentFile(props) {
     const [uploadFile, setUploadFile] = useState("");
@@ -14,15 +15,7 @@ function StudentFile(props) {
 
     useEffect(() => {
         searchFile();
-    },[currentPage]);
-
-    useEffect(() => {
-        searchFile();
-    },[]);
-
-    useEffect(() => {
-
-    },[searchedFiles]);
+    },[,currentPage]);
 
     const handleSearchFileTypeChange = (e) => {
         setSearchFileType(e.target.value);
@@ -61,6 +54,16 @@ function StudentFile(props) {
         searchFile();
         setCurrentPage(1);
     }
+
+    function handleKeyDown(e) {
+        if (e.key === 'Enter') {
+            if (e.nativeEvent.isComposing === false) {
+                e.preventDefault();
+                searchFile();
+            }
+        }
+    }
+    
     
 
     return (
@@ -91,8 +94,9 @@ function StudentFile(props) {
                     placeholder="검색어를 입력하세요"
                     value={searchFileName}
                     onChange={handleSearchFileNameChange}
+                    onKeyDown={handleKeyDown}
                 />
-                <button className="search-button-Library" onClick={searchFile}>검색</button>
+                <Button className="search-button-Library" onClick={searchFile}>검색</Button>
                 </div>
                 <div className="msg_bubble-Library">
                 <div className="msg_text-Library">
