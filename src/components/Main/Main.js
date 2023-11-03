@@ -12,7 +12,8 @@ export default function Main() {
     const codeRef = useRef("");
 
     const goLecture = () => {
-        if (codeRef === "") alert('강의 코드를 입력해주세요.');
+        console.log(codeRef);
+        if (codeRef.current.value === "") alert('강의 코드를 입력해주세요.');
         else navigate(`lecture/${codeRef.current.value}`);
     }
 

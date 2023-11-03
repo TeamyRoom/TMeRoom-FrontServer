@@ -57,27 +57,16 @@ export async function call(api, method, request, type) {
                     };
                     return fetch(refreshOptions.url, refreshOptions)
                         .then((res) => {
-                            if(res.json().resultCode === "SUCCESS"){
+                            if (res.json().resultCode === "SUCCESS") {
                                 return call(api, method, request, type);
                             }
-                            else{
+                            else {
                                 console.log(res.json().resultCode);
                             }
                         })
                         .catch((error) => {
                             console.log(error);
                         });
-                }
-                else if (json.resultCode !== "SUCCESS") {
-                    if (json.result && Array.isArray(json.result)) {
-                        // result 배열 각각에 대해 field와 message 출력
-                        json.result.forEach((error) => {
-                            alert(`${error.field}: ${error.message}`);
-                        });
-                    } else {
-                        // result 하나 출력
-                        alert(json.result);
-                    }
                 }
                 return json;
             })
@@ -87,8 +76,25 @@ export async function call(api, method, request, type) {
         });
 }
 
+export function showError(json) {
+    if (json.resultCode !== "SUCCESS") {
+        if (json.result && Array.isArray(json.result)) {
+            // result 배열 각각에 대해 field와 message 출력
+            json.result.forEach((error) => {
+                alert(`${error.field}: ${error.message}`);
+            });
+        } else {
+            // result 하나 출력
+            alert(json.result);
+        }
+    }
+
+    return json;
+}
+
 export async function signIn(webDTO) {
-    return call("/auth/login", "POST", webDTO);
+    return call("/auth/login", "POST", webDTO)
+        .then((response) => (showError(response)));
 }
 
 export function signOut() {
@@ -97,7 +103,8 @@ export function signOut() {
 }
 
 export function signUp(webDTO) {
-    return call("/member", "POST", webDTO);
+    return call("/member", "POST", webDTO)
+        .then((response) => (showError(response)));
 }
 
 export function idDuplicateCheck(id) {
@@ -109,11 +116,13 @@ export function emailDuplicateCheck(email) {
 }
 
 export function findId(webDTO) {
-    return call("/member/id/lost", "GET", webDTO);
+    return call("/member/id/lost", "GET", webDTO)
+        .then((response) => (showError(response)));
 }
 
 export function findPw(webDTO) {
-    return call("/member/password/lost", "POST", webDTO);
+    return call("/member/password/lost", "POST", webDTO)
+        .then((response) => (showError(response)));
 }
 
 export function getAccessToken() {
@@ -133,6 +142,7 @@ export function getAccessToken() {
 
 export function createLecture(lectureDTO) {
     return call("/lecture", "POST", lectureDTO)
+        .then((response) => (showError(response)))
         .then((response) => { window.location.href = `lecture/${response.result.lectureCode}`; });
 }
 
@@ -161,7 +171,7 @@ export function dismissTeacher(lectureCode, teacherId) {
 }
 
 export function acceptStudent(lectureCode, studentId) {
-    return call(`/lecture/${lectureCode}/application/${studentId}`, "PUT");
+    return call(`/lecture/${lectureCode}/application/${studentId}`, "PUT"); 
 }
 
 export function rejectStudent(lectureCode, studentId) {
