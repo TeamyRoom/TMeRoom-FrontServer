@@ -10,7 +10,16 @@ const { REACT_APP_STUNNER_USERNAME, REACT_APP_STUNNER_PASSWORD, REACT_APP_STUNNE
 const iceConfig = Object.freeze({
   iceServers: [
     {
-      url: 'turn:' + REACT_APP_STUNNER_HOST + ':' + REACT_APP_STUNNER_PORT + '?transport=udp',
+      urls: [
+        'stun:stun.l.google.com:19302',
+        'stun:stun1.l.google.com:19302',
+        'stun:stun2.l.google.com:19302',
+        'stun:stun3.l.google.com:19302',
+        'stun:stun4.l.google.com:19302',
+    ]
+    },
+    {
+      urls: 'turn:' + REACT_APP_STUNNER_HOST + ':' + REACT_APP_STUNNER_PORT,
       username: REACT_APP_STUNNER_USERNAME, // TURN 서버 사용자명
       credential: REACT_APP_STUNNER_PASSWORD, // TURN 서버 비밀번호
     }
