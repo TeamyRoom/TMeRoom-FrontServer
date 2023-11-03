@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
 import io from 'socket.io-client';
 import * as mediasoupClient from "mediasoup-client";
-import { getAccessToken } from '../../../service/ApiService';
+import { SPRING_SERVER_URL, getAccessToken } from '../../../service/ApiService';
 import Popup from "./Popup"
 
 const HLS_SERVER_URL = process.env.REACT_APP_HLS_SERVER_URL;
@@ -133,11 +133,17 @@ const TeacherScreen = forwardRef((props, ref) => {
 
       socket.on('connect_error', async (error) => {
         console.log("SFU에서 토큰 invalid : ", error);
-        
-        //소켓연결 해제하고 재연결
-        // socket.disconnect();
-        // socket = null;
-        // initSFU();
+
+        fetch(SPRING_SERVER_URL + `/auth/refresh`, { method: "POST", credentials: "include" })
+          .then((res) => {
+            if (res.json().resultCode === "SUCCESS") {
+              socket.disconnect();
+              socket = null;
+              initSFU();
+            } else {
+              alert('기기가 로그아웃되었습니다. 다시 로그인 해주세요.')
+            }
+          }).catch((e) => { console.log(e) });
       })
 
       socket.on("welcome", async () => {
@@ -241,18 +247,18 @@ const TeacherScreen = forwardRef((props, ref) => {
   //----record-------record-------record-------record-------record-------record-------record-------record---
 
   useEffect(() => {
-      hlsInit();
+    hlsInit();
   }, [myStream]);
 
   const hlsInit = () => {
     if (myStream) {
-        if (wsocket !== null) wsocket.close();
-        wsocket = new WebSocket(HLS_SERVER_URL);
-        console.log("웹 소켓 연결 : ", wsocket);
-        wsocket.addEventListener('open', handleSocketOpen);
-        wsocket.addEventListener('message', handleSocketMessage);
-        wsocket.addEventListener('error', handleSocketError);
-        wsocket.addEventListener('close', handleSocketClose);
+      if (wsocket !== null) wsocket.close();
+      wsocket = new WebSocket(HLS_SERVER_URL);
+      console.log("웹 소켓 연결 : ", wsocket);
+      wsocket.addEventListener('open', handleSocketOpen);
+      wsocket.addEventListener('message', handleSocketMessage);
+      wsocket.addEventListener('error', handleSocketError);
+      wsocket.addEventListener('close', handleSocketClose);
     }
   }
 
@@ -275,7 +281,7 @@ const TeacherScreen = forwardRef((props, ref) => {
 
   const handleSocketError = error => {
     console.error('handleSocketError() [error:%o]', error);
-    if(myPeerConnection === null) {
+    if (myPeerConnection === null) {
       init();
     }
   };
