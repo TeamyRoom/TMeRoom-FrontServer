@@ -180,16 +180,16 @@ function Lecture(props) {
                 }
                 <div className="ico_area">
                     <div className="ico_list bdr_raius">
-                        <a className="ico_btn" href="#">
+                        <a className="ico_btn">
                             <img className="ico" src={isMikeOn ? "/images/mikeon.png" : "/images/mikeoff.png"} onClick={toggleAudio} />
                         </a>
                         {isBroadCast &&
-                            <a className="ico_btn" href="#">
+                            <a className="ico_btn">
                                 <img className="ico" src={isVideoOn ? "/images/videoon.png" : "/images/videooff.png"} onClick={toggleCamera} />
                             </a>
                         }
                         {props.role !== "student" &&
-                            <a className="ico_btn" href="#">
+                            <a className="ico_btn">
                                 <img className="ico" src="/images/screenshare.png" onClick={handleBroadCast} />
                             </a>
                         }
@@ -198,17 +198,17 @@ function Lecture(props) {
                 <div className="etc_area">
                     <div className="etc_list bdr_raius">
 
-                        <a className="etc_btn" href="#">
+                        <a className="etc_btn">
                             <img className="ico" src="/images/upload.png" onClick={toggleFile} />
                         </a>
-                        <a className="etc_btn" href="#">
+                        <a className="etc_btn">
                             <img className="ico" src="/images/q.png" onClick={toggleQuestion} />
                         </a>
-                        <a className="etc_btn" href="#">
+                        <a className="etc_btn">
                             <img className="ico" src="/images/chat.png" onClick={toggleChatting} />
                         </a>
                         {props.role !== "student" && 
-                            <a className="etc_btn" href="#">
+                            <a className="etc_btn">
                                 <img className="ico" src="/images/lock.png" onClick={toggleManagement} />
                             </a>
                         }
