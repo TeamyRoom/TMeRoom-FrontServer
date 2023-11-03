@@ -76,8 +76,7 @@
 .download-button-Library{
     width:20px;
     height:20px;
-   margin-left:21vw;
-   margin-top:-3vh;
+    margin-left: 5px;
    cursor: pointer;
    display: inline;
 }
@@ -85,7 +84,6 @@
 .delete-button-Library{
     width:20px;
     height:20px;
-    margin-top:-3vh;
     cursor: pointer;
     display: inline;
 }

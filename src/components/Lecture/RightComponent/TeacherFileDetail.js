@@ -17,11 +17,15 @@ function TeacherFileDetail(props) {
         });
     }
 
+    function downloadFile() {
+        window.open((fileLink), '_blank', 'noreferrer');
+    }
+
     return (
         <div className='file-list'>
             <p className='file-name-Library'>{fileName}</p>
             <p className='file-uploader-Library'> | {fileUploaderNickname}</p>
-            <a href={fileLink} target='_blank' rel='noreferrer'><img src='/images/download.png' className='download-button-Library' alt='DOWNLOAD'></img></a>
+            <img src='/images/download.png' className='download-button-Library' onClick={downloadFile} alt='DOWNLOAD'></img>
             <img src='/images/delete.png' className='delete-button-Library' onClick={handleDeleteFile} alt='DELETE'></img>
             <Divider/>
         </div>
