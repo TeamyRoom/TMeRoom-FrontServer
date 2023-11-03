@@ -180,8 +180,11 @@ function Lecture(props) {
                 }
                 <div className="ico_area">
                     <div className="ico_list bdr_raius">
-                        <a className="ico_btn">
-                            <img className="ico" src={isMikeOn ? "/images/mikeon.png" : "/images/mikeoff.png"} onClick={toggleAudio} />
+                        <a className="ico_btn" href="#">
+                            {isBroadCast ?
+                                <img className="ico" src={isMikeOn ? "/images/mikeon.png" : "/images/mikeoff.png"} onClick={toggleAudio} />
+                                : <img className="ico" src={isMikeOn ? "/images/soundOn.png" : "/images/soundOff.png"} onClick={toggleAudio} />
+                            }
                         </a>
                         {isBroadCast &&
                             <a className="ico_btn">
