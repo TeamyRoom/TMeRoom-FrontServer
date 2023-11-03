@@ -37,7 +37,16 @@ function TeacherFile(props) {
     };
 
     const handleUploadFileChange = (e) => {
-        setUploadFile(e.target.files[0]);
+        const selectedFile = e.target.files[0];
+
+        if (selectedFile) {
+            if (selectedFile.size > 50 * 1024 * 1024) {
+                alert ("파일 크기는 50MB 제한입니다.");
+                e.target.value='';
+            } else {
+                setUploadFile(selectedFile);
+            }
+        }
     }
 
     const handlePageChange = (page) => {
@@ -50,7 +59,7 @@ function TeacherFile(props) {
             type : searchFileType,
             key : searchFileName,
             page: currentPage-1, 
-            size: 8
+            size: 10
         }
         call(`/lecture/${props.lecturecode}/file`, "GET", searchfile)
         .then((response) => {

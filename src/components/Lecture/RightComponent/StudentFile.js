@@ -40,7 +40,7 @@ function StudentFile(props) {
             type : searchFileType,
             key : searchFileName,
             page: currentPage-1, 
-            size: 8
+            size: 10
         }
         call(`/lecture/${props.lecturecode}/file`, "GET", searchfile)
         .then((response) => {
