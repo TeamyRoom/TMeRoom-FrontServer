@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useState, useImperativeHandle } from "react";
+import { forwardRef, useEffect, useState, useImperativeHandle, useRef } from "react";
 import { gsap } from 'gsap/index.js';
 import { signUp, signIn, findId, findPw, idDuplicateCheck, emailDuplicateCheck } from "../../service/ApiService.js";
 
@@ -10,20 +10,22 @@ const Login = forwardRef((props, ref) => {
     const [nickname, setNickname] = useState("");
     const [idDuplicate, setIdDuplicate] = useState(false);
     const [emailDuplicate, setEmailDuplicate] = useState(false);
+    const checkBoxRef = useRef();
 
-    var wrapperModal;
-    var wrapper;
-    var formBoxs;
-    var loginLink;
-    var registerLink;
-    var iconClose;
-    var forgotPwLink;
-    var forgotIdLink;
-    var loginIdLink;
-    var loginPwLink;
-    var idFindBtn;
+    let wrapperModal;
+    let wrapper;
+    let formBoxs;
+    let loginLink;
+    let registerLink;
+    let iconClose;
+    let forgotPwLink;
+    let forgotIdLink;
+    let loginIdLink;
+    let loginPwLink;
+    let idFindBtn;
 
     useEffect(() => {
+
         wrapperModal = document.querySelector('.wrapper-modal');
         wrapper = document.querySelector('.wrapper');
         formBoxs = document.querySelectorAll('.form-box');
@@ -45,6 +47,19 @@ const Login = forwardRef((props, ref) => {
     }));
 
     function init() {
+
+        wrapperModal = document.querySelector('.wrapper-modal');
+        wrapper = document.querySelector('.wrapper');
+        formBoxs = document.querySelectorAll('.form-box');
+        loginLink = document.querySelector('.login-link');
+        registerLink = document.querySelector('.register-link');
+        iconClose = document.querySelector('.icon-close');
+        forgotPwLink = document.querySelector('.remember-forgot a');
+        forgotIdLink = document.querySelector('.login-idforgot a');
+        loginIdLink = document.querySelector('.find-id .login-register .login-link'); // 아이디찾기 영역에 있는 로그인버튼
+        loginPwLink = document.querySelector('.find-pw .login-register .login-link'); // 비번찾기 영역에 있는 로그인버튼
+        idFindBtn = document.querySelector('.id-find-btn');
+
         const initEl = '.form-box.login';
         gsap.set('.form-box', { 'xPercent': 0 });
         gsap.set(initEl, { 'xPercent': -100 });
@@ -128,17 +143,22 @@ const Login = forwardRef((props, ref) => {
     }
 
     function modalOpen() {
-        wrapperModal.classList.add('active');
-        setTimeout(() => {
-            wrapper.classList.remove('active-popup');
-            wrapper.classList.remove('active');
-        }, 10);
+        init();
+        try {
+            wrapperModal.classList.add('active');
+            setTimeout(() => {
+                wrapper.classList.remove('active-popup');
+                wrapper.classList.remove('active');
+            }, 10);
+    
+            setTimeout(() => {
+                wrapper.classList.add('active-popup');
+                popupFrom('.form-box.login', 0);
+                popupTo('.form-box.login', 0);
+            }, 10);
+        }catch(e) {console.log(e)};
 
-        setTimeout(() => {
-            wrapper.classList.add('active-popup');
-            popupFrom('.form-box.login', 0);
-            popupTo('.form-box.login', 0);
-        }, 10);
+
     }
 
     function modalClose() {
@@ -172,7 +192,7 @@ const Login = forwardRef((props, ref) => {
             alert("Email을 기입해주세요.");
             return;
         }
-        if(!isEmailValid(email)){
+        if (!isEmailValid(email)) {
             alert("올바른 이메일 형식이 아닙니다.");
             return;
         }
@@ -195,6 +215,7 @@ const Login = forwardRef((props, ref) => {
     }
 
     function handleSignUp() {
+
         if (memberId === "" || password === "" || nickname === "" || email === "") {
             alert("모든 입력란을 기입해주세요.");
             return;
@@ -205,6 +226,10 @@ const Login = forwardRef((props, ref) => {
         }
         if (!emailDuplicate) {
             alert("Email 중복체크를 완료해주세요.");
+            return;
+        }
+        if (!checkBoxRef.current.checked) {
+            alert("약관에 동의해주세요.");
             return;
         }
 
@@ -257,7 +282,7 @@ const Login = forwardRef((props, ref) => {
         <div className="wrapper-modal">
             <div className="wrapper-center">
                 <div className="wrapper">
-                    <div className="icon-close"/>
+                    <div className="icon-close" />
 
                     <div className="form-box login active">
                         <h2>로그인</h2>
@@ -270,7 +295,7 @@ const Login = forwardRef((props, ref) => {
                                 required
                                 autoComplete="one-time-code"
                                 onChange={(e) => setMemberId(e.target.value)}
-                                onKeyUp={(e) => {if(e.key === 'Enter') handleSignIn()}}
+                                onKeyUp={(e) => { if (e.key === 'Enter') handleSignIn() }}
                             />
                             <label>아이디</label>
                         </div>
@@ -283,7 +308,7 @@ const Login = forwardRef((props, ref) => {
                                 required
                                 autoComplete="one-time-code"
                                 onChange={(e) => setPassword(e.target.value)}
-                                onKeyUp={(e) => {if(e.key === 'Enter') handleSignIn()}}
+                                onKeyUp={(e) => { if (e.key === 'Enter') handleSignIn() }}
                             />
                             <label>비밀번호</label>
                         </div>
@@ -364,7 +389,7 @@ const Login = forwardRef((props, ref) => {
                             <label>닉네임</label>
                         </div>
                         <div className="remember-forgot">
-                            <label><input type="checkbox" /> I agree to the terms & conditions</label>
+                            <label><input type="checkbox" ref={checkBoxRef}/> I agree to the terms & conditions</label>
                         </div>
                         <button type="submit" className="btn" onClick={handleSignUp}>생성하기</button>
                         <div className="login-register">

@@ -88,22 +88,16 @@ const TeacherScreen = forwardRef((props, ref) => {
     } else {
       getMedia();
     }
+    window.addEventListener("unload", () => {
+      socketClose();
+    });
     return (
       () => {
-        if (socket) {
-          socket.disconnect()
-          socket = null;
-          wsocket = null;
-          queue = new SocketQueue();
-        }
+        window.removeEventListener("unload");
+        socketClose();
       }
     )
   }, [])
-
-  // 피어 생성 전에 sessionId 를 읽어가려고 해서 Peer 생성 후에 호출하도록 변경
-  // useEffect(() => {
-  //   if (myStream) init();
-  // }, [myStream])
 
   useEffect(() => {
     initSFU();
@@ -118,6 +112,15 @@ const TeacherScreen = forwardRef((props, ref) => {
   }));
 
   //------functions----------functions----------functions----------functions----------functions----------functions----
+
+  function socketClose() {
+    if (socket) {
+      socket.disconnect();
+      socket = null;
+      wsocket = null;
+      queue = new SocketQueue();
+    }
+  }
 
   async function joinRoom() {
     if (socket) {
