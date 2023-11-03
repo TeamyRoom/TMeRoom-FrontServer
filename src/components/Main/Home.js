@@ -43,18 +43,14 @@ function Home(props) {
                     else setLogined(false);
                 }).catch((e) => { console.log(e) });
         } else setLogined(true);
-    });
+    }, [isLogined]);
 
-    function handleSignOut() {
+    function handleSignOut(isAll=false) {
+        call(`/auth/refresh?isAll=${isAll}`, "DELETE");
         signOut();
         setLogined(false);
     }
 
-    function handleSignOutAll() {
-        call("/auth/refresh", "DELETE");
-        signOut();
-        setLogined(false);
-    }
 
     function renderMainComponent() {
         switch (props.page) {
@@ -119,8 +115,8 @@ function Home(props) {
                         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                             모든 기기에서 로그아웃 하시겠습니까?
                         </Typography>
-                        <Button className="apply-button" onClick={handleSignOutAll}>예</Button>
-                        <button className="reject-button" onClick={handleSignOut}>아니오</button>
+                        <Button className="apply-button" onClick={() => {handleSignOut(true)}}>예</Button>
+                        <button className="reject-button" onClick={() => {handleSignOut(false)}}>아니오</button>
                     </Box>
                 </Modal>
             </div>
