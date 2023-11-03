@@ -5,6 +5,7 @@ import VideoJS from './VideoJS';
 import { getAccessToken } from '../../../service/ApiService';
 
 const SFU_SERVER_URL = process.env.REACT_APP_SFU_SERVER_URL;
+const SPRING_SERVER_URL = process.env.REACT_APP_SPRING_SERVER_URL;
 const { REACT_APP_STUNNER_USERNAME, REACT_APP_STUNNER_PASSWORD, REACT_APP_STUNNER_PORT, REACT_APP_STUNNER_HOST } = process.env;
 const iceConfig = Object.freeze({
   iceServers: [
@@ -80,13 +81,27 @@ const StudentScreen = forwardRef((props, ref) => {
       let path = SFU_SERVER_URL.split('/');
       let url = path.slice(0, 3);
       url = url.join("/");
-      if(path.length > 3) {
+      if (path.length > 3) {
         path = path.slice(3);
         path = path.join("/");
         path = path.concat('/');
       }
       else path = "";
       socket = io(url, { query: `accessToken=${accessToken}`, path: `/${path}socket.io/` });
+
+      socket.on('connect_error', async (error) => {
+        console.log("SFU에서 토큰 invalid : ", error);
+
+        fetch(SPRING_SERVER_URL + `/auth/refresh`, { method: "POST", credentials: "include" })
+          .then(() => {
+            if (getAccessToken()) {
+              socket.disconnect();
+              socket = null;
+              initSocket();
+            }
+          }).catch((e) => { console.log(e) });
+
+      })
 
       socket.on("welcome", () => {
         console.log("i got welcome");
@@ -179,9 +194,9 @@ const StudentScreen = forwardRef((props, ref) => {
     <div className='screen-view '>
       <div className="video-wrap" style={{ display: showRTC ? 'block' : 'none' }}>
 
-        <img className="break-img" src="/images/breaktime.png" style={{ display: toggleBreak ? 'block' : 'none' }}/>
+        <img className="break-img" src="/images/breaktime.png" style={{ display: toggleBreak ? 'block' : 'none' }} />
         <div style={{ display: toggleBreak ? 'none' : 'block' }}>
-        <Video videoref={videoRef} className="video-play" hlsButtonClicked={handleReplayClick} ref={audioRef}/>
+          <Video videoref={videoRef} className="video-play" hlsButtonClicked={handleReplayClick} ref={audioRef} />
         </div>
 
       </div>
