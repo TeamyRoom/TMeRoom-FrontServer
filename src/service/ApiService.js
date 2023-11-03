@@ -1,4 +1,4 @@
-const SPRING_SERVER_URL = process.env.REACT_APP_SPRING_SERVER_URL;
+export const SPRING_SERVER_URL = process.env.REACT_APP_SPRING_SERVER_URL;
 
 export async function call(api, method, request, type) {
     let header;
@@ -56,7 +56,14 @@ export async function call(api, method, request, type) {
                         credentials: 'include',
                     };
                     return fetch(refreshOptions.url, refreshOptions)
-                        .then(() => (call(api, method, request, type)))
+                        .then((res) => {
+                            if(res.json().resultCode === "SUCCESS"){
+                                return call(api, method, request, type);
+                            }
+                            else{
+                                console.log(res.json().resultCode);
+                            }
+                        })
                         .catch((error) => {
                             console.log(error);
                         });
