@@ -105,5 +105,15 @@
 
 .file-list {
     line-height: 18px ;
+    margin-top: 1vh;
+}
+
+.page-number {
+    text-align: center;
+}
+
+.download-div {
+    width: 1vw;
+    height: 1vh;
 }
 
