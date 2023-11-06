@@ -1,0 +1,11 @@
+.videojs-play {
+    position: relative;
+    height: 90vh;
+    width: 100%;
+}
+
+.video-js {
+    height: 90vh;
+    width: 100%;
+    object-fit: contain;
+}

@@ -3,6 +3,7 @@ import io from 'socket.io-client';
 import Video from './Video';
 import VideoJS from './VideoJS';
 import { getAccessToken } from '../../../service/ApiService';
+import '../../../css/player.css';
 
 const SFU_SERVER_URL = process.env.REACT_APP_SFU_SERVER_URL;
 const SPRING_SERVER_URL = process.env.REACT_APP_SPRING_SERVER_URL;
@@ -208,10 +209,8 @@ const StudentScreen = forwardRef((props, ref) => {
           <Video videoref={videoRef} className="video-play" hlsButtonClicked={handleReplayClick} ref={audioRef} />
         </div>
 
-      </div>
-      <div>
-        {showHls && <VideoJS options={videoJsOptions} onReady={handlePlayerReady} />}
-      </div>
+      </div>      
+        {showHls && <div className='videojs-play'><VideoJS options={videoJsOptions} onReady={handlePlayerReady} /></div>}
     </div>
   );
 });
