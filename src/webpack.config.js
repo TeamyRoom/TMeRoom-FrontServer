@@ -14,36 +14,25 @@ module.exports = {
     },
     module: {
         rules: [
-        {
-            test: /\.scss$/, // .scss 확장자를 가진 파일들에 대한 처리
-            use: [
-                'style-loader', // HTML에 스타일을 삽입하는 로더
-                'css-loader',   // CSS 파일을 모듈로 로드하는 로더
-                {loader: 'sass-loader',
-                options: {
-                    implementation: require('sass') // Dart Sass를 사용하도록 설정
-                }}
-            ],
-        },
+            {
+                test: /\.scss$/, // .scss 확장자를 가진 파일들에 대한 처리
+                use: [
+                    'style-loader', // HTML에 스타일을 삽입하는 로더
+                    'css-loader',   // CSS 파일을 모듈로 로드하는 로더
+                    {
+                        loader: 'sass-loader',
+                        options: {
+                            implementation: require('sass') // Dart Sass를 사용하도록 설정
+                        }
+                    }
+                ],
+            },
         ],
     },
+    // optimization: {
+    //     splitChunks: {
+    //         chunks: 'async',
+    //         minSize: 20000, // 번들 크기가 20KB 이상일 때만 분할
+    //     },
+    // },
 }
-
-// module.exports = {
-//   entry: './src/index.js',
-//   mode: process.env.NODE_ENV || 'development',
-//   output: {
-//     filename: 'main.js',
-//     path: path.resolve(__dirname, 'dist'),
-//     libraryTarget: 'var',
-//     library: 'Lib'
-//   },
-//   resolve: {
-//     fallback: {
-//       "os": require.resolve("os-browserify/browser")
-//     }
-//   },
-//   devServer: {
-//   	static: path.join(__dirname, 'dist')
-//   }
-// };
