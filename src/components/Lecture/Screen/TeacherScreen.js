@@ -509,8 +509,6 @@ const TeacherScreen = forwardRef((props, ref) => {
       const videoJsOptions = {
         autoplay: true,
         controls: true,
-        responsive: true,
-        fluid: true,
         liveui: true,
         controlBar: {
           skipButtons: {

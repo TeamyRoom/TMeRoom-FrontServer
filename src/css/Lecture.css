@@ -175,7 +175,7 @@ body {
     align-items: center;
     width: 100%;
     padding: 0 20px;
-    background-color: #fcfcfe;
+    background-color: white;
     height: 10%;
 }
 
@@ -210,10 +210,11 @@ body {
 
 .lecture_footer .ico_list {
     display: flex;
-    background-color: #e2dbdb !important;
+    background-color: white !important;
     gap: 10px;
     padding: 10px;
-    height: 8vh;
+    height: 9vh;
+    background: radial-gradient(white,#adadad);
 }
 
 .lecture_footer .ico_btn {
@@ -224,9 +225,10 @@ body {
 
 .lecture_footer .etc_list {
     display: flex;
-    background-color: #e2dbdb !important;
+    background-color: white !important;
     gap: 10px;
     padding: 10px;
+    background: radial-gradient(white,#adadad);
 }
 
 .lecture_footer .etc_btn {
@@ -352,4 +354,9 @@ body {
     white-space: initial;
     max-width: 13rem;
     word-break: break-all;
+}
+
+.lecture-text-unslide {
+ font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+ font-weight: 200;
 }
