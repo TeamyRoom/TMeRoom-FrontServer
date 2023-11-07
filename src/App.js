@@ -1,7 +1,6 @@
 import React, { Suspense } from 'react';
-import { BrowserRouter, Route, Routes, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './components/Main/Home'
-// import LectureFrame from './components/Lecture/LectureFrame';
 import EmailApprovedFrame from './components/SinglePage/EmailApprovedFrame';
 import PasswordResetFrame from './components/SinglePage/PasswordResetFrame';
 import TeacherAccept from './components/SinglePage/TeacherAccept';
