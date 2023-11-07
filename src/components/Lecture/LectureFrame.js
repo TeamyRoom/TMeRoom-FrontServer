@@ -54,6 +54,9 @@ function LectureFrame() {
                         }
                     }
                     else {
+                        const chatServerId = lecturecode.charCodeAt([0]) % 4;
+                        document.cookie = `serverid=${chatServerId}; path=/;`;
+                        console.log("서버아이디는 ? ", chatServerId);
                         setLecturename(response.result.lectureName);
                         setNickname(response.result.nickName);
                         setRole(response.result.role);
