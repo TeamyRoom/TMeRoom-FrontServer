@@ -354,3 +354,9 @@ header {
 .md\:ml-2 {
     margin-right: 0.5rem;
 }
+
+.reject-button {
+    left:60%;
+    color:red;
+    position:relative;
+}
