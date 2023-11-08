@@ -26,13 +26,9 @@ function Chatting(props) {
 
     const handleScroll = () => {
         if (divRef.current) {
-            console.log("길이 ", divRef.current.scrollHeight - (divRef.current.scrollTop + divRef.current.clientHeight));
             const isAtBottom = divRef.current.scrollHeight - (divRef.current.scrollTop + divRef.current.clientHeight) < 200 ;
             if (isAtBottom) {
-                console.log('스크롤이 맨 아래에 있습니다.');
                 messageEndRef.current.scrollIntoView({ behavior: 'smooth' });
-            } else {
-                console.log('스크롤이 맨 아래에 없습니다.');
             }
         }
     };
