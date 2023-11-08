@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import io from "socket.io-client";
 import ChattingPopover from "./ChattingPopover";
 const CHATTING_SERVER_URL = process.env.REACT_APP_CHATTING_SERVER_URL;
@@ -10,6 +10,8 @@ function Chatting(props) {
     const [messages, setMessages] = useState([]);
     const [message, setMessage] = useState('');
     const [members, setMembers] = useState([props.nickname]);
+    const messageEndRef = useRef(null);
+    const divRef = useRef(null);
 
     useEffect(() => {
         init();
@@ -19,7 +21,25 @@ function Chatting(props) {
         return () => {
             socket.disconnect();
         };
-    }, [])
+    }, []);
+
+
+    const handleScroll = () => {
+        if (divRef.current) {
+            console.log("길이 ", divRef.current.scrollHeight - (divRef.current.scrollTop + divRef.current.clientHeight));
+            const isAtBottom = divRef.current.scrollHeight - (divRef.current.scrollTop + divRef.current.clientHeight) < 200 ;
+            if (isAtBottom) {
+                console.log('스크롤이 맨 아래에 있습니다.');
+                messageEndRef.current.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                console.log('스크롤이 맨 아래에 없습니다.');
+            }
+        }
+    };
+
+    useEffect(() => {
+        handleScroll();
+    }, [messages]);
 
     function init() {
         let path = CHATTING_SERVER_URL.split('/');
@@ -96,9 +116,9 @@ function Chatting(props) {
     return (
         <div className="chat_area">
             <div className="member_area">
-                <ChattingPopover members={members}/>
+                <ChattingPopover members={members} />
             </div>
-            <div className="msger_chat">
+            <div className="msger_chat" ref={divRef}>
 
                 {messages.map((message, index) => (
                     <div className={message.type} key={index}>
@@ -113,6 +133,7 @@ function Chatting(props) {
                         </div>
                     </div>
                 ))}
+                <div ref={messageEndRef}></div>
 
 
             </div>
